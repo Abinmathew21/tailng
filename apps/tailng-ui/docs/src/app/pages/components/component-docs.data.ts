@@ -271,6 +271,13 @@ export const COMPONENTS_LAYOUT_GROUP: ComponentsDocsGroup = {
       title: 'Table',
       description: 'Styled data table shell with columns, sorting, sticky cells, and empty states.',
     },
+    {
+      id: 'tree-table',
+      slug: 'tree-table',
+      title: 'Tree Table',
+      description:
+        'Hierarchical treegrid table with expand/collapse rows, selection, keyboard navigation, and accessible aria attributes.',
+    },
   ],
 };
 

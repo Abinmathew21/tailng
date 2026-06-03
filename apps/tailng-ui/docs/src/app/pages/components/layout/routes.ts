@@ -42,6 +42,11 @@ if (tableItem === undefined) {
   throw new Error('Missing "table" in components layout docs group.');
 }
 
+const treeTableItem = group.items.find((item) => item.slug === 'tree-table');
+if (treeTableItem === undefined) {
+  throw new Error('Missing "tree-table" in components layout docs group.');
+}
+
 export const COMPONENTS_LAYOUT_ROUTES: Routes = [
   {
     path: '',
@@ -89,5 +94,11 @@ export const COMPONENTS_LAYOUT_ROUTES: Routes = [
     data: toComponentsDocsRouteData(group, tableItem),
     loadChildren: () =>
       import('./table/routes').then((module) => module.COMPONENTS_LAYOUT_TABLE_ROUTES),
+  },
+  {
+    path: treeTableItem.slug,
+    data: toComponentsDocsRouteData(group, treeTableItem),
+    loadChildren: () =>
+      import('./tree-table/routes').then((module) => module.COMPONENTS_LAYOUT_TREE_TABLE_ROUTES),
   },
 ];

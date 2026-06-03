@@ -12,3 +12,5 @@ export * from './grid/tng-grid.component';
 export * from './separator/tng-separator.component';
 export * from './stepper/tng-stepper.component';
 export * from './table/tng-table.component';
+export * from './tree-table/tng-tree-table.component';
+export * from './tree-table/tng-tree-table-column.type';

@@ -1,0 +1,197 @@
+:host {
+  display: block;
+}
+
+/* ── Root wrapper ──────────────────────────────────────────────────────────── */
+
+.tng-tree-table__root {
+  border: 1px solid var(--tng-tree-table-border, var(--tng-semantic-border-subtle));
+  border-radius: var(--tng-tree-table-radius, 0.65rem);
+  background: var(--tng-semantic-background-surface);
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* ── Table ─────────────────────────────────────────────────────────────────── */
+
+.tng-tree-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.875rem;
+  min-width: 100%;
+  width: 100%;
+}
+
+/* ── Header ────────────────────────────────────────────────────────────────── */
+
+.tng-tree-table__header-cell {
+  background: var(
+    --tng-tree-table-header-bg,
+    color-mix(
+      in srgb,
+      var(--tng-semantic-background-surface) 84%,
+      var(--tng-semantic-background-base) 16%
+    )
+  );
+  border-bottom: 1px solid var(--tng-tree-table-border, var(--tng-semantic-border-subtle));
+  color: var(--tng-semantic-foreground-secondary);
+  font-weight: 650;
+  line-height: 1.35;
+  padding: var(--tng-tree-table-cell-py, 0.75rem) var(--tng-tree-table-cell-px, 0.9rem);
+  text-align: start;
+  user-select: none;
+  vertical-align: middle;
+}
+
+[data-density='compact'] .tng-tree-table__header-cell {
+  padding-block: 0.5rem;
+}
+
+.tng-tree-table__header-label {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.35rem;
+}
+
+/* ── Body cell (shared) ────────────────────────────────────────────────────── */
+
+.tng-tree-table__cell {
+  background: var(--tng-tree-table-row-bg, var(--tng-semantic-background-surface));
+  border-bottom: 1px solid var(--tng-tree-table-border, var(--tng-semantic-border-subtle));
+  line-height: 1.35;
+  padding: var(--tng-tree-table-cell-py, 0.75rem) var(--tng-tree-table-cell-px, 0.9rem);
+  text-align: start;
+  vertical-align: middle;
+}
+
+[data-density='compact'] .tng-tree-table__cell {
+  padding-block: 0.5rem;
+}
+
+/* Last row — remove border */
+.tng-tree-table__row:last-child .tng-tree-table__cell {
+  border-bottom: 0;
+}
+
+/* ── Row states ────────────────────────────────────────────────────────────── */
+
+.tng-tree-table__row:hover .tng-tree-table__cell {
+  background: var(
+    --tng-tree-table-row-hover-bg,
+    color-mix(
+      in srgb,
+      var(--tng-semantic-foreground-primary) 4%,
+      var(--tng-semantic-background-surface)
+    )
+  );
+}
+
+.tng-tree-table__row:focus-visible {
+  outline: 2px solid var(--tng-semantic-focus-ring);
+  outline-offset: -2px;
+}
+
+.tng-tree-table__row[data-selected] .tng-tree-table__cell {
+  background: var(
+    --tng-tree-table-row-selected-bg,
+    color-mix(
+      in srgb,
+      var(--tng-semantic-foreground-primary) 8%,
+      var(--tng-semantic-background-surface)
+    )
+  );
+}
+
+.tng-tree-table__row[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+/* ── Alignment ─────────────────────────────────────────────────────────────── */
+
+.tng-tree-table__header-cell[data-align='center'],
+.tng-tree-table__cell[data-align='center'] {
+  text-align: center;
+}
+
+.tng-tree-table__header-cell[data-align='end'],
+.tng-tree-table__cell[data-align='end'] {
+  text-align: end;
+}
+
+/* ── Tree cell ─────────────────────────────────────────────────────────────── */
+
+.tng-tree-table__tree-cell {
+  align-items: center;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.25rem;
+}
+
+/* ── Toggle button ─────────────────────────────────────────────────────────── */
+
+.tng-tree-table__toggle {
+  align-items: center;
+  background: transparent;
+  border: none;
+  border-radius: 0.25rem;
+  color: var(--tng-tree-table-toggle-color, var(--tng-semantic-foreground-secondary));
+  cursor: pointer;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 0.625rem;
+  height: 1.25rem;
+  justify-content: center;
+  line-height: 1;
+  padding: 0;
+  width: 1.25rem;
+}
+
+.tng-tree-table__toggle:focus-visible {
+  box-shadow: 0 0 0 2px var(--tng-semantic-focus-ring);
+  outline: none;
+}
+
+.tng-tree-table__toggle:hover {
+  background: var(
+    --tng-tree-table-toggle-hover-bg,
+    color-mix(
+      in srgb,
+      var(--tng-semantic-foreground-primary) 8%,
+      var(--tng-semantic-background-surface)
+    )
+  );
+}
+
+.tng-tree-table__toggle-placeholder {
+  display: inline-block;
+  flex-shrink: 0;
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.tng-tree-table__toggle-icon {
+  display: inline-flex;
+  pointer-events: none;
+}
+
+/* ── Cell content ──────────────────────────────────────────────────────────── */
+
+.tng-tree-table__cell-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* ── Empty / loading rows ──────────────────────────────────────────────────── */
+
+.tng-tree-table__empty-cell,
+.tng-tree-table__loading-cell {
+  border-bottom: 0;
+  color: var(--tng-semantic-foreground-secondary);
+  line-height: 1.35;
+  padding: var(--tng-tree-table-cell-py, 0.75rem) var(--tng-tree-table-cell-px, 0.9rem);
+  text-align: center;
+  vertical-align: middle;
+}

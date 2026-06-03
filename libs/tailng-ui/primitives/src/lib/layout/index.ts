@@ -12,3 +12,5 @@ export * from './tree/tng-tree';
 export * from './tree/tng-tree-item';
 export * from './tree/tng-tree-group';
 export * from './tree/tng-tree-indicator';
+
+export * from './tree-table';

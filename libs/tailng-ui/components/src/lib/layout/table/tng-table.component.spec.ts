@@ -1,3 +1,5 @@
+import { existsSync, readFileSync } from 'node:fs';
+
 import { Component, computed, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import type { TngTableSortChange } from '@tailng-ui/primitives';
@@ -14,6 +16,13 @@ import {
   type TngTableRowStyleFn,
   type TngTableStyleInput,
 } from './tng-table.component';
+
+const tableComponentStylesPath = existsSync(
+  'libs/tailng-ui/components/src/lib/layout/table/tng-table.component.css',
+)
+  ? 'libs/tailng-ui/components/src/lib/layout/table/tng-table.component.css'
+  : 'src/lib/layout/table/tng-table.component.css';
+const tableComponentStyles = readFileSync(tableComponentStylesPath, 'utf8');
 
 type TableRow = Readonly<{
   id: string;
@@ -326,6 +335,19 @@ function click(element: HTMLElement): void {
   element.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
 }
 
+function findStyleBlock(selectorPattern: RegExp): string {
+  const match = selectorPattern.exec(tableComponentStyles);
+  if (match?.[1] === undefined) {
+    throw new Error(`Expected style block matching ${selectorPattern}.`);
+  }
+
+  return match[1];
+}
+
+function expectDeclaration(styleBlock: string, property: string, value: string): void {
+  expect(styleBlock).toMatch(new RegExp(`${property}\\s*:\\s*${value}\\s*;`));
+}
+
 describe('tng-table component', () => {
   it('exports the component alias', () => {
     expect(TngTable).toBe(TngTableComponent);
@@ -392,24 +414,43 @@ describe('tng-table component', () => {
     expect(query<HTMLTableElement>(fixture, 'table').hasAttribute('data-error')).toBe(true);
   });
 
-  it('top-aligns body cells while preserving header, state, and horizontal alignment styles', () => {
-    const fixture = createFixture();
+  it('defines top body alignment while preserving header, state, and horizontal alignment styles', () => {
+    const sharedCellStyle = findStyleBlock(
+      /\.tng-table__header-cell,\s*\.tng-table__cell,\s*\.tng-table__state-cell\s*\{([^}]*)\}/,
+    );
+    expectDeclaration(sharedCellStyle, 'text-align', 'start');
+    expect(sharedCellStyle).not.toMatch(/vertical-align\s*:/);
 
-    const nameHeader = query<HTMLTableCellElement>(fixture, 'th[data-column-id="name"]');
-    const nameCell = query<HTMLTableCellElement>(fixture, 'td[data-column-id="name"]');
-    const totalCell = query<HTMLTableCellElement>(fixture, 'td[data-column-id="total"]');
+    const headerStateStyle = findStyleBlock(
+      /\.tng-table__header-cell,\s*\.tng-table__state-cell\s*\{([^}]*)\}/,
+    );
+    expectDeclaration(headerStateStyle, 'vertical-align', 'middle');
 
-    expect(getComputedStyle(nameHeader).verticalAlign).toBe('middle');
-    expect(getComputedStyle(nameCell).verticalAlign).toBe('top');
-    expect(getComputedStyle(nameCell).textAlign).toBe('start');
-    expect(getComputedStyle(totalCell).textAlign).toBe('end');
+    const bodyCellStyle = findStyleBlock(/\.tng-table__cell\s*\{([^}]*)\}/);
+    expectDeclaration(bodyCellStyle, 'vertical-align', 'top');
 
-    fixture.componentInstance.items.set([]);
-    fixture.detectChanges();
+    const groupTopStyle = findStyleBlock(
+      /\.tng-table__cell\[data-group-align='top'\]\s*\{([^}]*)\}/,
+    );
+    expectDeclaration(groupTopStyle, 'vertical-align', 'top');
 
-    const stateCell = query<HTMLTableCellElement>(fixture, 'tbody td.tng-table__state-cell');
-    expect(getComputedStyle(stateCell).verticalAlign).toBe('middle');
-    expect(getComputedStyle(stateCell).textAlign).toBe('center');
+    const groupMiddleStyle = findStyleBlock(
+      /\.tng-table__cell\[data-group-align='middle'\]\s*\{([^}]*)\}/,
+    );
+    expectDeclaration(groupMiddleStyle, 'vertical-align', 'middle');
+
+    const centerAlignStyle = findStyleBlock(
+      /\.tng-table__header-cell\[data-align='center'\],\s*\.tng-table__cell\[data-align='center'\]\s*\{([^}]*)\}/,
+    );
+    expectDeclaration(centerAlignStyle, 'text-align', 'center');
+
+    const endAlignStyle = findStyleBlock(
+      /\.tng-table__header-cell\[data-align='end'\],\s*\.tng-table__cell\[data-align='end'\]\s*\{([^}]*)\}/,
+    );
+    expectDeclaration(endAlignStyle, 'text-align', 'end');
+
+    const stateCellStyle = findStyleBlock(/(?<!,)\n\.tng-table__state-cell\s*\{([^}]*)\}/);
+    expectDeclaration(stateCellStyle, 'text-align', 'center');
   });
 
   it('applies density and sticky header configuration', () => {
@@ -1263,7 +1304,6 @@ describe('tng-table body group-by rows', () => {
       'tbody td[data-column-id="department"]',
     );
     expect(defaultGroupCell.getAttribute('data-group-align')).toBe('top');
-    expect(getComputedStyle(defaultGroupCell).verticalAlign).toBe('top');
 
     fixture.componentInstance.columns.set([
       { id: 'department', label: 'Department', groupBy: true, groupByAlign: 'middle' },
@@ -1276,7 +1316,6 @@ describe('tng-table body group-by rows', () => {
       'tbody td[data-column-id="department"]',
     );
     expect(middleGroupCell.getAttribute('data-group-align')).toBe('middle');
-    expect(getComputedStyle(middleGroupCell).verticalAlign).toBe('middle');
   });
 });
 

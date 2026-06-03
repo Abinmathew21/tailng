@@ -1,0 +1,121 @@
+<div class="tng-tree-table__root" [attr.data-density]="density()">
+  <table
+    class="tng-tree-table"
+    role="treegrid"
+    [attr.aria-label]="ariaLabel()"
+    [attr.dir]="dir()"
+    [attr.data-loading]="loading() ? '' : null"
+    [attr.data-empty]="!loading() && data().length === 0 ? '' : null"
+  >
+    <colgroup>
+      @for (column of columns(); track trackByColumnKey($index, column)) {
+        <col [style.width]="getColumnWidth(column)" />
+      }
+    </colgroup>
+
+    <thead class="tng-tree-table__thead">
+      <tr class="tng-tree-table__header-row">
+        @for (column of columns(); track trackByColumnKey($index, column)) {
+          <th
+            class="tng-tree-table__header-cell"
+            scope="col"
+            [class]="resolveHeaderClass(column)"
+            [attr.data-align]="getCellAlign(column)"
+          >
+            <span class="tng-tree-table__header-label">{{ column.label }}</span>
+          </th>
+        }
+      </tr>
+    </thead>
+
+    <tbody class="tng-tree-table__tbody">
+      @if (loading()) {
+        <tr class="tng-tree-table__loading-row">
+          <td class="tng-tree-table__loading-cell" [attr.colspan]="colspan()">
+            {{ loadingText() }}
+          </td>
+        </tr>
+      } @else if (data().length === 0) {
+        <tr class="tng-tree-table__empty-row">
+          <td class="tng-tree-table__empty-cell" [attr.colspan]="colspan()">
+            {{ emptyText() }}
+          </td>
+        </tr>
+      } @else {
+        @for (flatRow of flatRows(); track trackByKey($index, flatRow); let rowIndex = $index) {
+          <tr
+            #rowRef
+            class="tng-tree-table__row"
+            role="row"
+            tabindex="0"
+            [attr.aria-level]="flatRow.level + 1"
+            [attr.aria-expanded]="flatRow.expandable ? flatRow.expanded : null"
+            [attr.aria-selected]="selectable() ? flatRow.selected : null"
+            [attr.aria-disabled]="flatRow.disabled ? true : null"
+            [attr.data-level]="flatRow.level"
+            [attr.data-expanded]="flatRow.expanded ? '' : null"
+            [attr.data-selected]="flatRow.selected ? '' : null"
+            [attr.data-disabled]="flatRow.disabled ? '' : null"
+            (click)="onRowClick(flatRow, $event)"
+            (keydown)="onRowKeydown(flatRow, $event, rowIndex)"
+          >
+            @for (column of columns(); track trackByColumnKey($index, column)) {
+              @if (isTreeColumn(column)) {
+                <td
+                  class="tng-tree-table__cell tng-tree-table__tree-cell"
+                  role="gridcell"
+                  [class]="resolveCellClass(column, flatRow.row)"
+                  [attr.data-align]="getCellAlign(column)"
+                >
+                  <!-- Indent spacer -->
+                  <span
+                    class="tng-tree-table__indent"
+                    aria-hidden="true"
+                    [style.width]="getIndentWidth(flatRow.level)"
+                    [style.display]="'inline-block'"
+                    [style.flex-shrink]="'0'"
+                  ></span>
+
+                  <!-- Expand/collapse toggle or placeholder spacer -->
+                  @if (flatRow.expandable) {
+                    <button
+                      class="tng-tree-table__toggle"
+                      type="button"
+                      [attr.aria-label]="flatRow.expanded ? 'Collapse row' : 'Expand row'"
+                      [attr.data-expanded]="flatRow.expanded ? '' : null"
+                      (click)="onToggle(flatRow, $event)"
+                    >
+                      <span class="tng-tree-table__toggle-icon" aria-hidden="true">
+                        {{ flatRow.expanded ? '▼' : '▶' }}
+                      </span>
+                    </button>
+                  } @else {
+                    <!-- placeholder keeps alignment when row is not expandable -->
+                    <span
+                      class="tng-tree-table__toggle-placeholder"
+                      aria-hidden="true"
+                    ></span>
+                  }
+
+                  <!-- Cell content -->
+                  <span class="tng-tree-table__cell-content">
+                    {{ getCellText(flatRow.row, column, rowIndex) }}
+                  </span>
+                </td>
+              } @else {
+                <td
+                  class="tng-tree-table__cell"
+                  role="gridcell"
+                  [class]="resolveCellClass(column, flatRow.row)"
+                  [attr.data-align]="getCellAlign(column)"
+                >
+                  {{ getCellText(flatRow.row, column, rowIndex) }}
+                </td>
+              }
+            }
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>

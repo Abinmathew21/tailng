@@ -417,6 +417,69 @@
     ]
   },
   {
+    "title": "Tree Table",
+    "description": "Hierarchical treegrid table with expand/collapse rows, selection, keyboard navigation, and accessible aria attributes.",
+    "section": "Components / Layout",
+    "url": "/components/layout/tree-table",
+    "tags": [
+      "components",
+      "layout",
+      "tree-table",
+      "tree",
+      "table",
+      "treegrid",
+      "hierarchical",
+      "expand",
+      "collapse"
+    ]
+  },
+  {
+    "title": "Tree Table API",
+    "description": "Hierarchical treegrid table with expand/collapse rows, selection, keyboard navigation, and accessible aria attributes. API.",
+    "section": "Components / Layout",
+    "url": "/components/layout/tree-table/api",
+    "tags": [
+      "components",
+      "layout",
+      "tree-table",
+      "tree",
+      "table",
+      "treegrid",
+      "api"
+    ]
+  },
+  {
+    "title": "Tree Table Stylings",
+    "description": "Hierarchical treegrid table with expand/collapse rows, selection, keyboard navigation, and accessible aria attributes. Stylings.",
+    "section": "Components / Layout",
+    "url": "/components/layout/tree-table/stylings",
+    "tags": [
+      "components",
+      "layout",
+      "tree-table",
+      "tree",
+      "table",
+      "treegrid",
+      "stylings",
+      "css"
+    ]
+  },
+  {
+    "title": "Tree Table Examples",
+    "description": "Hierarchical treegrid table with expand/collapse rows, selection, keyboard navigation, and accessible aria attributes. Examples.",
+    "section": "Components / Layout",
+    "url": "/components/layout/tree-table/examples",
+    "tags": [
+      "components",
+      "layout",
+      "tree-table",
+      "tree",
+      "table",
+      "treegrid",
+      "examples"
+    ]
+  },
+  {
     "title": "Dialog",
     "description": "Modal panel with backdrop dismissal, focus trap, and close reason outputs.",
     "section": "Components / Overlay",
