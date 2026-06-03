@@ -1,9 +1,18 @@
+import { existsSync, readFileSync } from 'node:fs';
+
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { TngTreeTableComponent } from './tng-tree-table.component';
 import type { TngTreeTableColumn } from './tng-tree-table-column.type';
 import type { TngTreeTableKey, TngTreeTableRowEvent } from '@tailng-ui/primitives';
+
+const treeTableComponentStylesPath = existsSync(
+  'libs/tailng-ui/components/src/lib/layout/tree-table/tng-tree-table.component.css',
+)
+  ? 'libs/tailng-ui/components/src/lib/layout/tree-table/tng-tree-table.component.css'
+  : 'src/lib/layout/tree-table/tng-tree-table.component.css';
+const treeTableComponentStyles = readFileSync(treeTableComponentStylesPath, 'utf8');
 
 interface AccountRow {
   id: string;
@@ -101,6 +110,16 @@ function getHeaderCells(fixture: ReturnType<typeof TestBed.createComponent<HostC
 
 function getToggleButton(row: HTMLTableRowElement): HTMLButtonElement | null {
   return row.querySelector('.tng-tree-table__toggle');
+}
+
+function findStyleBlock(pattern: RegExp): string {
+  const match = treeTableComponentStyles.match(pattern);
+  expect(match).not.toBeNull();
+  return match?.[1] ?? '';
+}
+
+function expectDeclaration(styleBlock: string, property: string, value: string): void {
+  expect(styleBlock).toMatch(new RegExp(`${property}\\s*:\\s*${value}\\s*;`));
 }
 
 describe('TngTreeTableComponent', () => {
@@ -492,6 +511,22 @@ describe('TngTreeTableComponent', () => {
       rows[0]!.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
       fixture.detectChanges();
       expect(keys).toHaveLength(0);
+    });
+  });
+
+  describe('styling', () => {
+    it('constrains horizontal overflow inside the component root', () => {
+      const hostStyle = findStyleBlock(/:host\s*\{([^}]*)\}/);
+      expectDeclaration(hostStyle, 'display', 'block');
+      expectDeclaration(hostStyle, 'box-sizing', 'border-box');
+      expectDeclaration(hostStyle, 'max-width', '100%');
+      expectDeclaration(hostStyle, 'min-width', '0');
+
+      const rootStyle = findStyleBlock(/\.tng-tree-table__root\s*\{([^}]*)\}/);
+      expectDeclaration(rootStyle, 'box-sizing', 'border-box');
+      expectDeclaration(rootStyle, 'max-width', '100%');
+      expectDeclaration(rootStyle, 'overflow-x', 'auto');
+      expectDeclaration(rootStyle, 'width', '100%');
     });
   });
 });

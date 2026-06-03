@@ -1,5 +1,8 @@
 :host {
   display: block;
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
 }
 
 /* ── Root wrapper ──────────────────────────────────────────────────────────── */
@@ -8,8 +11,10 @@
   border: 1px solid var(--tng-tree-table-border, var(--tng-semantic-border-subtle));
   border-radius: var(--tng-tree-table-radius, 0.65rem);
   background: var(--tng-semantic-background-surface);
-  overflow-x: auto;
+  box-sizing: border-box;
   max-width: 100%;
+  overflow-x: auto;
+  width: 100%;
 }
 
 /* ── Table ─────────────────────────────────────────────────────────────────── */
