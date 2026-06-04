@@ -315,7 +315,7 @@ export class App {
 
   public onPrimaryNavigationSelect(route: string): void {
     this.closeMobileMenu();
-    void this.router.navigateByUrl(route);
+    this.documentRef.defaultView?.location.assign(route);
   }
 
   @HostListener('document:keydown', ['$event'])

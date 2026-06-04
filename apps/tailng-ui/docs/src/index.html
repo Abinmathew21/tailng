@@ -6,6 +6,46 @@
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <script>
+      (function () {
+        var PRESET_KEY = 'tailng.docs.themePreset';
+        var MODE_KEY = 'tailng.docs.themeMode';
+
+        var darkCanvas = {
+          'default':          '#0b1020',
+          'minimal':          '#0b111c',
+          'slate':            '#0a111d',
+          'nexus':            '#050b1c',
+          'prism':            '#0e0b1f',
+          'atlas':            '#041719',
+          'sterling':         '#090f18',
+          'daybook-classic':  '#031326',
+        };
+        var lightCanvas = {
+          'default':          '#e3edf8',
+          'minimal':          '#e8edf3',
+          'slate':            '#e2e8f0',
+          'nexus':            '#e0ecff',
+          'prism':            '#e8e6ff',
+          'atlas':            '#dff2ef',
+          'sterling':         '#e7ebf0',
+          'daybook-classic':  '#f4e79f',
+        };
+
+        var preset = 'default';
+        var mode = 'dark';
+        try {
+          preset = localStorage.getItem(PRESET_KEY) || 'default';
+          mode   = localStorage.getItem(MODE_KEY)   || 'dark';
+        } catch (_) {}
+
+        var map = mode === 'dark' ? darkCanvas : lightCanvas;
+        var canvas = map[preset] || (mode === 'dark' ? '#0b1020' : '#e3edf8');
+
+        document.documentElement.style.backgroundColor = canvas;
+        document.documentElement.style.colorScheme = mode;
+      })();
+    </script>
   </head>
   <body>
     <app-root></app-root>
