@@ -10,18 +10,20 @@
       class="components-docs-drawer"
       ariaLabel="Theme docs navigation"
       tabindex="-1"
-      [opened]="true"
+      [opened]="drawerOpened()"
       [mode]="'overlay'"
       [position]="'start'"
-      [backdrop]="false"
-      [closeOnOutsideClick]="false"
-      [closeOnEscape]="false"
-      [autoFocus]="'none'"
-      [trapFocus]="false"
-      [inertContent]="false"
-      [allowBodyScroll]="true"
+      [backdrop]="isMobile()"
+      [closeOnOutsideClick]="isMobile()"
+      [closeOnEscape]="isMobile()"
+      [autoFocus]="isMobile() ? 'first-focusable' : 'none'"
+      [trapFocus]="isMobile() ? 'auto' : false"
+      [inertContent]="isMobile() ? 'auto' : false"
+      [allowBodyScroll]="!isMobile()"
+      [swipeToClose]="isMobile()"
+      (openedChange)="onDrawerOpenedChange($event)"
     >
-      <div class="components-docs-search pb-3">
+      <div class="components-docs-search">
         <tng-input-field class="components-docs-search-input" size="sm">
           <span tngInputFieldPrefix class="components-docs-search-icon" aria-hidden="true">
             <tng-icon icon="search" class="h-4 w-4" />
@@ -63,38 +65,24 @@
                 </span>
               </tng-accordion-trigger>
               <tng-accordion-panel>
-                <div
-                  tngListbox
-                  class="components-docs-nav-listbox grid gap-1.5 py-1"
-                  [attr.aria-label]="group.title + ' links'"
-                  [value]="activeGroupItemHref(group)"
-                  [typeahead]="false"
-                  [loop]="true"
-                  tabindex="0"
-                  (valueChange)="onNavListboxValueChange($event)"
-                >
-                  @for (item of group.items; track item.id) {
-                    <div
-                      tngOption
-                      [tngValue]="itemHref(group.id, item.slug)"
-                      class="components-docs-nav-option inline-flex min-h-9 w-full items-center justify-between rounded-lg border border-transparent px-3 py-2 text-left text-sm transition-colors"
-                      [class.border-tng-border-subtle]="!isItemActive(group.id, item.slug)"
-                      [class.bg-tng-bg-base]="!isItemActive(group.id, item.slug)"
-                      [class.text-tng-fg-primary]="!isItemActive(group.id, item.slug)"
-                      [class.hover:bg-tng-bg-muted]="!isItemActive(group.id, item.slug)"
-                      [class.border-tng-accent-brand]="isItemActive(group.id, item.slug)"
-                      [class.bg-[color-mix(in_srgb,var(--tng-semantic-accent-brand)_12%,var(--tng-semantic-background-base))]]="
-                        isItemActive(group.id, item.slug)
-                      "
-                      [class.text-tng-accent-brand]="isItemActive(group.id, item.slug)"
-                    >
-                      <span class="truncate">{{ item.title }}</span>
-                      @if (isItemActive(group.id, item.slug)) {
-                        <tng-icon icon="chevron-right" class="h-4 w-4 shrink-0" />
-                      }
-                    </div>
-                  }
-                </div>
+                <nav class="components-docs-nav-group" [attr.aria-label]="group.title + ' links'">
+                  <ul class="components-docs-nav-list">
+                    @for (item of group.items; track item.id) {
+                      <li class="components-docs-nav-item">
+                        <a
+                          class="components-docs-nav-link"
+                          [href]="itemHref(group.id, item)"
+                          [class.components-docs-nav-link--selected]="isItemActive(group.id, item)"
+                        >
+                          <span class="truncate">{{ item.title }}</span>
+                          @if (isItemActive(group.id, item)) {
+                            <tng-icon icon="chevron-right" class="h-4 w-4 shrink-0" aria-hidden="true" />
+                          }
+                        </a>
+                      </li>
+                    }
+                  </ul>
+                </nav>
               </tng-accordion-panel>
             </tng-accordion-item>
           }
@@ -113,13 +101,33 @@
 
     <main tngDrawerContent class="components-docs-content">
       <section class="components-docs-breadcrumb">
-        <tng-breadcrumb ariaLabel="Theme documentation path" separator="›">
-          @for (crumb of docsBreadcrumbs(); track $index) {
-            <tng-breadcrumb-item [current]="crumb.current" [routerLink]="crumb.url">
-              {{ crumb.label }}
-            </tng-breadcrumb-item>
+        @if (isMobile()) {
+          <button
+            type="button"
+            class="components-docs-nav-toggle"
+            [attr.aria-expanded]="mobileNavOpen()"
+            aria-label="Toggle theme navigation"
+            (click)="toggleMobileNav()"
+          >
+            <span class="components-docs-nav-toggle-bars" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            <span class="components-docs-nav-toggle-label">Menu</span>
+          </button>
+          @if (currentPageLabel()) {
+            <span class="components-docs-current-page" aria-current="page">{{ currentPageLabel() }}</span>
           }
-        </tng-breadcrumb>
+        } @else {
+          <tng-breadcrumb ariaLabel="Theme documentation path" separator="›">
+            @for (crumb of docsBreadcrumbs(); track $index) {
+              <tng-breadcrumb-item [current]="crumb.current" [routerLink]="crumb.url">
+                {{ crumb.label }}
+              </tng-breadcrumb-item>
+            }
+          </tng-breadcrumb>
+        }
       </section>
 
       <section class="docs-component-content">

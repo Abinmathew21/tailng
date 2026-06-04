@@ -1,0 +1,274 @@
+<tng-card variant="outline" padding="lg">
+  <tng-card-header>
+    <div class="grid gap-1 pb-2">
+      <h1 class="m-0 text-3xl font-semibold">Configure Theme</h1>
+      <p class="m-0 max-w-3xl text-sm text-tng-fg-secondary md:text-base">
+        Apply the TailNG design token layer, override CSS variables to match your brand, set up dark
+        mode, and wire tokens into Tailwind utility classes.
+      </p>
+    </div>
+    <div
+      class="mb-1 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-tng-fg-secondary"
+    >
+      <tng-icon icon="book-open" class="h-4 w-4" />
+      <span>{{ groupTitle() }}</span>
+    </div>
+    <tng-card-title>{{ item().title }}</tng-card-title>
+    <tng-card-description>{{ item().description }}</tng-card-description>
+  </tng-card-header>
+
+  <tng-card-content>
+    <section class="grid gap-10 text-sm text-tng-fg-secondary md:text-base">
+
+      <!-- ── Create a custom theme link ───────────────────────────────────── -->
+      <div class="configure-theme-next-link-wrapper">
+        <a class="configure-theme-next-link" routerLink="/theme/guides/creating-a-new-theme">
+          <span class="configure-theme-next-link-body">
+            <tng-icon icon="palette" class="configure-theme-next-link-icon" aria-hidden="true" />
+            <span class="grid gap-0.5">
+              <span class="configure-theme-next-link-title">Create a custom theme</span>
+              <span class="configure-theme-next-link-desc">
+                Build a brand-specific token set from scratch — define your own color scales, radius,
+                shadow, and typography variables, then export the finished theme for use across your
+                Angular workspace.
+              </span>
+            </span>
+          </span>
+          <tng-icon icon="arrow-right" class="configure-theme-next-link-arrow" aria-hidden="true" />
+        </a>
+      </div>
+
+      <!-- ── 1. Import theme CSS ──────────────────────────────────────────── -->
+      <div class="grid gap-3">
+        <p class="configure-theme-section-label">1. Import the theme stylesheet</p>
+        <p class="m-0">
+          <code class="configure-theme-inline-code">@tailng-ui/theme</code> ships a ready-to-use
+          CSS file that declares all semantic tokens as CSS custom properties.
+          Import it once — either in your global stylesheet or via
+          <code class="configure-theme-inline-code">angular.json</code>.
+        </p>
+
+        <tng-tabs
+          ariaLabel="Theme import methods"
+          [defaultValue]="'css'"
+          class="grid gap-3"
+        >
+          <div tngTabList class="configure-theme-tabs-list flex flex-wrap gap-2" ariaLabel="Method">
+            <button type="button" tngTab value="css" class="configure-theme-tab-trigger">styles.css</button>
+            <button type="button" tngTab value="json" class="configure-theme-tab-trigger">angular.json</button>
+          </div>
+          <div tngTabPanel value="css" class="min-w-0">
+            <tng-code-block
+              [code]="importThemeCssCode"
+              adapter="shiki"
+              language="css"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              [lineNumbers]="false"
+            ></tng-code-block>
+          </div>
+          <div tngTabPanel value="json" class="min-w-0">
+            <tng-code-block
+              [code]="angularJsonStylesCode"
+              adapter="shiki"
+              language="json"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              [lineNumbers]="false"
+            ></tng-code-block>
+          </div>
+        </tng-tabs>
+      </div>
+
+      <!-- ── 2. CSS Custom Properties ─────────────────────────────────────── -->
+      <div class="grid gap-3">
+        <p class="configure-theme-section-label">2. Semantic CSS token reference</p>
+        <p class="m-0">
+          Every visual property — color, spacing scale, radius, shadow — is expressed as a
+          <strong class="font-semibold text-tng-fg-primary">CSS custom property</strong> under the
+          <code class="configure-theme-inline-code">--tng-semantic-*</code> namespace.
+          Components read these at runtime, so a single variable change ripples across your entire
+          app automatically.
+        </p>
+        <tng-code-block
+          [code]="cssTokensExampleCode"
+          adapter="shiki"
+          language="css"
+          [theme]="codeBlockTheme()"
+          [sanitizeHtml]="false"
+          [wrap]="true"
+          [lineNumbers]="false"
+          title="Semantic token overview"
+        ></tng-code-block>
+        <p class="m-0 text-xs text-tng-fg-secondary">
+          The full token list ships inside the package at
+          <code class="configure-theme-inline-code">node_modules/@tailng-ui/theme/css/index.css</code>.
+        </p>
+      </div>
+
+      <!-- ── 3. Dark mode ──────────────────────────────────────────────────── -->
+      <div class="grid gap-3">
+        <p class="configure-theme-section-label">3. Dark mode</p>
+        <p class="m-0">
+          The theme bundle ships both light and dark token sets. Choose a strategy that fits your app.
+        </p>
+
+        <div class="grid gap-2">
+          <p class="m-0 text-xs font-semibold text-tng-fg-secondary">
+            Strategy A — automatic via <code class="configure-theme-inline-code">prefers-color-scheme</code>
+          </p>
+          <p class="m-0">
+            Dark tokens activate automatically when the OS is in dark mode. No extra configuration.
+            Importing the theme stylesheet is all you need.
+          </p>
+          <tng-code-block
+            [code]="darkModeMediaCode"
+            adapter="shiki"
+            language="css"
+            [theme]="codeBlockTheme()"
+            [sanitizeHtml]="false"
+            [wrap]="true"
+            [lineNumbers]="false"
+          ></tng-code-block>
+        </div>
+
+        <div class="grid gap-2">
+          <p class="m-0 text-xs font-semibold text-tng-fg-secondary">
+            Strategy B — class-based toggle
+          </p>
+          <p class="m-0">
+            Add the <code class="configure-theme-inline-code">dark</code> class to
+            <code class="configure-theme-inline-code">&lt;html&gt;</code> to force dark mode
+            regardless of OS preference.
+          </p>
+          <tng-tabs
+            ariaLabel="Dark mode class strategy"
+            [defaultValue]="'html'"
+            class="grid gap-3"
+          >
+            <div tngTabList class="configure-theme-tabs-list flex flex-wrap gap-2" ariaLabel="File">
+              <button type="button" tngTab value="html" class="configure-theme-tab-trigger">index.html</button>
+              <button type="button" tngTab value="ts" class="configure-theme-tab-trigger">Angular toggle</button>
+            </div>
+            <div tngTabPanel value="html" class="min-w-0">
+              <tng-code-block
+                [code]="darkModeClassCode"
+                adapter="shiki"
+                language="html"
+                [theme]="codeBlockTheme()"
+                [sanitizeHtml]="false"
+                [wrap]="true"
+                [lineNumbers]="false"
+              ></tng-code-block>
+            </div>
+            <div tngTabPanel value="ts" class="min-w-0">
+              <tng-code-block
+                [code]="darkModeAngularCode"
+                adapter="shiki"
+                language="typescript"
+                [theme]="codeBlockTheme()"
+                [sanitizeHtml]="false"
+                [wrap]="true"
+                [lineNumbers]="false"
+              ></tng-code-block>
+            </div>
+          </tng-tabs>
+        </div>
+      </div>
+
+      <!-- ── 4. Customizing tokens ─────────────────────────────────────────── -->
+      <div class="grid gap-3">
+        <p class="configure-theme-section-label">4. Customizing tokens</p>
+        <p class="m-0">
+          Override any token after the import statement. The cascade ensures your values take
+          precedence over the defaults. Define matching overrides inside
+          <code class="configure-theme-inline-code">.dark &#123; &#125;</code> for the dark-mode variant.
+        </p>
+        <tng-code-block
+          [code]="customizeTokensCode"
+          adapter="shiki"
+          language="css"
+          [theme]="codeBlockTheme()"
+          [sanitizeHtml]="false"
+          [wrap]="true"
+          [lineNumbers]="false"
+          title="styles.css"
+        ></tng-code-block>
+      </div>
+
+      <!-- ── 5. Tailwind integration ────────────────────────────────────────── -->
+      <div class="grid gap-3">
+        <p class="configure-theme-section-label">5. Tailwind integration</p>
+        <p class="m-0">
+          Map TailNG CSS variables to Tailwind utility classes by extending the
+          <code class="configure-theme-inline-code">theme.colors</code> config. You can then write
+          <code class="configure-theme-inline-code">bg-tng-brand</code> or
+          <code class="configure-theme-inline-code">text-tng-fg-secondary</code> anywhere in your
+          templates, and the colors will automatically update when you swap tokens.
+        </p>
+        <tng-tabs
+          ariaLabel="Tailwind integration"
+          [defaultValue]="'config'"
+          class="grid gap-3"
+        >
+          <div tngTabList class="configure-theme-tabs-list flex flex-wrap gap-2" ariaLabel="File">
+            <button type="button" tngTab value="config" class="configure-theme-tab-trigger">tailwind.config.ts</button>
+            <button type="button" tngTab value="usage" class="configure-theme-tab-trigger">Usage</button>
+          </div>
+          <div tngTabPanel value="config" class="min-w-0">
+            <tng-code-block
+              [code]="tailwindConfigCode"
+              adapter="shiki"
+              language="typescript"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              [lineNumbers]="false"
+              title="tailwind.config.ts"
+            ></tng-code-block>
+          </div>
+          <div tngTabPanel value="usage" class="min-w-0">
+            <tng-code-block
+              [code]="tailwindUsageCode"
+              adapter="shiki"
+              language="html"
+              [theme]="codeBlockTheme()"
+              [sanitizeHtml]="false"
+              [wrap]="true"
+              [lineNumbers]="false"
+              title="template"
+            ></tng-code-block>
+          </div>
+        </tng-tabs>
+      </div>
+
+      <!-- ── 6. provideTheme ────────────────────────────────────────────────── -->
+      <div class="grid gap-3">
+        <p class="configure-theme-section-label">6. Runtime theme provider (optional)</p>
+        <p class="m-0">
+          For fine-grained runtime control — such as persisting the user's color scheme preference
+          or reading the current scheme in components — register
+          <code class="configure-theme-inline-code">provideTheme()</code> in your
+          <code class="configure-theme-inline-code">main.ts</code>.
+          Accepted values for <code class="configure-theme-inline-code">colorScheme</code> are
+          <code class="configure-theme-inline-code">'light'</code>,
+          <code class="configure-theme-inline-code">'dark'</code>, or
+          <code class="configure-theme-inline-code">'system'</code>.
+        </p>
+        <tng-code-block
+          [code]="provideThemeCode"
+          adapter="shiki"
+          language="typescript"
+          [theme]="codeBlockTheme()"
+          [sanitizeHtml]="false"
+          [wrap]="true"
+          [lineNumbers]="false"
+          title="main.ts"
+        ></tng-code-block>
+      </div>
+
+    </section>
+  </tng-card-content>
+</tng-card>

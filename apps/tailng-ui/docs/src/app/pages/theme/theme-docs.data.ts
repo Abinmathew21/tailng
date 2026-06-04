@@ -22,6 +22,8 @@ export type ThemeDocsCategoryId = 'guides' | 'reference' | 'tools';
 
 export type ThemeDocsItem = Readonly<{
   description: string;
+  /** Optional full href override. When set, the item links directly to this URL instead of the default `/theme/{group}/{slug}` path. */
+  href?: string;
   id: string;
   slug: string;
   title: string;
@@ -80,6 +82,13 @@ export const THEME_GUIDES_GROUP: ThemeDocsGroup = {
       slug: 'creating-a-new-theme',
       title: 'Creating a New Theme',
       description: 'Compose a product theme from a preset and override semantic scales safely.',
+    },
+    {
+      id: 'configure-default-theme',
+      slug: 'configure-default-theme',
+      title: 'Configure Default Theme',
+      description: 'Set up and configure the default theme for your Angular application.',
+      href: '/components/getting-started/configure-theme',
     },
   ],
 };

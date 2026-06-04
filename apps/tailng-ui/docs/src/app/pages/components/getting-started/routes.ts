@@ -30,11 +30,17 @@ if (signalFormDemoItem === undefined) {
   throw new Error('Missing "signal-form-demo" in components getting-started docs group.');
 }
 
+const configureThemeItem = group.items.find((item) => item.slug === 'configure-theme');
+if (configureThemeItem === undefined) {
+  throw new Error('Missing "configure-theme" in components getting-started docs group.');
+}
+
 const landingPageSlugs = new Set([
   plainCssSetupItem.slug,
   tailwindSetupItem.slug,
   installationItem.slug,
   signalFormDemoItem.slug,
+  configureThemeItem.slug,
 ]);
 
 export const COMPONENTS_GETTING_STARTED_ROUTES: Routes = [
@@ -48,6 +54,14 @@ export const COMPONENTS_GETTING_STARTED_ROUTES: Routes = [
     data: toComponentsDocsRouteData(group, installationItem),
     loadComponent: () =>
       import('./installation/installation-page.component').then((m) => m.InstallationPageComponent),
+  },
+  {
+    path: configureThemeItem.slug,
+    data: toComponentsDocsRouteData(group, configureThemeItem),
+    loadComponent: () =>
+      import('./configure-theme/configure-theme-page.component').then(
+        (m) => m.ConfigureThemePageComponent,
+      ),
   },
   {
     path: signalFormDemoItem.slug,

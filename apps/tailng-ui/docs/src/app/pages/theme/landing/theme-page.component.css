@@ -6,6 +6,15 @@
   --docs-component-tabs-top: 4.75rem;
 }
 
+/* The shared components-page.component.css sets grid-template-rows: minmax(0, 1fr)
+   for a single-child drawer. Theme has a search box above the accordion,
+   so we need two rows: one auto-sized for the search, one scrollable for the nav. */
+.components-docs-drawer {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+/* Search box */
+
 .components-docs-search {
   margin-bottom: 0.35rem;
   padding-inline: 0.1rem;

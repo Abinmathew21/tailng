@@ -46,6 +46,12 @@ export const COMPONENTS_GETTING_STARTED_GROUP: ComponentsDocsGroup = {
       description: 'Package-level install matrix for TailNG Components and peer layers.',
     },
     {
+      id: 'configure-theme',
+      slug: 'configure-theme',
+      title: 'Configure Theme',
+      description: 'Apply and customize the TailNG theme using CSS variables, dark mode, and Tailwind integration.',
+    },
+    {
       id: 'signal-form-demo',
       slug: 'signal-form-demo',
       title: 'Signal Form Demo',
