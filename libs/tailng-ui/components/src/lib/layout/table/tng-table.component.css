@@ -1,5 +1,8 @@
 :host {
   display: block;
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .tng-table__scroll {

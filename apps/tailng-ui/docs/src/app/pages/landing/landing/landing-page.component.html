@@ -68,6 +68,175 @@
       </tng-card>
     </section>
 
+    <section id="components" class="space-y-4 border-b border-tng-border-subtle py-12">
+      <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Components</p>
+      <h2 class="m-0 text-2xl font-semibold md:text-3xl">40+ production-ready components</h2>
+      <p class="m-0 max-w-2xl text-sm text-tng-fg-secondary md:text-base">
+        Date pickers, autocompletes, tables, trees, charts — every component is keyboard-accessible,
+        ARIA-compliant, and theme-aware out of the box.
+      </p>
+
+      <!-- Row 1: Date Picker · Date Range Picker · Autocomplete -->
+      <div class="grid gap-4 md:grid-cols-3">
+        <tng-card variant="outline" padding="md" class="space-y-3">
+          <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Date Picker</p>
+          <tng-datepicker
+            [defaultValue]="'2025-06-04'"
+            [fullWidth]="true"
+            ariaLabel="Demo date"
+          />
+        </tng-card>
+
+        <tng-card variant="outline" padding="md" class="space-y-3">
+          <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Date Range Picker</p>
+          <tng-date-range-picker
+            [fullWidth]="true"
+            ariaLabel="Demo date range"
+          />
+        </tng-card>
+
+        <tng-card variant="outline" padding="md" class="space-y-3">
+          <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Autocomplete · Country + Flag</p>
+          <tng-autocomplete
+            [options]="filteredCountries()"
+            [query]="countryQuery()"
+            (queryChange)="countryQuery.set($event)"
+            [getOptionValue]="getCountryValue"
+            [getOptionLabel]="getCountryLabel"
+            placeholder="Search country…"
+            ariaLabel="Country"
+          >
+            <ng-template #tngAutocompleteOptionTpl let-option="option" let-label="label">
+              <span class="flex items-center gap-2">
+                <span aria-hidden="true">{{ option.flag }}</span>
+                <span>{{ label }}</span>
+              </span>
+            </ng-template>
+            <ng-template #tngAutocompleteSelectedTpl let-option="option">
+              <span aria-hidden="true">{{ option?.flag }}</span>
+            </ng-template>
+          </tng-autocomplete>
+        </tng-card>
+      </div>
+
+      <!-- Row 2: Tags · Badges -->
+      <div class="grid gap-4 md:grid-cols-2">
+        <tng-card variant="outline" padding="md" class="space-y-3">
+          <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Tags</p>
+          <div class="flex flex-wrap gap-2">
+            <tng-tag label="Design" tone="info" appearance="soft" />
+            <tng-tag label="Engineering" tone="success" appearance="soft" />
+            <tng-tag label="Breaking" tone="danger" appearance="soft" />
+            <tng-tag label="Beta" tone="warning" appearance="soft" />
+            <tng-tag label="Stable" tone="neutral" appearance="solid" />
+            <tng-tag label="New" tone="info" appearance="solid" />
+            <tng-tag label="Deprecated" tone="danger" appearance="outline" />
+          </div>
+        </tng-card>
+
+        <tng-card variant="outline" padding="md" class="space-y-3">
+          <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Badge</p>
+          <div class="flex flex-wrap items-center gap-6">
+            <button
+              type="button"
+              [tngBadge]="notifCount()"
+              tngBadgeTone="danger"
+              class="relative inline-flex h-9 items-center rounded-md border border-tng-border-subtle bg-tng-bg-surface px-4 text-sm font-medium text-tng-fg-primary"
+            >
+              Notifications
+            </button>
+            <button
+              type="button"
+              [tngBadge]="msgCount()"
+              tngBadgeTone="info"
+              class="relative inline-flex h-9 items-center rounded-md border border-tng-border-subtle bg-tng-bg-surface px-4 text-sm font-medium text-tng-fg-primary"
+            >
+              Messages
+            </button>
+            <button
+              type="button"
+              [tngBadge]="null"
+              [tngBadgeDot]="true"
+              tngBadgeTone="success"
+              class="relative inline-flex h-9 items-center rounded-md border border-tng-border-subtle bg-tng-bg-surface px-4 text-sm font-medium text-tng-fg-primary"
+            >
+              Presence
+            </button>
+          </div>
+        </tng-card>
+      </div>
+
+      <!-- Row 3: Table with grouped columns -->
+      <tng-card variant="outline" padding="md" class="space-y-3">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Table · Grouped columns</p>
+        <tng-table
+          [columns]="demoTableColumns"
+          [items]="sortedTeam()"
+          [sortActive]="sortActive()"
+          [sortDirection]="sortDirection()"
+          (sortChange)="onTableSortChange($event)"
+          ariaLabel="Team members"
+        >
+          <ng-template tngTableCellTemplate="status" let-value>
+            @let config = getStatusConfig(value);
+            <span class="inline-flex items-center gap-1.5 text-sm font-medium" [class]="config.classes">
+              <tng-icon [icon]="config.icon" class="h-4 w-4 shrink-0" />
+              {{ value }}
+            </span>
+          </ng-template>
+        </tng-table>
+      </tng-card>
+
+      <!-- Row 3b: Tree-table with grouped header -->
+      <tng-card variant="outline" padding="md" class="space-y-3">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Tree-Table · Grouped header</p>
+        <tng-tree-table
+          [columns]="orgColumns"
+          [data]="orgData"
+          [getKey]="getOrgKey"
+          [getChildren]="getOrgChildren"
+          [expandedKeys]="orgExpandedKeys()"
+          (expandedKeysChange)="orgExpandedKeys.set($event)"
+          ariaLabel="Organisation chart"
+        />
+      </tng-card>
+
+      <!-- Row 4: Tree · Bar Chart -->
+      <div class="grid gap-4 md:grid-cols-2">
+        <tng-card variant="outline" padding="md" class="space-y-3">
+          <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Tree</p>
+          <tng-tree
+            [nodes]="treeNodes"
+            [defaultExpandedIds]="treeExpanded"
+            ariaLabel="Repository tree"
+          />
+        </tng-card>
+
+        <tng-card variant="outline" padding="md" class="space-y-3">
+          <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Bar Chart · Monthly Installs</p>
+          <tng-bar-chart
+            [data]="barChartData"
+            xField="month"
+            yField="installs"
+            [height]="220"
+            [legend]="false"
+          />
+        </tng-card>
+      </div>
+
+      <!-- Row 5: Line Chart -->
+      <tng-card variant="outline" padding="md" class="space-y-3">
+        <p class="m-0 text-xs font-semibold uppercase tracking-[0.1em] text-tng-fg-secondary">Line Chart · User Growth</p>
+        <tng-line-chart
+          [data]="lineChartData"
+          xField="week"
+          [series]="lineChartSeries"
+          [height]="240"
+          smooth
+        />
+      </tng-card>
+    </section>
+
     <section id="packages" class="space-y-4 border-b border-tng-border-subtle py-12">
       <p class="m-0 text-xs font-semibold uppercase tracking-[0.12em] text-tng-fg-secondary">Packages</p>
       <h2 class="m-0 text-2xl font-semibold md:text-3xl">A layered system, not a monolith</h2>
