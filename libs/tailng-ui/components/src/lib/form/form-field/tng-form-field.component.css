@@ -5,7 +5,7 @@
   gap: var(--tng-form-field-gap, 0.45rem);
   width: 100%;
   max-width: 100%;
-  color: var(--tng-form-field-fg, var(--tng-semantic-foreground-primary, inherit));
+  color: var(--tng-form-field-fg);
 }
 
 :host([data-inline-width]) {
@@ -25,7 +25,7 @@
   gap: 0.25rem;
   min-width: 0;
   padding: 0;
-  color: var(--tng-form-field-label-fg, var(--tng-semantic-foreground-secondary, currentColor));
+  color: var(--tng-form-field-label-fg);
   font-size: var(--tng-form-field-label-font-size, 0.875rem);
   font-weight: var(--tng-form-field-label-font-weight, 600);
   line-height: 1.35;
@@ -52,9 +52,9 @@
 :host([data-appearance='outlined']) .tng-form-field__control-row {
   min-height: var(--tng-form-field-frame-min-height, 2.625rem);
   padding: var(--tng-form-field-frame-py, 0.55rem) var(--tng-form-field-frame-px, 0.75rem);
-  border: 1px solid var(--tng-form-field-frame-border, var(--tng-semantic-border-strong, currentColor));
+  border: 1px solid var(--tng-form-field-frame-border);
   border-radius: var(--tng-form-field-frame-radius, 0.65rem);
-  background: var(--tng-form-field-frame-bg, var(--tng-semantic-background-surface, Canvas));
+  background: var(--tng-form-field-frame-bg);
 }
 
 :host([data-label-position='outline']) {
@@ -63,9 +63,9 @@
 
 :host([data-label-position='outline'][data-appearance='outlined']) .tng-form-field__frame {
   padding: 0 var(--tng-form-field-frame-px, 0.75rem) var(--tng-form-field-frame-py, 0.55rem);
-  border: 1px solid var(--tng-form-field-frame-border, var(--tng-semantic-border-strong, currentColor));
+  border: 1px solid var(--tng-form-field-frame-border);
   border-radius: var(--tng-form-field-frame-radius, 0.65rem);
-  background: var(--tng-form-field-frame-bg, var(--tng-semantic-background-surface, Canvas));
+  background: var(--tng-form-field-frame-bg);
 }
 
 :host([data-label-position='outline'][data-appearance='outlined']) .tng-form-field__label {
@@ -115,14 +115,14 @@
 }
 
 :host([data-focused][data-appearance='outlined']:not([data-label-position='outline'])) .tng-form-field__control-row {
-  border-color: var(--tng-form-field-frame-focus-border, var(--tng-semantic-accent-brand, currentColor));
-  box-shadow: 0 0 0 3px var(--tng-form-field-frame-focus-ring, var(--tng-semantic-focus-ring, transparent));
+  border-color: var(--tng-form-field-frame-focus-border);
+  box-shadow: 0 0 0 3px var(--tng-form-field-frame-focus-ring);
 }
 
 /* Outlined fieldset: focus rides on the border (no outer halo); pad in by 1px so 1px→2px border does not shift content. */
 :host([data-focused][data-appearance='outlined'][data-label-position='outline']) .tng-form-field__frame {
   border-width: 2px;
-  border-color: var(--tng-form-field-frame-focus-border, var(--tng-semantic-accent-brand, currentColor));
+  border-color: var(--tng-form-field-frame-focus-border);
   box-shadow: none;
   padding-inline: calc(var(--tng-form-field-frame-px, 0.75rem) - 1px);
   padding-block-end: calc(var(--tng-form-field-frame-py, 0.55rem) - 1px);
@@ -236,14 +236,14 @@
   gap: var(--tng-form-field-message-gap, 0.25rem);
   min-width: 0;
   min-height: var(--tng-form-field-message-min-height, 1rem);
-  color: var(--tng-form-field-message-fg, var(--tng-semantic-foreground-muted, currentColor));
+  color: var(--tng-form-field-message-fg);
   font-size: var(--tng-form-field-message-font-size, 0.8125rem);
   line-height: 1.35;
 }
 
 :host([data-invalid]) {
-  --tng-form-field-label-fg: var(--tng-semantic-accent-danger, #dc2626);
-  --tng-form-field-message-fg: var(--tng-semantic-accent-danger, #dc2626);
+  --tng-form-field-label-fg: var(--tng-semantic-accent-danger);
+  --tng-form-field-message-fg: var(--tng-semantic-accent-danger);
 }
 
 :host([data-disabled]) {
@@ -251,7 +251,7 @@
 }
 
 .tng-form-field__required-marker {
-  color: var(--tng-form-field-required-marker-fg, var(--tng-semantic-accent-danger, #dc2626));
+  color: var(--tng-form-field-required-marker-fg);
   line-height: 1;
 }
 
