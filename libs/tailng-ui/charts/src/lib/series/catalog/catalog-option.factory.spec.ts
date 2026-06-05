@@ -31,6 +31,16 @@ const discreteVisualMapPreset = defineTngCatalogChartPreset({
   slug: 'discrete-color-heatmap',
 });
 
+const largeScaleLinesPreset = defineTngCatalogChartPreset({
+  category: 'Lines',
+  coordinateSystem: 'cartesian2d',
+  features: ['large'],
+  name: 'Large Scale Lines',
+  selector: 'tng-large-scale-lines-chart',
+  seriesType: 'lines',
+  slug: 'large-scale-lines',
+});
+
 describe('createTngCatalogChartOption', () => {
   it('does not create visualMap for catalog charts without a visualMap feature', () => {
     const option = createTngCatalogChartOption(
@@ -124,6 +134,39 @@ describe('createTngCatalogChartOption', () => {
       max: 5,
       min: 2,
       type: 'piecewise',
+    });
+  });
+
+  it('derives cartesian lines axis extents from source and target coordinates', () => {
+    const option = createTngCatalogChartOption(
+      {
+        data: [
+          { source: [0, 10], target: [100, 50], value: 1 },
+          { source: [20, 80], target: [60, 30], value: 1 },
+        ],
+        sourceField: 'source',
+        targetField: 'target',
+        valueField: 'value',
+      },
+      largeScaleLinesPreset,
+    ) as Readonly<Record<string, unknown>>;
+    const xAxis = option['xAxis'] as Readonly<Record<string, unknown>>;
+    const yAxis = option['yAxis'] as Readonly<Record<string, unknown>>;
+    const series = option['series'] as readonly Readonly<Record<string, unknown>>[];
+
+    expect(xAxis['type']).toBe('value');
+    expect(xAxis['min']).toBeCloseTo(-8);
+    expect(xAxis['max']).toBeCloseTo(108);
+    expect(yAxis['type']).toBe('value');
+    expect(yAxis['min']).toBeCloseTo(4.4);
+    expect(yAxis['max']).toBeCloseTo(85.6);
+    expect(series[0]).toMatchObject({
+      large: true,
+      type: 'lines',
+    });
+    expect((series[0]?.['data'] as readonly unknown[])[0]).toMatchObject({
+      coords: [[0, 10], [100, 50]],
+      value: 1,
     });
   });
 });

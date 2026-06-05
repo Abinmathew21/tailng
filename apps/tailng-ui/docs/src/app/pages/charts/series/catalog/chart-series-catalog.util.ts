@@ -92,6 +92,12 @@ export function buildCatalogDemoData(config: ChartSeriesDocConfig): TngChartData
   }));
 }
 
+function buildCatalogDemoDataCodeRows(config: ChartSeriesDocConfig): readonly string[] {
+  return buildCatalogDemoData(config)
+    .slice(0, 3)
+    .map((row) => `  ${JSON.stringify(row)},`);
+}
+
 export function buildCatalogImportCode(config: ChartSeriesDocConfig): string {
   const data = buildCatalogDemoData(config);
   const sampleRows = data
@@ -155,9 +161,7 @@ export function buildCatalogOverviewPlainCodeTabs(config: ChartSeriesDocConfig) 
       `import { ${config.importName}, type TngChartData } from '@tailng-ui/charts';`,
       '',
       'const data: TngChartData = [',
-      "  { label: 'Jan', value: 42 },",
-      "  { label: 'Feb', value: 58 },",
-      "  { label: 'Mar', value: 64 },",
+      ...buildCatalogDemoDataCodeRows(config),
       '];',
       '',
       '@Component({',
@@ -194,9 +198,7 @@ export function buildCatalogOverviewTailwindCodeTabs(config: ChartSeriesDocConfi
       `import { ${config.importName}, type TngChartData } from '@tailng-ui/charts';`,
       '',
       'const data: TngChartData = [',
-      "  { label: 'Jan', value: 42 },",
-      "  { label: 'Feb', value: 58 },",
-      "  { label: 'Mar', value: 64 },",
+      ...buildCatalogDemoDataCodeRows(config),
       '];',
       '',
       '@Component({',
@@ -238,9 +240,7 @@ export function buildCatalogExamplePresetCodeTabs(
       `import { ${config.importName}, type TngChartData } from '@tailng-ui/charts';`,
       '',
       'const data: TngChartData = [',
-      "  { label: 'Jan', value: 42 },",
-      "  { label: 'Feb', value: 58 },",
-      "  { label: 'Mar', value: 64 },",
+      ...buildCatalogDemoDataCodeRows(config),
       '];',
       '',
       '@Component({',

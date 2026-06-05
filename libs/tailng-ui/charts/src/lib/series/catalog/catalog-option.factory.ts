@@ -87,6 +87,24 @@ function createAxisOption(
       };
 }
 
+function createValueAxisOption(
+  values: readonly number[],
+): Readonly<Record<string, unknown>> {
+  if (values.length === 0) {
+    return createAxisOption('value');
+  }
+
+  const range = createValueRange(values);
+  const span = range.max - range.min;
+  const padding = span === 0 ? Math.max(Math.abs(range.max) * 0.1, 1) : span * 0.08;
+
+  return {
+    max: range.max + padding,
+    min: range.min - padding,
+    type: 'value',
+  };
+}
+
 function createValueRange(values: readonly number[]): Readonly<{ max: number; min: number }> {
   if (values.length === 0) {
     return { max: 0, min: 0 };
@@ -114,6 +132,57 @@ function resolveCartesianGridBottom(
   }
 
   return hasLegend ? 72 : 24;
+}
+
+function toFiniteNumber(value: unknown): number | null {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : null;
+  }
+
+  if (typeof value === 'string' && value.trim().length > 0) {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  return null;
+}
+
+function readCoordinatePair(value: unknown): readonly [number, number] | null {
+  if (!Array.isArray(value)) {
+    return null;
+  }
+
+  const x = toFiniteNumber(value[0]);
+  const y = toFiniteNumber(value[1]);
+
+  return x === null || y === null ? null : [x, y];
+}
+
+function createLinesCartesianAxes(input: TngCatalogChartOptionInput): TngOptionRecord {
+  const sourceField = resolveInputField(input.sourceField, DEFAULT_SOURCE_FIELD);
+  const targetField = resolveInputField(input.targetField, DEFAULT_TARGET_FIELD);
+  const xValues: number[] = [];
+  const yValues: number[] = [];
+
+  for (const datum of input.data) {
+    const source = readCoordinatePair(getTngChartFieldValue(datum, sourceField));
+    const target = readCoordinatePair(getTngChartFieldValue(datum, targetField));
+
+    if (source !== null) {
+      xValues.push(source[0]);
+      yValues.push(source[1]);
+    }
+
+    if (target !== null) {
+      xValues.push(target[0]);
+      yValues.push(target[1]);
+    }
+  }
+
+  return {
+    xAxis: createValueAxisOption(xValues),
+    yAxis: createValueAxisOption(yValues),
+  };
 }
 
 function createVisualMapOption(
@@ -151,7 +220,7 @@ function createCartesianOption(
 
   // Lines series on a cartesian coordinate system use value axes, not category.
   if (preset.seriesType === 'lines') {
-    return { grid, xAxis: createAxisOption('value'), yAxis: createAxisOption('value') };
+    return { grid, ...createLinesCartesianAxes(input) };
   }
 
   const xField = resolveInputField(input.xField, DEFAULT_X_FIELD);

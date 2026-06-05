@@ -47,6 +47,97 @@
       </app-docs-example-tabs-section>
     </section>
 
+    <section id="style-variants" class="docs-section-anchor label-examples-block">
+      <app-docs-example-tabs-section
+        heading="Styled labels"
+        description="Style projected label text when a form needs stronger hierarchy, compact metadata, or a different visual tone."
+        ariaLabel="Styled label examples"
+        tabListAriaLabel="Styled label variants"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Styled labels (Plain-CSS)"
+          [codeTabs]="stylePlainCssCodeTabs"
+          [stackblitzUrl]="stackblitzVanillaUrl"
+        >
+          <section class="doc-cmp-label-style-card">
+            <div class="doc-cmp-label-style-card__field">
+              <tng-label forId="doc-cmp-label-style-display" [required]="true">
+                <span class="doc-cmp-label-style-card__label doc-cmp-label-style-card__label--display">
+                  Release owner
+                </span>
+              </tng-label>
+              <tng-input [id]="'doc-cmp-label-style-display'" type="text" placeholder="Avery Stone"></tng-input>
+            </div>
+            <div class="doc-cmp-label-style-card__field">
+              <tng-label forId="doc-cmp-label-style-mono">
+                <span class="doc-cmp-label-style-card__label doc-cmp-label-style-card__label--mono">
+                  Environment key
+                </span>
+              </tng-label>
+              <tng-input [id]="'doc-cmp-label-style-mono'" type="text" placeholder="prod-eu-west"></tng-input>
+            </div>
+            <div class="doc-cmp-label-style-card__field">
+              <tng-label forId="doc-cmp-label-style-strong">
+                <span class="doc-cmp-label-style-card__label doc-cmp-label-style-card__label--strong">
+                  Approval threshold
+                </span>
+              </tng-label>
+              <tng-input [id]="'doc-cmp-label-style-strong'" type="text" placeholder="2 reviewers"></tng-input>
+            </div>
+            <div class="doc-cmp-label-style-card__field">
+              <tng-label forId="doc-cmp-label-style-muted">
+                <span class="doc-cmp-label-style-card__label doc-cmp-label-style-card__label--muted">
+                  Internal note
+                </span>
+              </tng-label>
+              <tng-input [id]="'doc-cmp-label-style-muted'" type="text" placeholder="Optional context"></tng-input>
+            </div>
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Styled labels (Tailwind CSS)"
+          [codeTabs]="styleTailwindCodeTabs"
+          [stackblitzUrl]="stackblitzTailwindUrl"
+        >
+          <section class="grid w-full max-w-[34rem] gap-4 rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[var(--tng-semantic-background-surface)] p-4 text-[var(--tng-semantic-foreground-primary)] shadow-sm">
+            <div class="grid gap-2 [--tng-semantic-accent-danger:#dc2626]">
+              <tng-label forId="doc-cmp-label-style-tailwind-display" [required]="true">
+                <span class="font-serif text-base font-bold text-blue-700">Release owner</span>
+              </tng-label>
+              <tng-input [id]="'doc-cmp-label-style-tailwind-display'" type="text" placeholder="Avery Stone"></tng-input>
+            </div>
+            <div class="grid gap-2">
+              <tng-label forId="doc-cmp-label-style-tailwind-mono">
+                <span class="font-mono text-xs font-bold uppercase text-slate-600">Environment key</span>
+              </tng-label>
+              <tng-input [id]="'doc-cmp-label-style-tailwind-mono'" type="text" placeholder="prod-eu-west"></tng-input>
+            </div>
+            <div class="grid gap-2">
+              <tng-label forId="doc-cmp-label-style-tailwind-strong">
+                <span class="text-sm font-extrabold text-emerald-700">Approval threshold</span>
+              </tng-label>
+              <tng-input [id]="'doc-cmp-label-style-tailwind-strong'" type="text" placeholder="2 reviewers"></tng-input>
+            </div>
+            <div class="grid gap-2">
+              <tng-label forId="doc-cmp-label-style-tailwind-muted">
+                <span class="text-xs font-medium text-[var(--tng-semantic-foreground-secondary)]">Internal note</span>
+              </tng-label>
+              <tng-input [id]="'doc-cmp-label-style-tailwind-muted'" type="text" placeholder="Optional context"></tng-input>
+            </div>
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+    </section>
+
     <section id="association-patterns" class="docs-section-anchor label-examples-block">
       <app-docs-example-tabs-section
         heading="Association patterns"

@@ -41,3 +41,60 @@
 .doc-cmp-label-examples-card__field--meta tng-label {
   --tng-semantic-foreground-primary: var(--tng-semantic-foreground-secondary);
 }
+
+.doc-cmp-label-style-card {
+  display: grid;
+  gap: 1rem;
+  inline-size: min(100%, 34rem);
+  margin-inline: auto;
+  padding: 1rem;
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  background: var(--tng-semantic-background-surface);
+  color: var(--tng-semantic-foreground-primary);
+}
+
+.doc-cmp-label-style-card__field {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.doc-cmp-label-style-card__field:first-child tng-label {
+  --tng-semantic-accent-danger: #dc2626;
+}
+
+.doc-cmp-label-style-card__label {
+  display: inline-flex;
+  line-height: 1.25;
+}
+
+.doc-cmp-label-style-card__label--display {
+  color: #1d4ed8;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.doc-cmp-label-style-card__label--mono {
+  color: #475569;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.doc-cmp-label-style-card__label--strong {
+  color: #047857;
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+.doc-cmp-label-style-card__label--muted {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.doc-cmp-label-style-card tng-input {
+  inline-size: 100%;
+}
