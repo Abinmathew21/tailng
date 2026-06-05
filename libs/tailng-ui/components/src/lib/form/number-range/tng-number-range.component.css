@@ -56,7 +56,7 @@
 
 :host([data-disabled]) {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: var(--tng-disabled-opacity, 0.55);
 }
 
 :host([data-readonly]) {

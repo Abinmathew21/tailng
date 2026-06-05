@@ -84,23 +84,23 @@ tng-multiselect [data-slot='select-icon'] {
 }
 
 [data-slot='multi-select-option']:hover:not([data-disabled]) {
-  background: var(--tng-select-option-bg-active, color-mix(in srgb, var(--tng-select-brand, #3b82f6) 10%, transparent));
+  background: var(--tng-select-option-bg-active, color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 10%, transparent));
   border-color: var(--tng-select-option-border-active, transparent);
 }
 
 [data-slot='multi-select-option'][data-active] {
-  background: var(--tng-select-option-bg-active, color-mix(in srgb, var(--tng-select-brand, #3b82f6) 14%, transparent));
-  border-color: var(--tng-select-option-border-active, color-mix(in srgb, var(--tng-select-brand, #3b82f6) 32%, transparent));
+  background: var(--tng-select-option-bg-active, color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 14%, transparent));
+  border-color: var(--tng-select-option-border-active, color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 32%, transparent));
 }
 
 [data-slot='multi-select-option'][data-selected] {
   background: var(
     --tng-select-option-bg-selected,
-    color-mix(in srgb, var(--tng-select-brand, #3b82f6) 18%, transparent)
+    color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 18%, transparent)
   );
   border-color: var(
     --tng-select-option-border-selected,
-    color-mix(in srgb, var(--tng-select-brand, #3b82f6) 38%, var(--tng-select-border, #e2e8f0))
+    color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 38%, var(--tng-select-border, var(--tng-semantic-border-subtle)))
   );
   color: var(--tng-select-option-fg-selected, var(--tng-select-fg, inherit));
 }
@@ -108,15 +108,15 @@ tng-multiselect [data-slot='select-icon'] {
 [data-slot='multi-select-option'][data-selected][data-active] {
   background: var(
     --tng-select-option-bg-selected-active,
-    color-mix(in srgb, var(--tng-select-brand, #3b82f6) 24%, transparent)
+    color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 24%, transparent)
   );
   border-color: var(
     --tng-select-option-border-selected-active,
-    color-mix(in srgb, var(--tng-select-brand, #3b82f6) 54%, var(--tng-select-border, #e2e8f0))
+    color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 54%, var(--tng-select-border, var(--tng-semantic-border-subtle)))
   );
   box-shadow: var(
     --tng-select-option-shadow-selected-active,
-    0 0 0 1px color-mix(in srgb, var(--tng-select-brand, #3b82f6) 12%, transparent)
+    0 0 0 1px color-mix(in srgb, var(--tng-select-brand, var(--tng-semantic-accent-brand)) 12%, transparent)
   );
 }
 
@@ -126,7 +126,7 @@ tng-multiselect [data-slot='select-icon'] {
 }
 
 tng-multiselect[data-disabled] [data-slot='select-trigger'] {
-  opacity: 0.5;
+  opacity: var(--tng-disabled-opacity, 0.55);
   cursor: not-allowed;
   pointer-events: none;
 }

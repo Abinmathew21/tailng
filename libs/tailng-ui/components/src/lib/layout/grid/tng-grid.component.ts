@@ -92,7 +92,7 @@ export class TngGridRowComponent {}
 
     :host([data-disabled]) {
       cursor: not-allowed;
-      opacity: 0.55;
+      opacity: var(--tng-disabled-opacity, 0.55);
     }
 
     :host([role='columnheader']),

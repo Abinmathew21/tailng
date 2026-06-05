@@ -1,0 +1,10 @@
+@layer tng.contracts {
+  :where(tng-toast, [tngToast]) {
+    --tng-toast-radius:              var(--tng-radius-panel);
+    --tng-toast-title-font-size:     var(--tng-text-body);
+    --tng-toast-title-font-weight:   var(--tng-font-weight-semibold);
+    --tng-toast-message-font-size:   var(--tng-text-sm);
+    --tng-toast-action-font-size:    var(--tng-text-sm);
+    --tng-toast-focus-ring:          var(--tng-focus-ring);
+  }
+}

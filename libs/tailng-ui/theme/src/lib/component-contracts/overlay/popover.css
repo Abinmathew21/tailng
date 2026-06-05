@@ -1,0 +1,6 @@
+@layer tng.contracts {
+  :where(tng-popover, [tngPopover]) {
+    --tng-popover-radius:     var(--tng-radius-panel);
+    --tng-popover-focus-ring: var(--tng-focus-ring);
+  }
+}

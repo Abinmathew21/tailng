@@ -1,0 +1,73 @@
+@layer tng.contracts {
+  /**
+   * Shared control tokens
+   * ---------------------
+   * Cross-cutting design tokens consumed by all component contracts.
+   * Defines the shared vocabulary for radius, sizing, typography, focus,
+   * disabled states, and transitions — so every component feels like it
+   * belongs to the same family.
+   *
+   * Override any of these on :root or [data-theme] to retheme the whole library at once.
+   */
+  :root,
+  [data-theme] {
+    /* --- Radius ---
+     * Four semantic levels that map to the primitive radius scale.
+     * Components reference these instead of raw rem values.
+     */
+    --tng-radius-control: var(--tng-radius-sm, 0.5rem);   /* inputs, selects, buttons, tooltips */
+    --tng-radius-panel:   var(--tng-radius-md, 0.75rem);  /* menus, accordions, tabs, popovers */
+    --tng-radius-surface: var(--tng-radius-lg, 1rem);     /* cards, dialogs, bottom-sheets */
+    --tng-radius-item:    var(--tng-radius-xs, 0.25rem);  /* list rows, option items inside panels */
+
+    /* --- Control Heights ---
+     * All interactive controls (button, input, select, menu trigger, etc.)
+     * align to this three-step scale.
+     */
+    --tng-control-height-sm: 2rem;
+    --tng-control-height-md: 2.5rem;
+    --tng-control-height-lg: 3rem;
+
+    /* --- Typography ---
+     * Font sizes for UI controls. Maps to the primitive type scale where possible.
+     */
+    --tng-text-xs:    0.75rem;    /* tooltip content, menu group labels, tiny annotations */
+    --tng-text-sm:    0.8125rem;  /* hints, captions, toast messages, helper text */
+    --tng-text-body:  0.875rem;   /* standard control text (button, input, label, menu item) */
+    --tng-text-lg:    1rem;       /* section headings, card titles */
+    --tng-text-xl:    1.1rem;     /* dialog titles */
+
+    --tng-font-weight-normal:   400;
+    --tng-font-weight-medium:   500;
+    --tng-font-weight-semibold: 600;
+    --tng-font-weight-bold:     700;
+
+    /* --- Focus Ring ---
+     * Single unified approach: box-shadow ring, no outline shift.
+     * Apply via: box-shadow: var(--tng-focus-ring); outline: none;
+     */
+    --tng-focus-ring-width: 3px;
+    --tng-focus-ring-color: var(--tng-semantic-focus-ring);
+    --tng-focus-ring: 0 0 0 var(--tng-focus-ring-width) var(--tng-focus-ring-color);
+
+    /* --- States --- */
+    --tng-disabled-opacity: 0.55;
+
+    /* --- Transitions ---
+     * Two speeds: fast for color/bg changes, normal for border/shadow changes.
+     */
+    --tng-duration-fast:   120ms;
+    --tng-duration-normal: 150ms;
+    --tng-easing:          ease;
+
+    --tng-transition-colors:
+      background-color var(--tng-duration-fast)   var(--tng-easing),
+      border-color     var(--tng-duration-fast)   var(--tng-easing),
+      color            var(--tng-duration-fast)   var(--tng-easing),
+      opacity          var(--tng-duration-fast)   var(--tng-easing);
+
+    --tng-transition-interactive:
+      border-color var(--tng-duration-normal) var(--tng-easing),
+      box-shadow   var(--tng-duration-normal) var(--tng-easing);
+  }
+}

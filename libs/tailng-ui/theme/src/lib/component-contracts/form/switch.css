@@ -1,0 +1,9 @@
+@layer tng.contracts {
+  :where(tng-switch, [tngSwitch]) {
+    --tng-switch-font-size:         var(--tng-text-body);
+    --tng-switch-focus-ring:        var(--tng-focus-ring);
+    --tng-switch-disabled-opacity:  var(--tng-disabled-opacity);
+    --tng-switch-duration:          var(--tng-duration-normal);
+    --tng-switch-easing:            var(--tng-easing);
+  }
+}

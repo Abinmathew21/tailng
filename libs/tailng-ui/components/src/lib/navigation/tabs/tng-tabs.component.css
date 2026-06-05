@@ -5,7 +5,7 @@
 .tng-tabs {
   background: var(--tng-semantic-background-base);
   border: 1px solid var(--tng-semantic-border-subtle);
-  border-radius: 0.75rem;
+  border-radius: var(--tng-tabs-radius, var(--tng-radius-panel, 0.75rem));
   color: var(--tng-semantic-foreground-primary);
   display: grid;
   gap: 0.5rem;

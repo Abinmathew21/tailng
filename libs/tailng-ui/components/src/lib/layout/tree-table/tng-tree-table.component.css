@@ -9,7 +9,7 @@
 
 .tng-tree-table__root {
   border: 1px solid var(--tng-tree-table-border, var(--tng-semantic-border-subtle));
-  border-radius: var(--tng-tree-table-radius, 0.65rem);
+  border-radius: var(--tng-tree-table-radius, var(--tng-radius-panel, 0.75rem));
   background: var(--tng-semantic-background-surface);
   box-sizing: border-box;
   max-width: 100%;
@@ -108,8 +108,9 @@
 }
 
 .tng-tree-table__row:focus-visible {
-  outline: 2px solid var(--tng-semantic-focus-ring);
-  outline-offset: -2px;
+  /* inset ring so it doesn't shift layout; outline: none prevents double ring */
+  box-shadow: inset 0 0 0 2px var(--tng-focus-ring-color, var(--tng-semantic-focus-ring));
+  outline: none;
 }
 
 .tng-tree-table__row[data-selected] .tng-tree-table__cell {
@@ -125,7 +126,7 @@
 
 .tng-tree-table__row[data-disabled] {
   cursor: not-allowed;
-  opacity: 0.45;
+  opacity: var(--tng-disabled-opacity, 0.55);
   pointer-events: none;
 }
 
@@ -170,7 +171,7 @@
 }
 
 .tng-tree-table__toggle:focus-visible {
-  box-shadow: 0 0 0 2px var(--tng-semantic-focus-ring);
+  box-shadow: var(--tng-focus-ring, 0 0 0 3px var(--tng-semantic-focus-ring));
   outline: none;
 }
 

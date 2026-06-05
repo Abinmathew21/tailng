@@ -1,0 +1,5 @@
+@layer tng.contracts {
+  :where(tng-accordion, [tngAccordion]) {
+    --tng-accordion-radius: var(--tng-radius-panel);
+  }
+}

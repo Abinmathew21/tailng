@@ -5,7 +5,7 @@
 .tng-card {
   background: var(--tng-semantic-background-surface);
   border: 1px solid var(--tng-semantic-border-strong);
-  border-radius: 1rem;
+  border-radius: var(--tng-card-radius, var(--tng-radius-surface, 1rem));
   color: var(--tng-semantic-foreground-primary);
   display: grid;
   gap: 1rem;
@@ -34,7 +34,7 @@
 }
 
 .tng-card[data-interactive] {
-  transition: border-color 160ms ease, box-shadow 160ms ease;
+  transition: var(--tng-card-transition, var(--tng-transition-interactive, border-color 150ms ease, box-shadow 150ms ease));
 }
 
 .tng-card[data-interactive]:focus-within,
@@ -55,19 +55,19 @@
 }
 
 .tng-card[data-tone='success'] {
-  border-color: color-mix(in srgb, #16a34a 40%, var(--tng-semantic-border-strong));
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-success) 40%, var(--tng-semantic-border-strong));
 }
 
 .tng-card[data-tone='warning'] {
-  border-color: color-mix(in srgb, #d97706 45%, var(--tng-semantic-border-strong));
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-warning) 45%, var(--tng-semantic-border-strong));
 }
 
 .tng-card[data-tone='danger'] {
-  border-color: color-mix(in srgb, #dc2626 45%, var(--tng-semantic-border-strong));
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-danger) 45%, var(--tng-semantic-border-strong));
 }
 
 .tng-card[data-tone='info'] {
-  border-color: color-mix(in srgb, #0284c7 45%, var(--tng-semantic-border-strong));
+  border-color: color-mix(in srgb, var(--tng-semantic-accent-brand) 45%, var(--tng-semantic-border-strong));
 }
 
 .tng-card-header {
@@ -76,15 +76,15 @@
 }
 
 .tng-card-title {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: var(--tng-card-title-font-size, var(--tng-text-lg, 1rem));
+  font-weight: var(--tng-card-title-font-weight, var(--tng-font-weight-semibold, 600));
   line-height: 1.3;
   margin: 0;
 }
 
 .tng-card-description {
   color: var(--tng-semantic-foreground-muted);
-  font-size: 0.9rem;
+  font-size: var(--tng-card-desc-font-size, var(--tng-text-body, 0.875rem));
   line-height: 1.4;
   margin: 0;
 }
@@ -103,7 +103,7 @@
 }
 
 .tng-card-media {
-  border-radius: 0.75rem;
+  border-radius: var(--tng-radius-panel, 0.75rem);
   display: block;
   overflow: hidden;
 }
@@ -143,11 +143,11 @@
 }
 
 .tng-card-link:focus-visible {
-  outline: 2px solid var(--tng-semantic-accent-brand);
-  outline-offset: 2px;
+  box-shadow: var(--tng-card-focus-ring, var(--tng-focus-ring, 0 0 0 3px var(--tng-semantic-focus-ring)));
+  outline: none;
 }
 
 .tng-card-link[aria-disabled='true'] {
   cursor: default;
-  opacity: 0.65;
+  opacity: var(--tng-card-disabled-opacity, var(--tng-disabled-opacity, 0.55));
 }

@@ -47,16 +47,16 @@ export type TngStepperStep = Readonly<{
     :host {
       background: var(--tng-semantic-background-surface);
       border: 1px solid var(--tng-semantic-border-subtle);
-      border-radius: 0.65rem;
+      border-radius: var(--tng-radius-panel, 0.75rem);
       color: var(--tng-semantic-foreground-primary);
       counter-increment: tng-stepper-item;
       display: block;
-      min-height: 2.5rem;
+      min-height: var(--tng-control-height-md, 2.5rem);
       transition:
-        background-color 160ms ease,
-        border-color 160ms ease,
-        color 160ms ease,
-        opacity 160ms ease;
+        background-color var(--tng-duration-normal, 150ms) var(--tng-easing, ease),
+        border-color     var(--tng-duration-normal, 150ms) var(--tng-easing, ease),
+        color            var(--tng-duration-normal, 150ms) var(--tng-easing, ease),
+        opacity          var(--tng-duration-normal, 150ms) var(--tng-easing, ease);
     }
 
     :host([data-state='current']) {
@@ -75,7 +75,7 @@ export type TngStepperStep = Readonly<{
     }
 
     :host([data-state='disabled']) {
-      opacity: 0.55;
+      opacity: var(--tng-disabled-opacity, 0.55);
     }
 
     .tng-stepper__trigger {
@@ -87,7 +87,7 @@ export type TngStepperStep = Readonly<{
       display: flex;
       font: inherit;
       gap: 0.65rem;
-      min-height: 2.5rem;
+      min-height: var(--tng-control-height-md, 2.5rem);
       padding: 0.55rem 0.75rem;
       text-align: start;
       width: 100%;
@@ -99,8 +99,8 @@ export type TngStepperStep = Readonly<{
 
     .tng-stepper__trigger:focus-visible {
       border-radius: 0.55rem;
-      outline: 2px solid var(--tng-semantic-accent-brand);
-      outline-offset: 2px;
+      box-shadow: var(--tng-focus-ring, 0 0 0 3px var(--tng-semantic-focus-ring));
+      outline: none;
     }
 
     .tng-stepper__marker {
@@ -154,7 +154,7 @@ export type TngStepperStep = Readonly<{
 
     .tng-stepper__description {
       color: var(--tng-semantic-foreground-secondary);
-      font-size: 0.82rem;
+      font-size: var(--tng-text-sm, 0.8125rem);
       line-height: 1.35;
     }
   `,

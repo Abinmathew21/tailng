@@ -247,7 +247,7 @@
 }
 
 :host([data-disabled]) {
-  opacity: 0.62;
+  opacity: var(--tng-disabled-opacity, 0.55);
 }
 
 .tng-form-field__required-marker {

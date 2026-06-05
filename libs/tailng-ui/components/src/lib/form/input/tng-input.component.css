@@ -114,7 +114,7 @@
 
 .tng-input-number-button:disabled {
   cursor: not-allowed;
-  opacity: 0.45;
+  opacity: var(--tng-disabled-opacity, 0.55);
 }
 
 .tng-input-number-button:first-child .tng-input-number-icon {

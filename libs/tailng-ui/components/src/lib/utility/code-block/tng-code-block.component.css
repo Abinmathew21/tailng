@@ -84,7 +84,7 @@
 .tng-code-block__copy-button:disabled,
 .tng-code-block__copy-button[data-copy-disabled] {
   cursor: not-allowed;
-  opacity: 0.55;
+  opacity: var(--tng-disabled-opacity, 0.55);
 }
 
 .tng-code-block__body {

@@ -1,0 +1,9 @@
+@layer tng.contracts {
+  :where(tng-tag, [tngTag]) {
+    --tng-tag-radius:           var(--tng-radius-control);
+    --tng-tag-font-size:        var(--tng-text-xs);
+    --tng-tag-font-weight:      var(--tng-font-weight-semibold);
+    --tng-tag-focus-ring:       var(--tng-focus-ring);
+    --tng-tag-disabled-opacity: var(--tng-disabled-opacity);
+  }
+}

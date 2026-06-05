@@ -6,8 +6,8 @@
   align-items: center;
   border: 1px solid transparent;
   display: inline-flex;
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: var(--tng-tag-font-size, var(--tng-text-xs, 0.75rem));
+  font-weight: var(--tng-tag-font-weight, var(--tng-font-weight-semibold, 600));
   gap: 0.3rem;
   line-height: 1;
   min-height: 1.55rem;
@@ -15,19 +15,19 @@
 }
 
 .tng-tag[data-size='sm'] {
-  font-size: 0.72rem;
+  font-size: var(--tng-tag-font-size-sm, var(--tng-text-xs, 0.75rem));
   min-height: 1.35rem;
   padding: 0 0.45rem;
 }
 
 .tng-tag[data-size='md'] {
-  font-size: 0.78rem;
+  font-size: var(--tng-tag-font-size, var(--tng-text-xs, 0.75rem));
   min-height: 1.55rem;
   padding: 0 0.55rem;
 }
 
 .tng-tag[data-disabled] {
-  opacity: 0.62;
+  opacity: var(--tng-tag-disabled-opacity, var(--tng-disabled-opacity, 0.55));
 }
 
 .tng-tag__content {
@@ -60,7 +60,7 @@
 }
 
 .tng-tag__close:focus-visible {
-  box-shadow: 0 0 0 2px var(--tng-semantic-focus-ring);
+  box-shadow: var(--tng-tag-focus-ring, var(--tng-focus-ring, 0 0 0 3px var(--tng-semantic-focus-ring)));
   outline: none;
 }
 
@@ -78,7 +78,7 @@
 }
 
 .tng-tag[data-shape='rounded'] {
-  border-radius: 0.5rem;
+  border-radius: var(--tng-tag-radius, var(--tng-radius-control, 0.5rem));
 }
 
 .tng-tag[data-appearance='solid'][data-tone='neutral'] {

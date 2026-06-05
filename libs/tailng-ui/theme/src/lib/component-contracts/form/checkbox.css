@@ -1,0 +1,7 @@
+@layer tng.contracts {
+  :where(tng-checkbox, [tngCheckbox]) {
+    --tng-checkbox-font-size:         var(--tng-text-body);
+    --tng-checkbox-focus-ring:        var(--tng-focus-ring);
+    --tng-checkbox-disabled-opacity:  var(--tng-disabled-opacity);
+  }
+}

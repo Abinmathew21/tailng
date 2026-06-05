@@ -1,0 +1,11 @@
+@layer tng.contracts {
+  :where(tng-card, [tngCard]) {
+    --tng-card-radius:            var(--tng-radius-surface);
+    --tng-card-title-font-size:   var(--tng-text-lg);
+    --tng-card-title-font-weight: var(--tng-font-weight-semibold);
+    --tng-card-desc-font-size:    var(--tng-text-body);
+    --tng-card-focus-ring:        var(--tng-focus-ring);
+    --tng-card-disabled-opacity:  var(--tng-disabled-opacity);
+    --tng-card-transition:        var(--tng-transition-interactive);
+  }
+}

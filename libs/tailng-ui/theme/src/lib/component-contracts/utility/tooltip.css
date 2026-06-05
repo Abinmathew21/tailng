@@ -1,0 +1,8 @@
+@layer tng.contracts {
+  :where(tng-tooltip, [tngTooltip]) {
+    --tng-tooltip-radius:           var(--tng-radius-control);
+    --tng-tooltip-trigger-height:   var(--tng-control-height-sm);
+    --tng-tooltip-font-size:        var(--tng-text-xs);
+    --tng-tooltip-focus-ring:       var(--tng-focus-ring);
+  }
+}

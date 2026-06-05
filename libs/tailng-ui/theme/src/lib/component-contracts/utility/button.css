@@ -1,0 +1,13 @@
+@layer tng.contracts {
+  :where(tng-button, [tngButton]) {
+    --tng-button-radius:            var(--tng-radius-control);
+    --tng-button-height-sm:         var(--tng-control-height-sm);
+    --tng-button-height-md:         var(--tng-control-height-md);
+    --tng-button-height-lg:         var(--tng-control-height-lg);
+    --tng-button-font-size:         var(--tng-text-body);
+    --tng-button-font-weight:       var(--tng-font-weight-semibold);
+    --tng-button-focus-ring:        var(--tng-focus-ring);
+    --tng-button-disabled-opacity:  var(--tng-disabled-opacity);
+    --tng-button-transition:        var(--tng-transition-colors);
+  }
+}

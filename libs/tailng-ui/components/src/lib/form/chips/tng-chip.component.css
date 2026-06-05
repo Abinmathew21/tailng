@@ -26,7 +26,7 @@
 
 .tng-chip[data-disabled] {
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: var(--tng-disabled-opacity, 0.55);
 }
 
 .tng-chip-label {
@@ -69,5 +69,5 @@
 .tng-chip-remove:disabled,
 .tng-chip-remove[data-disabled] {
   cursor: not-allowed;
-  opacity: 0.55;
+  opacity: var(--tng-disabled-opacity, 0.55);
 }

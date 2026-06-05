@@ -55,11 +55,11 @@ tng-context-menu [data-slot='menu-item']:hover:not([aria-disabled='true']),
 tng-context-menu [data-slot='menu-item']:focus-visible:not([aria-disabled='true']) {
   background: var(
     --tng-menu-item-bg-hover,
-    color-mix(in srgb, var(--tng-menu-brand, #3b82f6) 13%, var(--tng-menu-surface-muted, #f8fafc))
+    color-mix(in srgb, var(--tng-menu-brand, var(--tng-semantic-accent-brand)) 13%, var(--tng-menu-surface-muted, var(--tng-semantic-background-muted)))
   );
   box-shadow: var(
     --tng-menu-item-shadow-hover,
-    inset 0 0 0 1px color-mix(in srgb, var(--tng-menu-brand, #3b82f6) 14%, transparent)
+    inset 0 0 0 1px color-mix(in srgb, var(--tng-menu-brand, var(--tng-semantic-accent-brand)) 14%, transparent)
   );
   outline: none;
 }
@@ -69,15 +69,15 @@ tng-context-menu [data-slot='menu-item'][aria-expanded='true'],
 tng-context-menu [data-slot='menu-item'][aria-checked='true'] {
   background: var(
     --tng-menu-item-bg-active,
-    color-mix(in srgb, var(--tng-menu-brand, #3b82f6) 17%, var(--tng-menu-surface-muted, #f8fafc))
+    color-mix(in srgb, var(--tng-menu-brand, var(--tng-semantic-accent-brand)) 17%, var(--tng-menu-surface-muted, var(--tng-semantic-background-muted)))
   );
   box-shadow: var(
     --tng-menu-item-shadow-active,
-    inset 0 0 0 1px color-mix(in srgb, var(--tng-menu-brand, #3b82f6) 18%, transparent)
+    inset 0 0 0 1px color-mix(in srgb, var(--tng-menu-brand, var(--tng-semantic-accent-brand)) 18%, transparent)
   );
   color: var(
     --tng-menu-item-fg-active,
-    color-mix(in srgb, var(--tng-menu-brand, #3b82f6) 82%, var(--tng-menu-fg, currentColor))
+    color-mix(in srgb, var(--tng-menu-brand, var(--tng-semantic-accent-brand)) 82%, var(--tng-menu-fg, var(--tng-semantic-foreground-primary, currentColor)))
   );
   font-weight: var(--tng-menu-item-font-weight-active, 600);
 }

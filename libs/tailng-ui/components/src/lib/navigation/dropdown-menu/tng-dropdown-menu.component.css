@@ -26,8 +26,8 @@
 }
 
 .tng-dropdown-menu__trigger:focus-visible {
-  outline: 2px solid var(--tng-semantic-focus-ring);
-  outline-offset: 1px;
+  box-shadow: var(--tng-focus-ring, 0 0 0 3px var(--tng-semantic-focus-ring));
+  outline: none;
 }
 
 .tng-dropdown-menu__panel {

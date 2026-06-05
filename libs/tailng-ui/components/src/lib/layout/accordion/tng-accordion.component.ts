@@ -137,7 +137,7 @@ export class TngAccordionIndicator {
 
     :host([data-disabled='true']) {
       cursor: not-allowed;
-      opacity: 0.55;
+      opacity: var(--tng-disabled-opacity, 0.55);
     }
 
     :host:hover:not([data-disabled='true']) {

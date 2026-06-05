@@ -13,7 +13,7 @@
 
 .tng-checkbox-root[data-disabled] {
   cursor: not-allowed;
-  opacity: 0.65;
+  opacity: var(--tng-checkbox-disabled-opacity, var(--tng-disabled-opacity, 0.55));
 }
 
 .tng-checkbox-root[data-readonly] {
@@ -28,7 +28,7 @@
 }
 
 .tng-checkbox-control:focus-visible {
-  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
+  box-shadow: var(--tng-checkbox-focus-ring, var(--tng-focus-ring, 0 0 0 3px var(--tng-semantic-focus-ring)));
   outline: none;
 }
 
@@ -37,6 +37,6 @@
 }
 
 .tng-checkbox-label {
-  font-size: 0.925rem;
+  font-size: var(--tng-checkbox-font-size, var(--tng-text-body, 0.875rem));
   line-height: 1.2;
 }

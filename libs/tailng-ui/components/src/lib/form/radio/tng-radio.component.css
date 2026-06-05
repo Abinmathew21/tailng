@@ -13,7 +13,7 @@
 
 .tng-radio-root[data-disabled] {
   cursor: not-allowed;
-  opacity: 0.65;
+  opacity: var(--tng-disabled-opacity, 0.55);
 }
 
 .tng-radio-root[data-readonly] {

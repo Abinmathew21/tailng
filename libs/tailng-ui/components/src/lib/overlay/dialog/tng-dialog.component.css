@@ -16,7 +16,7 @@
 .tng-dialog-panel {
   background: var(--tng-semantic-background-surface);
   border: 1px solid var(--tng-semantic-border-strong);
-  border-radius: 1rem;
+  border-radius: var(--tng-dialog-radius, var(--tng-radius-surface, 1rem));
   box-shadow: 0 20px 45px color-mix(in srgb, var(--tng-semantic-foreground-primary) 35%, transparent);
   color: var(--tng-semantic-foreground-primary);
   display: grid;
@@ -48,15 +48,15 @@
 }
 
 .tng-dialog-title {
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-size: var(--tng-dialog-title-font-size, var(--tng-text-xl, 1.1rem));
+  font-weight: var(--tng-dialog-title-font-weight, var(--tng-font-weight-semibold, 600));
   line-height: 1.3;
   margin: 0;
 }
 
 .tng-dialog-description {
   color: var(--tng-semantic-foreground-muted);
-  font-size: 0.92rem;
+  font-size: var(--tng-dialog-desc-font-size, var(--tng-text-body, 0.875rem));
   line-height: 1.4;
   margin: 0;
 }
@@ -79,7 +79,7 @@
 }
 
 .tng-dialog-close:focus-visible {
-  box-shadow: 0 0 0 3px var(--tng-semantic-focus-ring);
+  box-shadow: var(--tng-dialog-focus-ring, var(--tng-focus-ring, 0 0 0 3px var(--tng-semantic-focus-ring)));
   outline: none;
 }
 
