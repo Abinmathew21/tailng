@@ -10,8 +10,8 @@ import * as TngCharts from '@tailng-ui/charts';
 import type { ChartSeriesDocConfig } from '../chart-series-docs.data';
 import {
   CATALOG_THEMED_CHART_STYLE,
-  buildCatalogGeoFallbackOverride,
   parseChartUsageAttributes,
+  resolveCatalogChartOptionOverride,
   type ChartUsageBindings,
 } from './chart-series-catalog.util';
 
@@ -43,15 +43,9 @@ export class ChartSeriesCatalogChartComponent {
     parseChartUsageAttributes(this.config().usageAttributes),
   );
 
-  // External override takes priority; geo charts get an automatic fallback
-  // because they need echarts.registerMap() which the docs app doesn't call.
-  protected readonly resolvedOverride = computed<TngChartOptionOverride | undefined>(() => {
-    const external = this.optionOverride();
-    if (external !== undefined) {
-      return external;
-    }
-    return buildCatalogGeoFallbackOverride(this.config());
-  });
+  protected readonly resolvedOverride = computed<TngChartOptionOverride | undefined>(() =>
+    resolveCatalogChartOptionOverride(this.config(), this.optionOverride()),
+  );
 
   protected readonly chartInputs = computed(() => {
     const inputs: Record<string, unknown> = {

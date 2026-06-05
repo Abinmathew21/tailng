@@ -302,6 +302,25 @@ export function buildCatalogOptionOverride(config: ChartSeriesDocConfig): TngCha
  * so every render site (overview, examples, etc.) shows something meaningful
  * without needing a registered map.
  */
+/**
+ * Resolves the option override passed to catalog chart previews.
+ * Geo presets need the docs fallback first (no registered map); example
+ * overrides (line width, bar radius, etc.) run on that drawable option.
+ */
+export function resolveCatalogChartOptionOverride(
+  config: ChartSeriesDocConfig,
+  external?: TngChartOptionOverride,
+): TngChartOptionOverride | undefined {
+  const geoFallback = buildCatalogGeoFallbackOverride(config);
+  if (external === undefined) {
+    return geoFallback;
+  }
+  if (geoFallback === undefined) {
+    return external;
+  }
+  return (option) => external(geoFallback(option));
+}
+
 export function buildCatalogGeoFallbackOverride(
   config: ChartSeriesDocConfig,
 ): TngChartOptionOverride | undefined {
