@@ -58,6 +58,7 @@ const PORTALLED_AUTOCOMPLETE_THEME_VARS = [
   '--tng-autocomplete-border-strong',
   '--tng-autocomplete-border-hover',
   '--tng-autocomplete-bg',
+  '--tng-autocomplete-canvas',
   '--tng-autocomplete-surface',
   '--tng-autocomplete-fg',
   '--tng-autocomplete-muted',

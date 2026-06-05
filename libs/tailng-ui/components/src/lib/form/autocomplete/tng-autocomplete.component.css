@@ -4,10 +4,15 @@ tng-autocomplete {
 
 tng-autocomplete [data-slot='autocomplete-trigger-container'] {
   align-items: center;
-  background: var(--tng-autocomplete-surface, var(--tng-autocomplete-bg, transparent));
-  border: 1px solid var(--tng-autocomplete-border-strong, var(--tng-autocomplete-border, transparent));
+  background: var(--tng-autocomplete-bg, #ffffff);
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--tng-autocomplete-border, #d1d9e6) 84%,
+      var(--tng-autocomplete-canvas, #ffffff) 16%
+    );
   border-radius: var(--tng-autocomplete-radius, 0.5rem);
-  box-shadow: var(--tng-autocomplete-shadow, none);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--tng-autocomplete-fg, #152036) 4%, transparent);
   box-sizing: border-box;
   display: flex;
   gap: var(--tng-autocomplete-trigger-container-gap, 0.5rem);
@@ -20,16 +25,40 @@ tng-autocomplete [data-slot='autocomplete-trigger-container'] {
     background-color 120ms var(--tng-autocomplete-ease, ease);
 }
 
-tng-autocomplete [data-slot='autocomplete-trigger-container']:hover:not(:has([aria-disabled='true'])) {
-  border-color: var(--tng-autocomplete-border-hover, var(--tng-autocomplete-border-strong));
-}
-
 tng-autocomplete
   [data-slot='autocomplete-trigger-container']:has(
     [data-slot='autocomplete-trigger']:is(:focus, :focus-visible)
   ) {
-  border-color: var(--tng-autocomplete-focus-ring, currentColor);
-  box-shadow: var(--tng-autocomplete-shadow-focus, none);
+  border-color: color-mix(
+    in srgb,
+    var(--tng-autocomplete-brand, #3b82f6) 62%,
+    var(--tng-autocomplete-border, #d1d9e6) 38%
+  );
+  box-shadow: var(
+    --tng-autocomplete-shadow-focus,
+    0 0 0 3px color-mix(in srgb, var(--tng-autocomplete-focus-ring, #3b82f6) 16%, transparent)
+  );
+}
+
+tng-autocomplete[data-state='open'] [data-slot='autocomplete-trigger-container'] {
+  border-color: color-mix(
+    in srgb,
+    var(--tng-autocomplete-brand, #3b82f6) 72%,
+    var(--tng-autocomplete-border, #d1d9e6) 28%
+  );
+  box-shadow: var(
+    --tng-autocomplete-shadow-focus,
+    0 0 0 3px color-mix(in srgb, var(--tng-autocomplete-focus-ring, #3b82f6) 16%, transparent)
+  );
+}
+
+tng-autocomplete[data-invalid] [data-slot='autocomplete-trigger-container'] {
+  border-color: color-mix(
+    in srgb,
+    var(--tng-autocomplete-danger, #dc2626) 70%,
+    var(--tng-autocomplete-border, #d1d9e6) 30%
+  );
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tng-autocomplete-danger, #dc2626) 14%, transparent);
 }
 
 tng-autocomplete [data-slot='autocomplete-trigger'] {
@@ -207,6 +236,16 @@ tng-form-field
   [data-slot='autocomplete-trigger-container']:has(
     [data-slot='autocomplete-trigger']:is(:focus, :focus-visible)
   ) {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+tng-form-field tng-autocomplete[data-state='open'] [data-slot='autocomplete-trigger-container'] {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+tng-form-field tng-autocomplete[data-invalid] [data-slot='autocomplete-trigger-container'] {
   border-color: transparent;
   box-shadow: none;
 }

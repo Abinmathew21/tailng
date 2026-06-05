@@ -46,6 +46,7 @@
   --tng-select-border-strong: transparent;
   --tng-select-shadow-focus: none;
   --tng-autocomplete-surface: transparent;
+  --tng-autocomplete-border: transparent;
   --tng-autocomplete-border-strong: transparent;
   --tng-autocomplete-shadow-focus: none;
   --tng-datepicker-bg: transparent;
@@ -133,6 +134,7 @@
   --tng-select-border-strong: revert-layer;
   --tng-select-shadow-focus: revert-layer;
   --tng-autocomplete-surface: revert-layer;
+  --tng-autocomplete-border: revert-layer;
   --tng-autocomplete-border-strong: revert-layer;
   --tng-autocomplete-shadow-focus: revert-layer;
   --tng-datepicker-bg: revert-layer;
