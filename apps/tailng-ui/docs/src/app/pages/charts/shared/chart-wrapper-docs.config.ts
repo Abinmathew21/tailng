@@ -61,6 +61,63 @@ export const CHART_ENGAGEMENT_DATA: TngChartData = [
   { visits: 37, conversion: 28, volume: 110 },
 ];
 
+export const CHART_FUNNEL_DATA: TngChartData = [
+  { stage: 'Awareness', value: 100 },
+  { stage: 'Interest', value: 72 },
+  { stage: 'Evaluation', value: 48 },
+  { stage: 'Purchase', value: 26 },
+];
+
+export const CHART_CANDLESTICK_DATA: TngChartData = [
+  { day: 'Mon', value: [20, 34, 10, 38] },
+  { day: 'Tue', value: [30, 22, 18, 35] },
+  { day: 'Wed', value: [22, 40, 20, 44] },
+  { day: 'Thu', value: [40, 28, 24, 42] },
+  { day: 'Fri', value: [28, 46, 22, 48] },
+];
+
+export const CHART_BOXPLOT_DATA: TngChartData = [
+  { group: 'Q1', value: [10, 20, 30, 40, 50] },
+  { group: 'Q2', value: [15, 25, 35, 45, 55] },
+  { group: 'Q3', value: [8, 22, 32, 42, 60] },
+  { group: 'Q4', value: [20, 28, 38, 48, 65] },
+];
+
+export const CHART_GAUGE_DATA: TngChartData = [
+  { name: 'Progress', value: 72 },
+];
+
+export const CHART_SANKEY_DATA: TngChartData = [
+  { source: 'Visits', target: 'Signups', value: 100 },
+  { source: 'Signups', target: 'Trials', value: 60 },
+  { source: 'Trials', target: 'Paid', value: 30 },
+  { source: 'Visits', target: 'Bounce', value: 40 },
+];
+
+export const CHART_CHORD_DATA: TngChartData = [
+  { source: 'Product', target: 'Sales', value: 40 },
+  { source: 'Sales', target: 'Support', value: 25 },
+  { source: 'Support', target: 'Product', value: 15 },
+  { source: 'Product', target: 'Marketing', value: 30 },
+  { source: 'Marketing', target: 'Sales', value: 35 },
+];
+
+export const CHART_GRAPH_DATA: TngChartData = [
+  { source: 'Core', target: 'Auth', value: 1 },
+  { source: 'Core', target: 'API', value: 1 },
+  { source: 'API', target: 'Cache', value: 1 },
+  { source: 'API', target: 'DB', value: 1 },
+  { source: 'Auth', target: 'DB', value: 1 },
+];
+
+export const CHART_PICTORIAL_BAR_DATA: TngChartData = [
+  { category: 'Mon', value: 18 },
+  { category: 'Tue', value: 32 },
+  { category: 'Wed', value: 27 },
+  { category: 'Thu', value: 41 },
+  { category: 'Fri', value: 35 },
+];
+
 export const CHART_REGION_SERIES: readonly TngChartSeries[] = [
   { key: 'active', label: 'Active', yField: 'active' },
   { key: 'retained', label: 'Retained', yField: 'retained' },

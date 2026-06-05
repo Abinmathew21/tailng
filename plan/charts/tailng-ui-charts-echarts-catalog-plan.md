@@ -146,226 +146,226 @@ createTngLineRaceChartOption(input)
 
 ## Category Inventory
 
-### Line
+### Line ✅ overview
 
-- [ ] Basic Line
-- [ ] Smoothed Line
-- [ ] Stacked Line
-- [ ] Step Line
-- [ ] Log Axis Line
-- [ ] Time Series Line
-- [ ] Dynamic Line
-- [ ] Line Race
-- [ ] Line with Mark Lines
-- [ ] Multi Axis Line
-- [ ] Polar Line
-- [ ] Interactive Line
-- [ ] Large Scale Line
-- [ ] Sparkline
+- [x] Basic Line
+- [x] Smoothed Line
+- [x] Stacked Line
+- [x] Step Line
+- [x] Log Axis Line
+- [x] Time Series Line
+- [x] Dynamic Line
+- [x] Line Race
+- [x] Line with Mark Lines
+- [x] Multi Axis Line
+- [x] Polar Line
+- [x] Interactive Line
+- [x] Large Scale Line
+- [x] Sparkline
 
-### Area
+### Area ✅ overview
 
-- [ ] Basic Area
-- [ ] Stacked Area
-- [ ] Gradient Area
-- [ ] Large Scale Area
-- [ ] Confidence Band
-- [ ] Area Pieces
-- [ ] Time Series Area
+- [x] Basic Area
+- [x] Stacked Area
+- [x] Gradient Area
+- [x] Large Scale Area
+- [x] Confidence Band
+- [x] Area Pieces
+- [x] Time Series Area
 
-### Bar
+### Bar ✅ overview
 
-- [ ] Basic Bar
-- [ ] Horizontal Bar
-- [ ] Stacked Bar
-- [ ] Normalized Stacked Bar
-- [ ] Grouped Bar
-- [ ] Rounded Bar
-- [ ] Negative Bar
-- [ ] Waterfall Bar
-- [ ] Large Scale Bar
-- [ ] Dynamic Bar
-- [ ] Bar Race
-- [ ] Drilldown Bar
-- [ ] Polar Bar
-- [ ] Radial Bar
-- [ ] Sorted Bar
+- [x] Basic Bar
+- [x] Horizontal Bar
+- [x] Stacked Bar
+- [x] Normalized Stacked Bar
+- [x] Grouped Bar
+- [x] Rounded Bar
+- [x] Negative Bar
+- [x] Waterfall Bar
+- [x] Large Scale Bar
+- [x] Dynamic Bar
+- [x] Bar Race
+- [x] Drilldown Bar
+- [x] Polar Bar
+- [x] Radial Bar
+- [x] Sorted Bar
 
-### Pie
+### Pie ✅ overview
 
-- [ ] Basic Pie
-- [ ] Donut
-- [ ] Half Donut
-- [ ] Rounded Donut
-- [ ] Nightingale
-- [ ] Nested Pie
-- [ ] Scrollable Legend Pie
-- [ ] Pie on Calendar
-- [ ] Pie on GEO Map
+- [x] Basic Pie
+- [x] Donut
+- [x] Half Donut
+- [x] Rounded Donut
+- [x] Nightingale
+- [x] Nested Pie
+- [x] Scrollable Legend Pie
+- [x] Pie on Calendar
+- [x] Pie on GEO Map
 
-### Scatter
+### Scatter ✅ overview
 
-- [ ] Basic Scatter
-- [ ] Effect Scatter
-- [ ] Bubble Chart
-- [ ] Large Scatter
-- [ ] Jitter Scatter
-- [ ] Regression Scatter
-- [ ] Scatter Matrix
-- [ ] Calendar Scatter
-- [ ] Geo Scatter
-- [ ] Single Axis Scatter
+- [x] Basic Scatter
+- [x] Effect Scatter
+- [x] Bubble Chart
+- [x] Large Scatter
+- [x] Jitter Scatter
+- [x] Regression Scatter
+- [x] Scatter Matrix
+- [x] Calendar Scatter
+- [x] Geo Scatter
+- [x] Single Axis Scatter
 
-### Heatmap
+### Heatmap ✅ overview
 
-- [ ] Cartesian Heatmap
-- [ ] Large Heatmap
-- [ ] Discrete Color Heatmap
-- [ ] Calendar Heatmap
-- [ ] Matrix Heatmap
+- [x] Cartesian Heatmap
+- [x] Large Heatmap
+- [x] Discrete Color Heatmap
+- [x] Calendar Heatmap
+- [x] Matrix Heatmap
 
-### GEO/Map
+### GEO/Map ✅ overview
 
 Folder: `geo-map`
 
-- [ ] Geo Map
-- [ ] Choropleth Map
-- [ ] SVG Map
-- [ ] Geo Scatter
-- [ ] Geo Lines
-- [ ] Map to Bar Morph
-- [ ] Hexagonal Binning
+- [x] Geo Map
+- [x] Choropleth Map
+- [x] SVG Map
+- [x] Geo Scatter
+- [x] Geo Lines
+- [x] Map to Bar Morph
+- [x] Hexagonal Binning
 
-### Candlestick
+### Candlestick ✅ overview
 
-- [ ] Basic Candlestick
-- [ ] OHLC
-- [ ] Large Scale Candlestick
-- [ ] Candlestick with Brush
-- [ ] Intraday Candlestick
+- [x] Basic Candlestick
+- [x] OHLC
+- [x] Large Scale Candlestick
+- [x] Candlestick with Brush
+- [x] Intraday Candlestick
 
-### Radar
+### Radar ✅ overview
 
-- [ ] Basic Radar
-- [ ] Customized Radar
-- [ ] Multiple Radar
+- [x] Basic Radar
+- [x] Customized Radar
+- [x] Multiple Radar
 
-### Boxplot
+### Boxplot ✅ overview
 
-- [ ] Basic Boxplot
-- [ ] Aggregated Boxplot
-- [ ] Multi Category Boxplot
+- [x] Basic Boxplot
+- [x] Aggregated Boxplot
+- [x] Multi Category Boxplot
 
-### Graph
+### Graph ✅ overview
 
-- [ ] Basic Graph
-- [ ] Force Graph
-- [ ] Graph on Cartesian
-- [ ] Dynamic Graph
-- [ ] Geo Graph
-- [ ] Calendar Graph
+- [x] Basic Graph
+- [x] Force Graph
+- [x] Graph on Cartesian
+- [x] Dynamic Graph
+- [x] Geo Graph
+- [x] Calendar Graph
 
-### Lines
+### Lines ✅ overview
 
-- [ ] Geo Lines
-- [ ] Large Scale Lines
+- [x] Geo Lines
+- [x] Large Scale Lines
 
-### Tree
+### Tree ✅ overview
 
-- [ ] Basic Tree
-- [ ] Horizontal Tree
-- [ ] Vertical Tree
-- [ ] Radial Tree
-- [ ] Polyline Tree
+- [x] Basic Tree
+- [x] Horizontal Tree
+- [x] Vertical Tree
+- [x] Radial Tree
+- [x] Polyline Tree
 
-### Treemap
+### Treemap ✅ overview
 
-- [ ] Basic Treemap
-- [ ] Disk Usage Treemap
-- [ ] Parent Label Treemap
-- [ ] Gradient Treemap
+- [x] Basic Treemap
+- [x] Disk Usage Treemap
+- [x] Parent Label Treemap
+- [x] Gradient Treemap
 
-### Sunburst
+### Sunburst ✅ overview
 
-- [ ] Basic Sunburst
-- [ ] Rounded Sunburst
-- [ ] Rotated Label Sunburst
-- [ ] Monochrome Sunburst
-- [ ] VisualMap Sunburst
+- [x] Basic Sunburst
+- [x] Rounded Sunburst
+- [x] Rotated Label Sunburst
+- [x] Monochrome Sunburst
+- [x] VisualMap Sunburst
 
-### Parallel
+### Parallel ✅ overview
 
-- [ ] Basic Parallel
-- [ ] AQI Parallel
-- [ ] Nutrients Parallel
+- [x] Basic Parallel
+- [x] AQI Parallel
+- [x] Nutrients Parallel
 
-### Sankey
+### Sankey ✅ overview
 
-- [ ] Basic Sankey
-- [ ] Vertical Sankey
-- [ ] Styled Sankey
-- [ ] Level Sankey
-- [ ] Gradient Edge Sankey
-- [ ] Node Aligned Sankey
+- [x] Basic Sankey
+- [x] Vertical Sankey
+- [x] Styled Sankey
+- [x] Level Sankey
+- [x] Gradient Edge Sankey
+- [x] Node Aligned Sankey
 
-### Chord
+### Chord ✅ overview
 
-- [ ] Basic Chord
-- [ ] Chord minAngle
-- [ ] Chord lineStyle.color
-- [ ] Styled Chord
+- [x] Basic Chord
+- [x] Chord minAngle
+- [x] Chord lineStyle.color
+- [x] Styled Chord
 
-### Funnel
+### Funnel ✅ overview
 
-- [ ] Basic Funnel
-- [ ] Compare Funnel
-- [ ] Customized Funnel
-- [ ] Multiple Funnel
+- [x] Basic Funnel
+- [x] Compare Funnel
+- [x] Customized Funnel
+- [x] Multiple Funnel
 
-### Gauge
+### Gauge ✅ overview
 
-- [ ] Basic Gauge
-- [ ] Speed Gauge
-- [ ] Progress Gauge
-- [ ] Grade Gauge
-- [ ] Multi Title Gauge
-- [ ] Temperature Gauge
-- [ ] Ring Gauge
-- [ ] Barometer Gauge
-- [ ] Clock Gauge
+- [x] Basic Gauge
+- [x] Speed Gauge
+- [x] Progress Gauge
+- [x] Grade Gauge
+- [x] Multi Title Gauge
+- [x] Temperature Gauge
+- [x] Ring Gauge
+- [x] Barometer Gauge
+- [x] Clock Gauge
 
-### PictorialBar
+### PictorialBar ✅ overview
 
 Folder: `pictorial-bar`
 
-- [ ] Basic Pictorial Bar
-- [ ] Symbol Pictorial Bar
-- [ ] Dotted Pictorial Bar
-- [ ] Image/SVG Pictorial Bar
+- [x] Basic Pictorial Bar
+- [x] Symbol Pictorial Bar
+- [x] Dotted Pictorial Bar
+- [x] Image/SVG Pictorial Bar
 
-### ThemeRiver
+### ThemeRiver ✅ overview
 
 Folder: `theme-river`
 
-- [ ] Basic ThemeRiver
+- [x] Basic ThemeRiver
 
-### Calendar
+### Calendar ✅ overview
 
-- [ ] Basic Calendar
-- [ ] Calendar Heatmap
-- [ ] Calendar Graph
-- [ ] Calendar Pie
-- [ ] Calendar Icon
+- [x] Basic Calendar
+- [x] Calendar Heatmap
+- [x] Calendar Graph
+- [x] Calendar Pie
+- [x] Calendar Icon
 
-### Matrix
+### Matrix ✅ overview
 
-- [ ] Basic Matrix
-- [ ] Correlation Matrix
-- [ ] Covariance Matrix
-- [ ] Confusion Matrix
-- [ ] Graph Matrix
-- [ ] Pie Matrix
-- [ ] Responsive Matrix Layout
+- [x] Basic Matrix
+- [x] Correlation Matrix
+- [x] Covariance Matrix
+- [x] Confusion Matrix
+- [x] Graph Matrix
+- [x] Pie Matrix
+- [x] Responsive Matrix Layout
 
 ## Implementation Phases
 

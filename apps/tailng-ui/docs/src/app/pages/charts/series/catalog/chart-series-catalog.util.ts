@@ -30,6 +30,24 @@ const FLOW_DEMO_ROWS = [
   { source: 'Trial', target: 'Paid', value: 54 },
 ] as const;
 
+// Cartesian coordinate pairs for large-scale-lines (coordinateSystem: cartesian2d).
+const CARTESIAN_LINES_DEMO_ROWS = [
+  { source: [10, 20], target: [80, 70], value: 1 },
+  { source: [30, 60], target: [90, 25], value: 1 },
+  { source: [15, 75], target: [75, 40], value: 1 },
+  { source: [50, 10], target: [60, 85], value: 1 },
+  { source: [5, 45], target: [95, 55], value: 1 },
+] as const;
+
+// Geographic coordinate pairs (lat/lon) for geo-lines documentation examples.
+// Note: geo-lines requires echarts.registerMap() to render – see the API reference.
+const GEO_LINES_DEMO_ROWS = [
+  { source: [116.46, 39.92], target: [121.48, 31.22], value: 1 },
+  { source: [121.48, 31.22], target: [113.23, 23.16], value: 1 },
+  { source: [116.46, 39.92], target: [108.95, 34.27], value: 1 },
+  { source: [108.95, 34.27], target: [104.07, 30.67], value: 1 },
+] as const;
+
 export function parseChartUsageAttributes(usageAttributes: string): ChartUsageBindings {
   const bindings: Record<string, string> = {};
   const pattern = /(\w+)="([^"]*)"/g;
@@ -46,13 +64,22 @@ export function parseChartUsageAttributes(usageAttributes: string): ChartUsageBi
 }
 
 export function buildCatalogDemoData(config: ChartSeriesDocConfig): TngChartData {
+  // Lines series uses coordinate-pair data, not the standard field-driven rows.
+  if (config.seriesType === 'lines') {
+    if (config.coordinateSystem === 'geo') {
+      return GEO_LINES_DEMO_ROWS.map((row) => ({ ...row }));
+    }
+    return CARTESIAN_LINES_DEMO_ROWS.map((row) => ({ ...row }));
+  }
+
   const bindings = parseChartUsageAttributes(config.usageAttributes);
 
   if (bindings['nameField'] !== undefined && bindings['valueField'] !== undefined) {
     return PIE_DEMO_ROWS.map((row) => ({ ...row }));
   }
 
-  if (bindings['source'] !== undefined && bindings['target'] !== undefined) {
+  // sourceField / targetField bindings → node-link / flow data
+  if (bindings['sourceField'] !== undefined && bindings['targetField'] !== undefined) {
     return FLOW_DEMO_ROWS.map((row) => ({ ...row }));
   }
 
@@ -269,6 +296,56 @@ export function buildCatalogOptionOverride(config: ChartSeriesDocConfig): TngCha
   });
 }
 
+/**
+ * Returns an automatic option override for charts that require
+ * `echarts.registerMap()` to render. Used by ChartSeriesCatalogChartComponent
+ * so every render site (overview, examples, etc.) shows something meaningful
+ * without needing a registered map.
+ */
+export function buildCatalogGeoFallbackOverride(
+  config: ChartSeriesDocConfig,
+): TngChartOptionOverride | undefined {
+  if (config.coordinateSystem !== 'geo') {
+    return undefined;
+  }
+
+  if (config.seriesType === 'lines') {
+    // Animated connection lines on a hidden cartesian grid.
+    return (_option) => ({
+      grid: { top: 20, right: 20, bottom: 20, left: 20 },
+      tooltip: { show: false },
+      xAxis: { type: 'value', min: 0, max: 150, show: false },
+      yAxis: { type: 'value', min: 0, max: 90, show: false },
+      series: [{
+        type: 'lines',
+        coordinateSystem: 'cartesian2d',
+        data: [
+          { coords: [[20, 65], [130, 30]] },
+          { coords: [[50, 20], [110, 72]] },
+          { coords: [[10, 45], [140, 55]] },
+          { coords: [[40, 75], [100, 15]] },
+          { coords: [[5, 35], [125, 60]] },
+        ],
+        effect: { show: true, symbol: 'arrow', symbolSize: 6, period: 6 },
+        lineStyle: { width: 1.5, opacity: 0.7, curveness: 0.2 },
+      }],
+    });
+  }
+
+  // Generic geo fallback: blank canvas with a placeholder message.
+  return (_option) => ({
+    title: {
+      text: 'Map registration required',
+      subtext: 'Call echarts.registerMap() to render geo charts',
+      left: 'center',
+      top: 'middle',
+      textStyle: { fontSize: 14 },
+      subtextStyle: { fontSize: 11 },
+    },
+    series: [],
+  });
+}
+
 export const CATALOG_THEMED_CHART_STYLE: Readonly<Record<string, string>> = {
   '--tng-chart-series-1': 'var(--tng-semantic-accent-brand)',
   '--tng-chart-series-2': 'var(--tng-semantic-accent-info)',
@@ -279,6 +356,11 @@ export const CATALOG_THEMED_CHART_STYLE: Readonly<Record<string, string>> = {
 };
 
 export function supportsCatalogLiveChart(config: ChartSeriesDocConfig): boolean {
+  // Geo charts require echarts.registerMap() before they can render.
+  // Hide the live demo until a map is registered in the app.
+  if (config.coordinateSystem === 'geo') {
+    return false;
+  }
   return config.fieldInputs.includes('data');
 }
 

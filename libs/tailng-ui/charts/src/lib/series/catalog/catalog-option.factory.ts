@@ -141,6 +141,19 @@ function createCartesianOption(
   input: TngCatalogChartOptionInput,
   preset: TngCatalogChartPreset,
 ): TngOptionRecord {
+  const grid = {
+    bottom: resolveCartesianGridBottom(input, preset),
+    containLabel: true,
+    left: 24,
+    right: hasFeature(preset, 'multiAxis') ? 56 : 24,
+    top: 24,
+  };
+
+  // Lines series on a cartesian coordinate system use value axes, not category.
+  if (preset.seriesType === 'lines') {
+    return { grid, xAxis: createAxisOption('value'), yAxis: createAxisOption('value') };
+  }
+
   const xField = resolveInputField(input.xField, DEFAULT_X_FIELD);
   const categories = getTngChartUniqueStrings(input.data, xField);
   const xAxisType = hasFeature(preset, 'timeAxis')
@@ -151,13 +164,7 @@ function createCartesianOption(
   const yAxisType = hasFeature(preset, 'logAxis') ? 'log' : 'value';
 
   return {
-    grid: {
-      bottom: resolveCartesianGridBottom(input, preset),
-      containLabel: true,
-      left: 24,
-      right: hasFeature(preset, 'multiAxis') ? 56 : 24,
-      top: 24,
-    },
+    grid,
     xAxis: createAxisOption(xAxisType, xAxisType === 'category' ? categories : undefined),
     yAxis: createAxisOption(yAxisType),
   };
@@ -474,6 +481,32 @@ function createHierarchySeries(
   ];
 }
 
+function createLinesSeries(
+  input: TngCatalogChartOptionInput,
+  preset: TngCatalogChartPreset,
+): readonly TngOptionRecord[] {
+  const sourceField = resolveInputField(input.sourceField, DEFAULT_SOURCE_FIELD);
+  const targetField = resolveInputField(input.targetField, DEFAULT_TARGET_FIELD);
+  const valueField = resolveInputField(input.valueField, DEFAULT_VALUE_FIELD);
+
+  return [
+    {
+      coordinateSystem: resolveCoordinateSystem(preset.coordinateSystem),
+      data: input.data.map((datum) => ({
+        [TNG_CHART_SOURCE_DATUM_KEY]: datum,
+        coords: [
+          getTngChartFieldValue(datum, sourceField),
+          getTngChartFieldValue(datum, targetField),
+        ],
+        value: getTngChartNumberValue(datum, valueField) ?? undefined,
+      })),
+      large: hasFeature(preset, 'large'),
+      progressive: hasFeature(preset, 'large') ? 1000 : undefined,
+      type: 'lines',
+    },
+  ];
+}
+
 function createDefaultSeries(
   input: TngCatalogChartOptionInput,
   preset: TngCatalogChartPreset,
@@ -504,6 +537,7 @@ const seriesCreators: Readonly<Partial<Record<TngCatalogSeriesType, TngCatalogSe
   graph: createNodeLinkSeries,
   heatmap: createHeatmapSeries,
   line: createLineOrAreaSeries,
+  lines: createLinesSeries,
   pictorialBar: createBarSeries,
   pie: createPieLikeSeries,
   sankey: createNodeLinkSeries,

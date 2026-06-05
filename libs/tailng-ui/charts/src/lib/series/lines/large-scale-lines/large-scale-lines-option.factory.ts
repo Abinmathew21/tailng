@@ -4,7 +4,7 @@ import { createTngCatalogChartOption, defineTngCatalogChartPreset } from '../../
 
 export const TNG_LARGE_SCALE_LINES_CHART_PRESET = defineTngCatalogChartPreset({
   category: "Lines",
-  coordinateSystem: "none",
+  coordinateSystem: "cartesian2d",
   features: ["large"],
   name: "Large Scale Lines",
   selector: "tng-large-scale-lines-chart",

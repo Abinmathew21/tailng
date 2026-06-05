@@ -31,7 +31,7 @@
       <section class="charts-overview-examples grid gap-4">
         <div class="charts-overview-examples__header">
           <p class="charts-overview-examples__eyebrow">Chart types</p>
-          <h2 class="charts-overview-examples__title">One example per chart type</h2>
+          <h2 class="charts-overview-examples__title">One example per chart category</h2>
           <p class="charts-overview-examples__lead">
             Each chart maps records to field names, generates ECharts options, and resolves theme
             variables automatically.
@@ -102,6 +102,142 @@
                     xField="hour"
                     yField="day"
                     valueField="value"
+                  />
+                }
+                @case ('funnel') {
+                  <tng-basic-funnel-chart
+                    [data]="funnelData"
+                    [height]="220"
+                    nameField="stage"
+                    valueField="value"
+                  />
+                }
+                @case ('gauge') {
+                  <tng-basic-gauge-chart
+                    [data]="gaugeData"
+                    [height]="220"
+                    nameField="name"
+                    valueField="value"
+                  />
+                }
+                @case ('candlestick') {
+                  <tng-basic-candlestick-chart
+                    [data]="candlestickData"
+                    [height]="220"
+                    xField="day"
+                    valueField="value"
+                  />
+                }
+                @case ('boxplot') {
+                  <tng-basic-boxplot-chart
+                    [data]="boxplotData"
+                    [height]="220"
+                    xField="group"
+                    valueField="value"
+                  />
+                }
+                @case ('radar') {
+                  <tng-basic-radar-chart
+                    [data]="[]"
+                    [height]="220"
+                    [optionOverride]="radarOverride"
+                  />
+                }
+                @case ('sankey') {
+                  <tng-basic-sankey-chart
+                    [data]="sankeyData"
+                    [height]="220"
+                    sourceField="source"
+                    targetField="target"
+                    valueField="value"
+                  />
+                }
+                @case ('chord') {
+                  <tng-basic-chord-chart
+                    [data]="chordData"
+                    [height]="220"
+                    sourceField="source"
+                    targetField="target"
+                    valueField="value"
+                  />
+                }
+                @case ('graph') {
+                  <tng-basic-graph-chart
+                    [data]="graphData"
+                    [height]="220"
+                    sourceField="source"
+                    targetField="target"
+                  />
+                }
+                @case ('tree') {
+                  <tng-basic-tree-chart
+                    [data]="[]"
+                    [height]="220"
+                    [optionOverride]="treeOverride"
+                  />
+                }
+                @case ('treemap') {
+                  <tng-basic-treemap-chart
+                    [data]="[]"
+                    [height]="220"
+                    [optionOverride]="treemapOverride"
+                  />
+                }
+                @case ('sunburst') {
+                  <tng-basic-sunburst-chart
+                    [data]="[]"
+                    [height]="220"
+                    [optionOverride]="sunburstOverride"
+                  />
+                }
+                @case ('parallel') {
+                  <tng-basic-parallel-chart
+                    [data]="[]"
+                    [height]="220"
+                    [optionOverride]="parallelOverride"
+                  />
+                }
+                @case ('pictorial-bar') {
+                  <tng-basic-pictorial-bar-chart
+                    [data]="pictorialBarData"
+                    [height]="220"
+                    xField="category"
+                    yField="value"
+                  />
+                }
+                @case ('theme-river') {
+                  <tng-basic-theme-river-chart
+                    [data]="[]"
+                    [height]="220"
+                    [optionOverride]="themeRiverOverride"
+                  />
+                }
+                @case ('calendar') {
+                  <tng-basic-calendar-chart
+                    [data]="[]"
+                    [height]="220"
+                    [optionOverride]="calendarOverride"
+                  />
+                }
+                @case ('matrix') {
+                  <tng-basic-matrix-chart
+                    [data]="[]"
+                    [height]="220"
+                    [optionOverride]="matrixOverride"
+                  />
+                }
+                @case ('lines') {
+                  <tng-lines-geo-lines-chart
+                    [data]="[]"
+                    [height]="220"
+                    [optionOverride]="linesOverride"
+                  />
+                }
+                @case ('geo-map') {
+                  <tng-geo-map-chart
+                    [data]="[]"
+                    [height]="220"
+                    [optionOverride]="geoMapOverride"
                   />
                 }
               }

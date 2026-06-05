@@ -3108,7 +3108,7 @@ export const CHART_SERIES_DOC_CONFIGS: readonly ChartSeriesDocConfig[] = [
     categoryId: 'lines',
     categoryTitle: 'Lines',
     className: 'TngLargeScaleLinesChartComponent',
-    coordinateSystem: 'none',
+    coordinateSystem: 'cartesian2d',
     description: 'Large Scale Lines preset for lines visualizations with large data mode.',
     features: ['large'],
     fieldInputs: ['data', 'sourceField', 'targetField', 'valueField'],
