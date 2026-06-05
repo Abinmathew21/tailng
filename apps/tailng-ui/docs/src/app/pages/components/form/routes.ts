@@ -95,6 +95,10 @@ const yearpickerItem = group.items.find((item) => item.slug === 'yearpicker');
 if (yearpickerItem === undefined) {
   throw new Error('Missing "yearpicker" in components form docs group.');
 }
+const fileuploadItem = group.items.find((item) => item.slug === 'fileupload');
+if (fileuploadItem === undefined) {
+  throw new Error('Missing "fileupload" in components form docs group.');
+}
 
 const landingSlugs = new Set([
   inputItem.slug,
@@ -119,6 +123,7 @@ const landingSlugs = new Set([
   switchItem.slug,
   monthDaypickerItem.slug,
   yearpickerItem.slug,
+  fileuploadItem.slug,
 ]);
 
 export const COMPONENTS_FORM_ROUTES: Routes = [
@@ -246,6 +251,11 @@ export const COMPONENTS_FORM_ROUTES: Routes = [
     path: yearpickerItem.slug,
     loadChildren: () =>
       import('./yearpicker/routes').then((module) => module.COMPONENTS_FORM_YEARPICKER_ROUTES),
+  },
+  {
+    path: fileuploadItem.slug,
+    loadChildren: () =>
+      import('./fileupload/routes').then((module) => module.COMPONENTS_FORM_FILEUPLOAD_ROUTES),
   },
   ...group.items
     .filter((item) => !landingSlugs.has(item.slug))

@@ -1,0 +1,79 @@
+:host {
+  display: block;
+}
+
+.fileupload-styling {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.fileupload-styling-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.fileupload-styling-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 70ch;
+}
+
+.fileupload-styling-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.fileupload-styling-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.fileupload-styling-block p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.fileupload-styling-table-wrap {
+  overflow-x: auto;
+}
+
+.fileupload-styling-table {
+  border-collapse: collapse;
+  min-width: 36rem;
+  width: 100%;
+}
+
+.fileupload-styling-table th,
+.fileupload-styling-table td {
+  border-bottom: 1px solid var(--tng-semantic-border-subtle);
+  padding: 0.7rem 0.6rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.fileupload-styling-table th {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.fileupload-styling-table code {
+  font-size: 0.84em;
+}
+
+.fileupload-styling-list {
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding-left: 1.25rem;
+}

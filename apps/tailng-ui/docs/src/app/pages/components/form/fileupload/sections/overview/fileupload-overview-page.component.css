@@ -1,0 +1,101 @@
+:host {
+  display: block;
+}
+
+.fileupload-overview {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.fileupload-overview-title {
+  font-size: clamp(1.45rem, 1.05rem + 1.3vw, 1.95rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.fileupload-overview-lead {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+  max-width: 72ch;
+}
+
+.fileupload-overview-block {
+  background: color-mix(in srgb, var(--tng-semantic-background-surface) 88%, transparent);
+  border: 1px solid var(--tng-semantic-border-subtle);
+  border-radius: 1rem;
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.2rem;
+}
+
+.fileupload-overview-block h3 {
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0;
+}
+
+.fileupload-overview-block p {
+  color: var(--tng-semantic-foreground-secondary);
+  margin: 0;
+}
+
+.fileupload-overview-list {
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.fileupload-demo {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* Plain-CSS drop zone */
+.drop-zone {
+  align-items: center;
+  border: 2px dashed var(--tng-semantic-border-default);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.drop-zone[data-dragging] {
+  background: color-mix(in srgb, var(--tng-semantic-accent-primary) 8%, transparent);
+  border-color: var(--tng-semantic-accent-primary);
+}
+
+.drop-zone-label {
+  font-weight: 600;
+}
+
+.drop-zone-hint {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.875rem;
+}
+
+.file-list {
+  display: grid;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.file-list-item {
+  color: var(--tng-semantic-foreground-secondary);
+  font-size: 0.875rem;
+}
+
+.file-rejected-msg {
+  color: var(--tng-semantic-accent-danger, #ef4444);
+  font-size: 0.875rem;
+  margin: 0;
+}

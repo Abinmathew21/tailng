@@ -1,0 +1,183 @@
+<article class="fileupload-examples">
+  <h2 class="fileupload-examples-title">Examples</h2>
+  <p class="fileupload-examples-lead">
+    Common file upload patterns using the <code>tngFileUpload</code> directive with Plain-CSS
+    and Tailwind styling.
+  </p>
+
+  <app-docs-example-tabs-section
+    id="image-only-drop-zone"
+    class="fileupload-examples-block"
+    heading="Image-only drop zone"
+    description="Single-file drop zone restricted to image types with rejection feedback."
+    ariaLabel="Image-only file upload variants"
+    tabListAriaLabel="Image drop zone style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Image drop zone (Plain CSS)"
+      [codeTabs]="imageOnlyPlainTabs"
+    >
+      <div class="fileupload-example-shell fileupload-example-shell--plain">
+        <div
+          class="image-drop-zone"
+          tngFileUpload
+          accept="image/*"
+          [multiple]="false"
+          (filesSelected)="onImageSelected('plain', $event)"
+          (filesRejected)="onImageRejected('plain', $event)"
+        >
+          <span class="image-drop-zone-icon" aria-hidden="true">🖼</span>
+          <span class="image-drop-zone-label">Drop an image here</span>
+          <span class="image-drop-zone-hint">Single file · any image type</span>
+        </div>
+        @if (imageFilesPlain().length > 0) {
+          <p class="upload-status">Accepted: {{ imageFilesPlain()[0]?.name }}</p>
+        }
+        @if (imageFilesRejectedPlain().length > 0) {
+          <ul class="upload-errors">
+            @for (msg of imageFilesRejectedPlain(); track msg) {
+              <li>{{ msg }}</li>
+            }
+          </ul>
+        }
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Image drop zone (Tailwind CSS)"
+      [codeTabs]="imageOnlyTailwindTabs"
+    >
+      <div class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]">
+        <div
+          class="flex flex-col items-center gap-1 rounded-xl border-2 border-dashed border-tng-border-default p-10 text-center transition-colors cursor-pointer [&[data-dragging]]:bg-tng-bg-muted"
+          tngFileUpload
+          accept="image/*"
+          [multiple]="false"
+          (filesSelected)="onImageSelected('tailwind', $event)"
+          (filesRejected)="onImageRejected('tailwind', $event)"
+        >
+          <span class="text-3xl leading-none" aria-hidden="true">🖼</span>
+          <span class="font-semibold text-tng-fg-primary">Drop an image here</span>
+          <span class="text-sm text-tng-fg-secondary">Single file · any image type</span>
+        </div>
+        @if (imageFilesTailwind().length > 0) {
+          <p class="m-0 text-sm text-tng-fg-primary">Accepted: {{ imageFilesTailwind()[0]?.name }}</p>
+        }
+        @if (imageFilesRejectedTailwind().length > 0) {
+          <ul class="m-0 list-disc pl-5 text-sm text-red-500">
+            @for (msg of imageFilesRejectedTailwind(); track msg) {
+              <li>{{ msg }}</li>
+            }
+          </ul>
+        }
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <app-docs-example-tabs-section
+    id="multi-file-queue"
+    class="fileupload-examples-block"
+    heading="Multi-file queue"
+    description="Accumulating drop zone for documents with file-size validation and a clear action."
+    ariaLabel="Multi-file upload variants"
+    tabListAriaLabel="Multi-file style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Multi-file queue (Plain CSS)"
+      [codeTabs]="multiFilePlainTabs"
+    >
+      <div class="fileupload-example-shell fileupload-example-shell--plain">
+        <div
+          class="multi-drop-zone"
+          tngFileUpload
+          accept=".pdf,.doc,.docx,.txt"
+          [multiple]="true"
+          [maxSize]="10485760"
+          (filesSelected)="onMultiSelected('plain', $event)"
+          (filesRejected)="onMultiRejected('plain', $event)"
+        >
+          <span class="multi-drop-zone-label">Drop documents here</span>
+          <span class="multi-drop-zone-hint">PDF, DOC, DOCX, TXT · max 10 MB each</span>
+        </div>
+        @if (multiFilesPlain().length > 0) {
+          <ul class="file-queue">
+            @for (file of multiFilesPlain(); track file.name) {
+              <li class="file-queue-item">
+                <span class="file-queue-name">{{ file.name }}</span>
+                <span class="file-queue-size">{{ formatSize(file.size) }}</span>
+              </li>
+            }
+          </ul>
+          <button class="clear-btn" type="button" (click)="clearMulti('plain')">Clear all</button>
+        }
+        @if (multiFilesRejectedPlain().length > 0) {
+          <ul class="upload-errors">
+            @for (msg of multiFilesRejectedPlain(); track msg) {
+              <li>{{ msg }}</li>
+            }
+          </ul>
+        }
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Multi-file queue (Tailwind CSS)"
+      [codeTabs]="multiFileTailwindTabs"
+    >
+      <div class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]">
+        <div
+          class="flex flex-col items-center gap-1 rounded-xl border-2 border-dashed border-tng-border-default p-8 text-center transition-colors cursor-pointer [&[data-dragging]]:bg-tng-bg-muted"
+          tngFileUpload
+          accept=".pdf,.doc,.docx,.txt"
+          [multiple]="true"
+          [maxSize]="10485760"
+          (filesSelected)="onMultiSelected('tailwind', $event)"
+          (filesRejected)="onMultiRejected('tailwind', $event)"
+        >
+          <span class="font-semibold text-tng-fg-primary">Drop documents here</span>
+          <span class="text-sm text-tng-fg-secondary">PDF, DOC, DOCX, TXT · max 10 MB</span>
+        </div>
+        @if (multiFilesTailwind().length > 0) {
+          <ul class="m-0 grid gap-1 p-0 list-none">
+            @for (file of multiFilesTailwind(); track file.name) {
+              <li class="flex items-center justify-between text-sm">
+                <span class="font-medium text-tng-fg-primary">{{ file.name }}</span>
+                <span class="text-tng-fg-secondary">{{ formatSize(file.size) }}</span>
+              </li>
+            }
+          </ul>
+          <button
+            type="button"
+            class="w-fit text-xs text-tng-fg-secondary underline cursor-pointer"
+            (click)="clearMulti('tailwind')"
+          >
+            Clear all
+          </button>
+        }
+        @if (multiFilesRejectedTailwind().length > 0) {
+          <ul class="m-0 list-disc pl-5 text-sm text-red-500">
+            @for (msg of multiFilesRejectedTailwind(); track msg) {
+              <li>{{ msg }}</li>
+            }
+          </ul>
+        }
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+</article>

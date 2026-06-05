@@ -1,0 +1,175 @@
+<article class="fileupload-api">
+  <h2 class="fileupload-api-title">API reference</h2>
+  <p class="fileupload-api-lead">
+    <code>TngFileUploadDirective</code> is a headless behavior directive — no wrapper component
+    is required. Apply it to any element and wire the inputs and outputs directly on the host.
+  </p>
+
+  <section id="directive" class="fileupload-api-block">
+    <h3>Directive</h3>
+    <p>Selector: <code>[tngFileUpload]</code> &nbsp;·&nbsp; Export: <code>tngFileUpload</code></p>
+  </section>
+
+  <section id="inputs" class="fileupload-api-block">
+    <h3>Inputs</h3>
+    <div class="fileupload-api-table-wrap">
+      <table class="fileupload-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Input</th>
+            <th scope="col">Type</th>
+            <th scope="col">Default</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>accept</code></td>
+            <td><code>string | string[]</code></td>
+            <td><code>[]</code></td>
+            <td>
+              Accepted file types as extensions (<code>.png</code>), exact MIME types
+              (<code>image/png</code>), or wildcard MIME groups (<code>image/*</code>). A string
+              value is split on commas. An empty array allows all types.
+            </td>
+          </tr>
+          <tr>
+            <td><code>multiple</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>
+              Permits selecting more than one file at once. Extra files dropped when
+              <code>false</code> are rejected with reason <code>multiple</code>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>maxSize</code></td>
+            <td><code>number | null</code></td>
+            <td><code>null</code></td>
+            <td>
+              Maximum allowed file size in bytes. <code>null</code> disables size checking. Files
+              exceeding this limit are rejected with reason <code>size</code>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>disabled</code></td>
+            <td><code>boolean</code></td>
+            <td><code>false</code></td>
+            <td>
+              Makes the drop zone fully passive — drag events are ignored and no outputs are
+              emitted. Reflects <code>data-disabled</code> on the host element.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="outputs" class="fileupload-api-block">
+    <h3>Outputs</h3>
+    <div class="fileupload-api-table-wrap">
+      <table class="fileupload-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Output</th>
+            <th scope="col">Payload type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>filesSelected</code></td>
+            <td><code>TngFileUploadSelectedEvent</code></td>
+            <td>
+              Emitted when one or more files pass validation. Payload contains
+              <code>files: readonly File[]</code> and <code>source: 'drop' | 'input'</code>.
+            </td>
+          </tr>
+          <tr>
+            <td><code>filesRejected</code></td>
+            <td><code>TngFileUploadRejectedEvent</code></td>
+            <td>
+              Emitted when one or more files fail validation. Payload contains
+              <code>rejected: readonly TngFileUploadRejectedFile[]</code> (each with
+              <code>file</code>, <code>reason</code>, and <code>message</code>) and the
+              co-emitted <code>accepted</code> files for correlation.
+            </td>
+          </tr>
+          <tr>
+            <td><code>dragStateChange</code></td>
+            <td><code>TngFileUploadDragState</code></td>
+            <td>
+              Emitted whenever the drag interaction state transitions between
+              <code>'idle'</code>, <code>'dragging'</code>, and <code>'rejected'</code>.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="public-state" class="fileupload-api-block">
+    <h3>Public state</h3>
+    <div class="fileupload-api-table-wrap">
+      <table class="fileupload-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Member</th>
+            <th scope="col">Type</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>dragState</code></td>
+            <td><code>Signal&lt;TngFileUploadDragState&gt;</code></td>
+            <td>
+              Reactive drag state readable via the <code>tngFileUpload</code> template reference.
+              Useful when template-driven feedback is preferred over the output event.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="type-reference" class="fileupload-api-block">
+    <h3>Type reference</h3>
+    <div class="fileupload-api-table-wrap">
+      <table class="fileupload-api-table">
+        <thead>
+          <tr>
+            <th scope="col">Type</th>
+            <th scope="col">Definition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>TngFileUploadDragState</code></td>
+            <td><code>'idle' | 'dragging' | 'rejected'</code></td>
+          </tr>
+          <tr>
+            <td><code>TngFileUploadSource</code></td>
+            <td><code>'drop' | 'input'</code></td>
+          </tr>
+          <tr>
+            <td><code>TngFileUploadRejectReason</code></td>
+            <td><code>'disabled' | 'multiple' | 'type' | 'size' | 'empty'</code></td>
+          </tr>
+          <tr>
+            <td><code>TngFileUploadRejectedFile</code></td>
+            <td><code>&#123; file: File; reason: TngFileUploadRejectReason; message: string &#125;</code></td>
+          </tr>
+          <tr>
+            <td><code>TngFileUploadSelectedEvent</code></td>
+            <td><code>&#123; files: readonly File[]; source: TngFileUploadSource &#125;</code></td>
+          </tr>
+          <tr>
+            <td><code>TngFileUploadRejectedEvent</code></td>
+            <td><code>&#123; rejected: readonly TngFileUploadRejectedFile[]; accepted: readonly File[]; source: TngFileUploadSource &#125;</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

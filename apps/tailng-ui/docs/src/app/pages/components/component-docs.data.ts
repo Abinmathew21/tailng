@@ -227,6 +227,13 @@ export const COMPONENTS_FORM_GROUP: ComponentsDocsGroup = {
       description:
         'Complete field wrapper for labels, controls, hints, errors, and accessibility wiring.',
     },
+    {
+      id: 'fileupload',
+      slug: 'fileupload',
+      title: 'File Upload',
+      description:
+        'Drag-and-drop file selection with MIME type filtering, size limits, multi-file support, and reactive drag-state feedback.',
+    },
   ],
 };
 

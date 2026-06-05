@@ -1912,6 +1912,57 @@
     ]
   },
   {
+    "title": "File Upload",
+    "description": "Drag-and-drop file selection with MIME type filtering, size limits, multi-file support, and reactive drag-state feedback.",
+    "section": "Components / Form",
+    "url": "/components/form/fileupload",
+    "tags": [
+      "components",
+      "form",
+      "fileupload",
+      "fileupload"
+    ]
+  },
+  {
+    "title": "File Upload API",
+    "description": "Drag-and-drop file selection with MIME type filtering, size limits, multi-file support, and reactive drag-state feedback. API.",
+    "section": "Components / Form",
+    "url": "/components/form/fileupload/api",
+    "tags": [
+      "components",
+      "form",
+      "fileupload",
+      "fileupload",
+      "api"
+    ]
+  },
+  {
+    "title": "File Upload Stylings",
+    "description": "Drag-and-drop file selection with MIME type filtering, size limits, multi-file support, and reactive drag-state feedback. Stylings.",
+    "section": "Components / Form",
+    "url": "/components/form/fileupload/stylings",
+    "tags": [
+      "components",
+      "form",
+      "fileupload",
+      "fileupload",
+      "stylings"
+    ]
+  },
+  {
+    "title": "File Upload Examples",
+    "description": "Drag-and-drop file selection with MIME type filtering, size limits, multi-file support, and reactive drag-state feedback. Examples.",
+    "section": "Components / Form",
+    "url": "/components/form/fileupload/examples",
+    "tags": [
+      "components",
+      "form",
+      "fileupload",
+      "fileupload",
+      "examples"
+    ]
+  },
+  {
     "title": "Codeblock",
     "description": "Code rendering, highlighting adapters, and line metadata.",
     "section": "Components / Utility",

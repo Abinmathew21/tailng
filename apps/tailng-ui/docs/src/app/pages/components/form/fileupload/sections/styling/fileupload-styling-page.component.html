@@ -1,0 +1,85 @@
+<article class="fileupload-styling">
+  <h2 class="fileupload-styling-title">Styling contract</h2>
+  <p class="fileupload-styling-lead">
+    <code>tngFileUpload</code> reflects drag and validation state exclusively through stable
+    <code>data-*</code> attributes, leaving all visual decisions to the consuming stylesheet.
+    No class names are applied internally.
+  </p>
+
+  <section id="host-attributes" class="fileupload-styling-block">
+    <h3>Host attributes</h3>
+    <div class="fileupload-styling-table-wrap">
+      <table class="fileupload-styling-table">
+        <thead>
+          <tr>
+            <th scope="col">Attribute</th>
+            <th scope="col">Values</th>
+            <th scope="col">Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>data-file-upload</code></td>
+            <td>Always present</td>
+            <td>
+              Stable root selector. Use it to scope styles to all file upload zones without
+              coupling to the directive's attribute selector.
+            </td>
+          </tr>
+          <tr>
+            <td><code>data-dragging</code></td>
+            <td>Present / absent</td>
+            <td>
+              Set while a drag gesture is active over the zone. Drive hover-highlight and
+              border-color transitions from this attribute.
+            </td>
+          </tr>
+          <tr>
+            <td><code>data-rejected</code></td>
+            <td>Present / absent</td>
+            <td>
+              Reserved for implementations that surface a rejected drag state (e.g., when dragging
+              a file type not in the <code>accept</code> list).
+            </td>
+          </tr>
+          <tr>
+            <td><code>data-disabled</code></td>
+            <td>Present / absent</td>
+            <td>
+              Applied when <code>[disabled]="true"</code>. Use to suppress hover styles and show
+              a <code>not-allowed</code> cursor.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="example-contract-overrides" class="fileupload-styling-block">
+    <h3>Example contract overrides</h3>
+    <tng-code-block
+      [code]="contractCss"
+      adapter="shiki"
+      language="css"
+      title="fileupload.contract.css"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="tailwind-targeting" class="fileupload-styling-block">
+    <h3>Tailwind targeting</h3>
+    <p>
+      Use the attribute variant syntax to scope utilities to drag and disabled states directly
+      in the template:
+    </p>
+    <ul class="fileupload-styling-list">
+      <li><code>[&amp;[data-dragging]]:border-tng-accent-primary</code> — active drag border</li>
+      <li><code>[&amp;[data-dragging]]:bg-tng-bg-muted</code> — active drag background tint</li>
+      <li><code>[&amp;[data-disabled]]:opacity-50</code> — disabled opacity</li>
+      <li><code>[&amp;[data-disabled]]:cursor-not-allowed</code> — disabled cursor</li>
+    </ul>
+  </section>
+</article>

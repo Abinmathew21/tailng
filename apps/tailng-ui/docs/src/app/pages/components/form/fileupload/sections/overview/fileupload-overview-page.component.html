@@ -1,0 +1,138 @@
+<article class="fileupload-overview">
+  <h2 class="fileupload-overview-title">File Upload overview</h2>
+  <p class="fileupload-overview-lead">
+    The <code>tngFileUpload</code> directive turns any block-level element into an accessible
+    drag-and-drop zone. It handles drag lifecycle tracking, file validation, and host-attribute
+    reflection without imposing any markup structure or visual opinion.
+  </p>
+
+  <section id="imports" class="fileupload-overview-block">
+    <h3>Imports</h3>
+    <p>Add the directive to your component's <code>imports</code> array.</p>
+    <tng-code-block
+      [code]="importCode"
+      adapter="shiki"
+      language="ts"
+      title="Directive import"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <section id="usage-patterns" class="fileupload-overview-block">
+    <h3>Usage patterns</h3>
+    <p>
+      Apply <code>tngFileUpload</code> to any container element. Bind <code>accept</code>,
+      <code>multiple</code>, and <code>maxSize</code> to control validation, then listen to
+      <code>filesSelected</code> and <code>filesRejected</code> for results.
+    </p>
+    <tng-code-block
+      [code]="usageCode"
+      adapter="shiki"
+      language="html"
+      title="Basic usage"
+      [theme]="codeBlockTheme()"
+      [sanitizeHtml]="false"
+      [wrap]="true"
+      [lineNumbers]="false"
+    ></tng-code-block>
+  </section>
+
+  <app-docs-example-tabs-section
+    id="style-variants"
+    class="fileupload-overview-block"
+    heading="Style variants"
+    description="Drop zone with drag-state feedback rendered in Plain-CSS and Tailwind styling."
+    ariaLabel="File Upload style variants"
+    tabListAriaLabel="File Upload style tabs"
+    defaultValue="plain-css"
+    [codeBlockTheme]="codeBlockTheme()"
+  >
+    <ng-template
+      appDocsExampleVariant
+      value="plain-css"
+      label="Plain-CSS"
+      panelTitle="Drop zone (Plain CSS)"
+      [codeTabs]="plainCodeTabs"
+    >
+      <div class="fileupload-demo fileupload-demo--plain">
+        <div
+          class="drop-zone"
+          tngFileUpload
+          accept=".png,.jpg,.jpeg,.pdf"
+          [multiple]="true"
+          [maxSize]="5242880"
+          (filesSelected)="onFilesSelected($event)"
+          (filesRejected)="onFilesRejected($event)"
+        >
+          <span class="drop-zone-label">Drop files here</span>
+          <span class="drop-zone-hint">PNG, JPG, PDF · max 5 MB</span>
+        </div>
+        @if (selectedFiles().length > 0) {
+          <ul class="file-list">
+            @for (file of selectedFiles(); track file.name) {
+              <li class="file-list-item">{{ file.name }}</li>
+            }
+          </ul>
+        }
+        @if (rejectedCount() > 0) {
+          <p class="file-rejected-msg">{{ rejectedCount() }} file(s) rejected.</p>
+        }
+      </div>
+    </ng-template>
+
+    <ng-template
+      appDocsExampleVariant
+      value="tailwind-css"
+      label="Tailwind CSS"
+      panelTitle="Drop zone (Tailwind CSS)"
+      [codeTabs]="tailwindCodeTabs"
+    >
+      <div class="flex flex-col gap-3 rounded-2xl border border-tng-border-subtle bg-tng-bg-surface p-4 shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--tng-semantic-border-subtle)_55%,transparent)]">
+        <div
+          class="flex flex-col items-center gap-1 rounded-xl border-2 border-dashed border-tng-border-default p-8 text-center transition-colors cursor-pointer [&[data-dragging]]:bg-tng-bg-muted"
+          tngFileUpload
+          accept=".png,.jpg,.jpeg,.pdf"
+          [multiple]="true"
+          [maxSize]="5242880"
+          (filesSelected)="onFilesSelected($event)"
+          (filesRejected)="onFilesRejected($event)"
+        >
+          <span class="font-semibold text-tng-fg-primary">Drop files here</span>
+          <span class="text-sm text-tng-fg-secondary">PNG, JPG, PDF · max 5 MB</span>
+        </div>
+        @if (selectedFiles().length > 0) {
+          <ul class="m-0 grid gap-1 p-0 list-none">
+            @for (file of selectedFiles(); track file.name) {
+              <li class="text-sm text-tng-fg-secondary">{{ file.name }}</li>
+            }
+          </ul>
+        }
+        @if (rejectedCount() > 0) {
+          <p class="m-0 text-sm text-red-500">{{ rejectedCount() }} file(s) rejected.</p>
+        }
+      </div>
+    </ng-template>
+  </app-docs-example-tabs-section>
+
+  <section id="accessibility-baseline" class="fileupload-overview-block">
+    <h3>Accessibility baseline</h3>
+    <ul class="fileupload-overview-list">
+      <li>
+        The directive sets no <code>role</code> or <code>tabindex</code>. Wrap the drop zone in a
+        <code>&lt;label&gt;</code> or pair it with a visually hidden
+        <code>&lt;input type="file"&gt;</code> to ensure keyboard-accessible file picking.
+      </li>
+      <li>
+        Use <code>aria-label</code> or an associated <code>&lt;label&gt;</code> to communicate
+        drop-zone purpose and accepted file types to assistive technology.
+      </li>
+      <li>
+        Communicate rejection reasons visually and programmatically — an
+        <code>aria-live</code> region works well for announcing validation failures.
+      </li>
+    </ul>
+  </section>
+</article>
