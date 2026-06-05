@@ -1,13 +1,13 @@
 import type { Routes } from '@angular/router';
-import { HEADLESS_UTILITY_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
+import { HEADLESS_FORM_GROUP, toHeadlessDocsRouteData } from '../../headless-docs.data';
 
-const group = HEADLESS_UTILITY_GROUP;
+const group = HEADLESS_FORM_GROUP;
 const fileuploadItem = group.items.find((item) => item.slug === 'fileupload');
 if (fileuploadItem === undefined) {
-  throw new Error('Missing "fileupload" in headless utility docs group.');
+  throw new Error('Missing "fileupload" in headless form docs group.');
 }
 
-export const HEADLESS_UTILITY_FILEUPLOAD_ROUTES: Routes = [
+export const HEADLESS_FORM_FILEUPLOAD_ROUTES: Routes = [
   {
     path: '',
     data: toHeadlessDocsRouteData(group, fileuploadItem),

@@ -3058,6 +3058,18 @@
     ]
   },
   {
+    "title": "FileUpload",
+    "description": "Headless drag-and-drop file selection with accept, size, and multiplicity validation plus drag-state hooks.",
+    "section": "Headless / Form",
+    "url": "/headless/form/fileupload",
+    "tags": [
+      "headless",
+      "form",
+      "fileupload",
+      "fileupload"
+    ]
+  },
+  {
     "title": "Codeblock",
     "description": "Structural code-block slot directives for owner-authored headers, gutters, and code surfaces.",
     "section": "Headless / Utility",

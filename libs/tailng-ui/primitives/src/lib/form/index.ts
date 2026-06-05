@@ -34,3 +34,4 @@ export * from './switch/tng-switch';
 export * from './textarea/tng-textarea';
 export * from './toggle/tng-toggle';
 export * from './toggle-group/tng-toggle-group';
+export * from './file-upload';

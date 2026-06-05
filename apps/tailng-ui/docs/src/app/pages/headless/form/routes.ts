@@ -92,6 +92,11 @@ export const HEADLESS_FORM_ROUTES: Routes = [
     loadChildren: () =>
       import('./date-range-picker/routes').then((m) => m.HEADLESS_FORM_DATE_RANGE_PICKER_ROUTES),
   },
+  {
+    path: 'fileupload',
+    loadChildren: () =>
+      import('./fileupload/routes').then((m) => m.HEADLESS_FORM_FILEUPLOAD_ROUTES),
+  },
   ...group.items
     .filter(
       (item) =>
@@ -112,7 +117,8 @@ export const HEADLESS_FORM_ROUTES: Routes = [
         item.slug !== 'selectbox' &&
         item.slug !== 'multiselect' &&
         item.slug !== 'datepicker' &&
-        item.slug !== 'date-range-picker',
+        item.slug !== 'date-range-picker' &&
+        item.slug !== 'fileupload',
     )
     .map((item) => ({
       path: item.slug,
