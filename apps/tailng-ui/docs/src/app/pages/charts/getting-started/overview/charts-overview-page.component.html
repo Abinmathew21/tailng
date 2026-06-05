@@ -235,9 +235,12 @@
                 }
                 @case ('geo-map') {
                   <tng-geo-map-chart
-                    [data]="[]"
+                    [data]="geoMapData"
                     [height]="220"
                     [optionOverride]="geoMapOverride"
+                    [runtimeLoader]="geoRuntimeLoader"
+                    categoryField="name"
+                    valueField="value"
                   />
                 }
               }

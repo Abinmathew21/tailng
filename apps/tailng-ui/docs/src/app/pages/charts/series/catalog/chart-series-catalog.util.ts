@@ -1,4 +1,6 @@
-import type { TngChartData, TngChartOptionOverride } from '@tailng-ui/charts';
+import type { TngChartData, TngChartOption, TngChartOptionOverride } from '@tailng-ui/charts';
+import type { DocsExampleCodeTab } from '../../../../shared/example-panel/docs-example-panel.component';
+import { DOCS_GEO_MAP_DATA, DOCS_GEO_MAP_NAME } from '../../shared/docs-geo-runtime-loader';
 import type { ChartSeriesDocConfig } from '../chart-series-docs.data';
 import {
   CHART_SERIES_PLAIN_LAYOUT_CSS,
@@ -66,10 +68,7 @@ export function parseChartUsageAttributes(usageAttributes: string): ChartUsageBi
 export function buildCatalogDemoData(config: ChartSeriesDocConfig): TngChartData {
   // Lines series uses coordinate-pair data, not the standard field-driven rows.
   if (config.seriesType === 'lines') {
-    if (config.coordinateSystem === 'geo') {
-      return GEO_LINES_DEMO_ROWS.map((row) => ({ ...row }));
-    }
-    return CARTESIAN_LINES_DEMO_ROWS.map((row) => ({ ...row }));
+    return buildCatalogLinesDemoData(config);
   }
 
   const bindings = parseChartUsageAttributes(config.usageAttributes);
@@ -90,6 +89,11 @@ export function buildCatalogDemoData(config: ChartSeriesDocConfig): TngChartData
     [xKey]: row.label,
     [yKey]: row.value,
   }));
+}
+
+function buildCatalogLinesDemoData(config: ChartSeriesDocConfig): TngChartData {
+  const rows = config.coordinateSystem === 'geo' ? GEO_LINES_DEMO_ROWS : CARTESIAN_LINES_DEMO_ROWS;
+  return rows.map((row) => ({ ...row }));
 }
 
 function buildCatalogDemoDataCodeRows(config: ChartSeriesDocConfig): readonly string[] {
@@ -151,7 +155,9 @@ export function buildCatalogTemplateMarkup(
     .join('\n');
 }
 
-export function buildCatalogOverviewPlainCodeTabs(config: ChartSeriesDocConfig) {
+export function buildCatalogOverviewPlainCodeTabs(
+  config: ChartSeriesDocConfig,
+): readonly DocsExampleCodeTab[] {
   const className = toExampleClassName(config, 'OverviewPlain');
 
   return createChartSeriesCodeTabs({
@@ -188,7 +194,9 @@ export function buildCatalogOverviewPlainCodeTabs(config: ChartSeriesDocConfig) 
   });
 }
 
-export function buildCatalogOverviewTailwindCodeTabs(config: ChartSeriesDocConfig) {
+export function buildCatalogOverviewTailwindCodeTabs(
+  config: ChartSeriesDocConfig,
+): readonly DocsExampleCodeTab[] {
   const className = toExampleClassName(config, 'OverviewTailwind');
 
   return createChartSeriesCodeTabs({
@@ -222,14 +230,9 @@ export function buildCatalogExamplePresetCodeTabs(
   config: ChartSeriesDocConfig,
   variant: 'default' | 'themed' | 'override',
   style: 'plain' | 'tailwind',
-) {
-  const shellClass =
-    variant === 'themed' && style === 'plain'
-      ? 'chart-series-example-chart chart-series-example-chart--themed'
-      : style === 'plain'
-        ? 'chart-series-example-chart chart-series-example-chart--plain'
-        : undefined;
-  const useTailwindShell = style === 'tailwind' && variant !== 'themed';
+): readonly DocsExampleCodeTab[] {
+  const shellClass = resolveCatalogExampleShellClass(variant, style);
+  const useTailwindShell = shouldUseTailwindShell(variant, style);
   const className = toExampleClassName(config, `${variant}-${style}`);
   const optionOverride = variant === 'override';
 
@@ -263,6 +266,24 @@ export function buildCatalogExamplePresetCodeTabs(
     ].join('\n'),
     cssCode: style === 'plain' ? CHART_SERIES_PLAIN_LAYOUT_CSS : CHART_SERIES_TAILWIND_LAYOUT_CSS,
   });
+}
+
+function resolveCatalogExampleShellClass(
+  variant: 'default' | 'themed' | 'override',
+  style: 'plain' | 'tailwind',
+): string | undefined {
+  if (variant === 'themed' && style === 'plain') {
+    return 'chart-series-example-chart chart-series-example-chart--themed';
+  }
+
+  return style === 'plain' ? 'chart-series-example-chart chart-series-example-chart--plain' : undefined;
+}
+
+function shouldUseTailwindShell(
+  variant: 'default' | 'themed' | 'override',
+  style: 'plain' | 'tailwind',
+): boolean {
+  return style === 'tailwind' && variant !== 'themed';
 }
 
 export function buildCatalogOptionOverride(config: ChartSeriesDocConfig): TngChartOptionOverride {
@@ -329,26 +350,11 @@ export function buildCatalogGeoFallbackOverride(
   }
 
   if (config.seriesType === 'lines') {
-    // Animated connection lines on a hidden cartesian grid.
-    return (_option) => ({
-      grid: { top: 20, right: 20, bottom: 20, left: 20 },
-      tooltip: { show: false },
-      xAxis: { type: 'value', min: 0, max: 150, show: false },
-      yAxis: { type: 'value', min: 0, max: 90, show: false },
-      series: [{
-        type: 'lines',
-        coordinateSystem: 'cartesian2d',
-        data: [
-          { coords: [[20, 65], [130, 30]] },
-          { coords: [[50, 20], [110, 72]] },
-          { coords: [[10, 45], [140, 55]] },
-          { coords: [[40, 75], [100, 15]] },
-          { coords: [[5, 35], [125, 60]] },
-        ],
-        effect: { show: true, symbol: 'arrow', symbolSize: 6, period: 6 },
-        lineStyle: { width: 1.5, opacity: 0.7, curveness: 0.2 },
-      }],
-    });
+    return createCatalogGeoLinesFallbackOverride;
+  }
+
+  if (config.seriesType === 'map') {
+    return createCatalogGeoMapOverride;
   }
 
   // Generic geo fallback: blank canvas with a placeholder message.
@@ -363,6 +369,43 @@ export function buildCatalogGeoFallbackOverride(
     },
     series: [],
   });
+}
+
+function createCatalogGeoMapOverride(): TngChartOption {
+  return {
+    geo: { map: DOCS_GEO_MAP_NAME, roam: false, silent: true },
+    series: [{
+      type: 'map',
+      map: DOCS_GEO_MAP_NAME,
+      data: DOCS_GEO_MAP_DATA,
+      itemStyle: { borderColor: '#ffffff', borderWidth: 1 },
+      emphasis: { label: { show: false } },
+    }],
+    tooltip: { trigger: 'item' },
+    visualMap: { show: false, min: 0, max: 100 },
+  };
+}
+
+function createCatalogGeoLinesFallbackOverride(): TngChartOption {
+  return {
+    grid: { top: 20, right: 20, bottom: 20, left: 20 },
+    tooltip: { show: false },
+    xAxis: { type: 'value', min: 0, max: 150, show: false },
+    yAxis: { type: 'value', min: 0, max: 90, show: false },
+    series: [{
+      type: 'lines',
+      coordinateSystem: 'cartesian2d',
+      data: [
+        { coords: [[20, 65], [130, 30]] },
+        { coords: [[50, 20], [110, 72]] },
+        { coords: [[10, 45], [140, 55]] },
+        { coords: [[40, 75], [100, 15]] },
+        { coords: [[5, 35], [125, 60]] },
+      ],
+      effect: { show: true, symbol: 'arrow', symbolSize: 6, period: 6 },
+      lineStyle: { width: 1.5, opacity: 0.7, curveness: 0.2 },
+    }],
+  };
 }
 
 export const CATALOG_THEMED_CHART_STYLE: Readonly<Record<string, string>> = {

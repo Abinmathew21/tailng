@@ -26,7 +26,9 @@ import {
   TngLinesGeoLinesChartComponent,
   TngPieChartComponent,
   TngScatterChartComponent,
+  type TngChartData,
   type TngChartOptionOverride,
+  type TngChartRuntimeLoader,
 } from '@tailng-ui/charts';
 import {
   TngCardComponent,
@@ -58,6 +60,11 @@ import {
   CHART_REVENUE_DATA,
   CHART_SANKEY_DATA,
 } from '../../shared/chart-wrapper-docs.config';
+import {
+  DOCS_GEO_MAP_DATA,
+  DOCS_GEO_MAP_NAME,
+  loadDocsGeoRuntime,
+} from '../../shared/docs-geo-runtime-loader';
 
 const overviewItem = CHARTS_GETTING_STARTED_GROUP.items.find((item) => item.slug === 'overview');
 if (!overviewItem) {
@@ -209,6 +216,8 @@ export class ChartsOverviewPageComponent {
   protected readonly chordData = CHART_CHORD_DATA;
   protected readonly graphData = CHART_GRAPH_DATA;
   protected readonly pictorialBarData = CHART_PICTORIAL_BAR_DATA;
+  protected readonly geoMapData: TngChartData = DOCS_GEO_MAP_DATA;
+  protected readonly geoRuntimeLoader: TngChartRuntimeLoader = loadDocsGeoRuntime;
 
   // ── optionOverrides for charts needing structured ECharts options ──────────
   protected readonly radarOverride: TngChartOptionOverride = (_) => ({
@@ -382,9 +391,15 @@ export class ChartsOverviewPageComponent {
   });
 
   protected readonly geoMapOverride: TngChartOptionOverride = (_) => ({
-    geo: { map: 'world', roam: false, silent: true },
-    series: [],
-    tooltip: { show: false },
-    title: { text: 'GEO map requires map data', subtext: 'Register a map with ECharts', left: 'center', top: 'middle' },
+    geo: { map: DOCS_GEO_MAP_NAME, roam: false, silent: true },
+    series: [{
+      type: 'map',
+      map: DOCS_GEO_MAP_NAME,
+      data: this.geoMapData,
+      itemStyle: { borderColor: '#ffffff', borderWidth: 1 },
+      emphasis: { label: { show: false } },
+    }],
+    tooltip: { trigger: 'item' },
+    visualMap: { show: false, min: 0, max: 100 },
   });
 }

@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import type { TngChartData, TngChartOptionOverride } from '@tailng-ui/charts';
 import * as TngCharts from '@tailng-ui/charts';
+import { loadDocsGeoRuntime } from '../../shared/docs-geo-runtime-loader';
 import type { ChartSeriesDocConfig } from '../chart-series-docs.data';
 import {
   CATALOG_THEMED_CHART_STYLE,
@@ -57,6 +58,10 @@ export class ChartSeriesCatalogChartComponent {
     const override = this.resolvedOverride();
     if (override !== undefined) {
       inputs['optionOverride'] = override;
+    }
+
+    if (this.config().coordinateSystem === 'geo' && this.config().seriesType === 'map') {
+      inputs['runtimeLoader'] = loadDocsGeoRuntime;
     }
 
     return inputs;
