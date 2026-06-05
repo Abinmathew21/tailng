@@ -17,7 +17,7 @@ export const atlasThemePreset: ThemeDefinition = {
       primary: '#1f2937',
       secondary: '#4b5563',
       muted: '#6b7280',
-      inverse: '{color.white}',
+      inverse: '#edfaf8',
     },
     border: {
       default: '#9ccac2',

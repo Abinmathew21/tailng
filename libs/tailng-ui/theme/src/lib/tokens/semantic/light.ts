@@ -11,7 +11,7 @@ export const lightSemanticTokens: ThemeSemanticTokens = {
     primary: '#1f2937',
     secondary: '#4b5563',
     muted: '#6b7280',
-    inverse: '{color.white}',
+    inverse: '#eef4fb',
   },
   border: {
     default: '#b8c7d9',

@@ -25,14 +25,14 @@ export const sterlingDarkThemePreset: ThemeDefinition = {
       strong: '#64748b',
     },
     accent: {
-      brand: '#cbd5e1',
-      brandHover: '#e2e8f0',
+      brand: '#9dafc4',
+      brandHover: '#b4c4d6',
       danger: '#fca5a5',
       success: '#86efac',
       warning: '#fcd34d',
     },
     focus: {
-      ring: '#cbd5e1',
+      ring: '#9dafc4',
     },
   }),
 };

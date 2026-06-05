@@ -17,7 +17,7 @@ export const slateThemePreset: ThemeDefinition = {
       primary: '#1f2937',
       secondary: '#4b5563',
       muted: '#6b7280',
-      inverse: '{color.white}',
+      inverse: '#f1f5f9',
     },
     border: {
       default: '#b6c2d1',

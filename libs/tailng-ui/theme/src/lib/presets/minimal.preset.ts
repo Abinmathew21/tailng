@@ -16,7 +16,7 @@ export const minimalThemePreset: ThemeDefinition = {
     foreground: {
       primary: '#111827',
       secondary: '{color.neutral500}',
-      inverse: '{color.white}',
+      inverse: '#f4f6f8',
     },
     border: {
       default: '#c4ccd7',

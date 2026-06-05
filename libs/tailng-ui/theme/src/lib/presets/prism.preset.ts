@@ -17,7 +17,7 @@ export const prismThemePreset: ThemeDefinition = {
       primary: '#111827',
       secondary: '#374151',
       muted: '#6b7280',
-      inverse: '{color.white}',
+      inverse: '#f5f3ff',
     },
     border: {
       default: '#c8c0ff',

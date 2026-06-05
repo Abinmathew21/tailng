@@ -17,7 +17,7 @@ export const nexusThemePreset: ThemeDefinition = {
       primary: '{color.neutral900}',
       secondary: '#334155',
       muted: '{color.neutral500}',
-      inverse: '{color.white}',
+      inverse: '#eff6ff',
     },
     border: {
       default: '#9ebcff',

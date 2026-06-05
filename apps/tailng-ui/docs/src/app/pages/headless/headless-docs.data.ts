@@ -183,6 +183,13 @@ export const HEADLESS_FORM_GROUP: HeadlessDocsGroup = {
       description:
         'Segmented OTP entry primitives with owned slot markup, paste handling, and reflected state attrs.',
     },
+    {
+      id: 'fileupload',
+      slug: 'fileupload',
+      title: 'FileUpload',
+      description:
+        'Headless drag-and-drop file selection with accept, size, and multiplicity validation plus drag-state hooks.',
+    },
   ],
 };
 
@@ -325,13 +332,6 @@ export const HEADLESS_UTILITY_GROUP: HeadlessDocsGroup = {
       slug: 'copybutton',
       title: 'CopyButton',
       description: 'Clipboard action behavior, status signals, and announcer integration hooks.',
-    },
-    {
-      id: 'fileupload',
-      slug: 'fileupload',
-      title: 'FileUpload',
-      description:
-        'Headless drag-and-drop file selection with accept, size, and multiplicity validation plus drag-state hooks.',
     },
     {
       id: 'button',

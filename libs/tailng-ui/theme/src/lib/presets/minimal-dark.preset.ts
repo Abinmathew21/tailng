@@ -25,14 +25,14 @@ export const minimalDarkThemePreset: ThemeDefinition = {
       strong: '{color.neutral400}',
     },
     accent: {
-      brand: '{color.white}',
-      brandHover: '{color.neutral200}',
+      brand: '#dde3ec',
+      brandHover: '#eaeff5',
       danger: '#f87171',
       success: '#4ade80',
       warning: '{color.warning500}',
     },
     focus: {
-      ring: '{color.white}',
+      ring: '#dde3ec',
     },
   }),
 };

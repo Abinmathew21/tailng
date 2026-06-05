@@ -25,14 +25,14 @@ export const slateDarkThemePreset: ThemeDefinition = {
       strong: '#506175',
     },
     accent: {
-      brand: '#94a3b8',
-      brandHover: '#cbd5e1',
+      brand: '#6d8ba8',
+      brandHover: '#8aa4be',
       danger: '#f87171',
       success: '#4ade80',
       warning: '#fbbf24',
     },
     focus: {
-      ring: '#94a3b8',
+      ring: '#6d8ba8',
     },
   }),
 };

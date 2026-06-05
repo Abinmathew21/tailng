@@ -17,7 +17,7 @@ export const sterlingThemePreset: ThemeDefinition = {
       primary: '#1f2937',
       secondary: '#475569',
       muted: '#64748b',
-      inverse: '{color.white}',
+      inverse: '#f5f7fa',
     },
     border: {
       default: '#b6bfca',
