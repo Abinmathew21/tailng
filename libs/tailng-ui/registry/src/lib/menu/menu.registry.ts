@@ -74,6 +74,23 @@ export class TngMenuPrimitive {
 }
 `;
 
+const triggerTargetTsTemplate = `import { InjectionToken } from '@angular/core';
+
+export type TngTriggerTargetAttributes = Readonly<{
+  ariaControls?: string | null;
+  ariaExpanded?: boolean | null;
+  ariaHasPopup?: string | null;
+  dataSlot?: string | null;
+}>;
+
+export interface TngTriggerTarget {
+  getTngTriggerElement(): HTMLElement | null;
+  setTngTriggerAttributes(attributes: TngTriggerTargetAttributes): void;
+}
+
+export const TNG_TRIGGER_TARGET = new InjectionToken<TngTriggerTarget>('TNG_TRIGGER_TARGET');
+`;
+
 const menuComponentTsTemplate = `import {
   Component,
   ElementRef,
@@ -88,6 +105,8 @@ import { TngMenuPrimitive } from './tng-menu-primitive';
 const menuPanelIdPrefix = 'tng-menu-panel-';
 
 let menuPanelIdSequence = 0;
+
+type TngMenuTriggerStateSync = () => void;
 
 function createMenuPanelId(): string {
   menuPanelIdSequence += 1;
@@ -124,6 +143,7 @@ export class TngMenu {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly panelRef = viewChild<ElementRef<HTMLUListElement>>('panelRef');
   private readonly triggerElements = new Set<HTMLElement>();
+  private readonly triggerStateSyncs = new Map<HTMLElement, TngMenuTriggerStateSync>();
 
   public closeMenu(): void {
     if (!this.open()) {
@@ -131,6 +151,7 @@ export class TngMenu {
     }
 
     this.open.set(false);
+    this.syncTriggerState();
   }
 
   public getPanelId(): string {
@@ -147,6 +168,7 @@ export class TngMenu {
     }
 
     this.open.set(true);
+    this.syncTriggerState();
     queueMicrotask((): void => {
       const panel = this.panelRef()?.nativeElement;
       const firstMenuItem = resolveFirstEnabledMenuItem(panel);
@@ -159,8 +181,11 @@ export class TngMenu {
     });
   }
 
-  public registerTrigger(trigger: HTMLElement): void {
+  public registerTrigger(trigger: HTMLElement, syncTriggerState?: TngMenuTriggerStateSync): void {
     this.triggerElements.add(trigger);
+    if (syncTriggerState !== undefined) {
+      this.triggerStateSyncs.set(trigger, syncTriggerState);
+    }
   }
 
   public toggleMenu(): void {
@@ -174,6 +199,13 @@ export class TngMenu {
 
   public unregisterTrigger(trigger: HTMLElement): void {
     this.triggerElements.delete(trigger);
+    this.triggerStateSyncs.delete(trigger);
+  }
+
+  private syncTriggerState(): void {
+    for (const syncTriggerState of this.triggerStateSyncs.values()) {
+      syncTriggerState();
+    }
   }
 
   @HostListener('document:click', ['$event'])
@@ -214,16 +246,23 @@ export class TngMenu {
 const menuTriggerDirectiveTsTemplate = `import {
   Directive,
   ElementRef,
-  HostBinding,
   HostListener,
   effect,
   inject,
   input,
 } from '@angular/core';
 import type { TngMenu } from './tng-menu';
+import { TNG_TRIGGER_TARGET, type TngTriggerTargetAttributes } from '../tng-trigger-target';
 
 type TngMenuTriggerKeyboardEvent = Readonly<Pick<KeyboardEvent, 'key'>> &
   Readonly<{ preventDefault: () => void }>;
+
+let menuTriggerIdSequence = 0;
+
+function createMenuTriggerId(): string {
+  menuTriggerIdSequence += 1;
+  return \`tng-menu-trigger-\${menuTriggerIdSequence}\`;
+}
 
 function shouldOpenMenuForKey(key: string): boolean {
   return key === 'ArrowDown' || key === 'Enter' || key === ' ';
@@ -237,36 +276,39 @@ export class TngMenuTriggerFor {
   public readonly tngMenuTriggerFor = input.required<TngMenu>();
 
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
-
-  @HostBinding('attr.aria-haspopup')
-  protected readonly ariaHasPopup = 'menu' as const;
+  private readonly triggerTarget = inject(TNG_TRIGGER_TARGET, { optional: true, self: true });
 
   public constructor() {
     effect((onCleanup): void => {
       const menu = this.tngMenuTriggerFor();
-      const trigger = this.hostRef.nativeElement;
-      menu.registerTrigger(trigger);
+      const trigger = this.triggerTarget?.getTngTriggerElement() ?? this.hostRef.nativeElement;
+      const generatedTriggerId = this.ensureTriggerId(trigger);
+      this.setTriggerAttributes(trigger, {
+        dataSlot: 'menu-trigger',
+        ariaHasPopup: 'menu',
+      });
+      menu.registerTrigger(trigger, () => this.syncAriaState(trigger));
+      this.syncAriaState(trigger);
 
       onCleanup((): void => {
         menu.unregisterTrigger(trigger);
+        this.setTriggerAttributes(trigger, {
+          dataSlot: null,
+          ariaHasPopup: null,
+          ariaControls: null,
+          ariaExpanded: null,
+        });
+        if (generatedTriggerId) {
+          trigger.removeAttribute('id');
+        }
       });
     });
-  }
-
-  @HostBinding('attr.aria-controls')
-  protected get ariaControls(): string | null {
-    const menu = this.tngMenuTriggerFor();
-    return menu.isOpen() ? menu.getPanelId() : null;
-  }
-
-  @HostBinding('attr.aria-expanded')
-  protected get ariaExpanded(): boolean {
-    return this.tngMenuTriggerFor().isOpen();
   }
 
   @HostListener('click')
   protected onClick(): void {
     this.tngMenuTriggerFor().toggleMenu();
+    this.syncAriaState(this.resolveTriggerElement());
   }
 
   @HostListener('keydown', ['$event'])
@@ -277,6 +319,73 @@ export class TngMenuTriggerFor {
 
     event.preventDefault();
     this.tngMenuTriggerFor().openMenu();
+    this.syncAriaState(this.resolveTriggerElement());
+  }
+
+  private resolveTriggerElement(): HTMLElement {
+    return this.triggerTarget?.getTngTriggerElement() ?? this.hostRef.nativeElement;
+  }
+
+  private syncAriaState(trigger: HTMLElement): void {
+    const menu = this.tngMenuTriggerFor();
+    const panelId = menu.isOpen() ? menu.getPanelId() : null;
+    this.setTriggerAttributes(trigger, {
+      ariaControls: panelId,
+      ariaExpanded: menu.isOpen(),
+    });
+  }
+
+  private ensureTriggerId(trigger: HTMLElement): boolean {
+    if (trigger.id.length > 0) {
+      return false;
+    }
+
+    trigger.id = createMenuTriggerId();
+    return true;
+  }
+
+  private setTriggerAttributes(trigger: HTMLElement, attributes: TngTriggerTargetAttributes): void {
+    if (this.triggerTarget !== null) {
+      this.triggerTarget.setTngTriggerAttributes(attributes);
+      return;
+    }
+
+    if ('dataSlot' in attributes) {
+      this.setOrRemoveAttribute(trigger, 'data-slot', attributes.dataSlot);
+    }
+
+    if ('ariaHasPopup' in attributes) {
+      this.setOrRemoveAttribute(trigger, 'aria-haspopup', attributes.ariaHasPopup);
+    }
+
+    if ('ariaControls' in attributes) {
+      this.setOrRemoveAttribute(trigger, 'aria-controls', attributes.ariaControls);
+    }
+
+    if ('ariaExpanded' in attributes) {
+      this.setOrRemoveAttribute(
+        trigger,
+        'aria-expanded',
+        attributes.ariaExpanded === null || attributes.ariaExpanded === undefined
+          ? null
+          : attributes.ariaExpanded
+            ? 'true'
+            : 'false',
+      );
+    }
+  }
+
+  private setOrRemoveAttribute(
+    trigger: HTMLElement,
+    name: string,
+    value: boolean | string | null | undefined,
+  ): void {
+    if (value === null || value === undefined) {
+      trigger.removeAttribute(name);
+      return;
+    }
+
+    trigger.setAttribute(name, String(value));
   }
 }
 `;
@@ -336,6 +445,10 @@ export const menuRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for menu primitive and styled wrapper.',
   files: [
+    {
+      content: triggerTargetTsTemplate,
+      path: 'src/app/tailng-ui/tng-trigger-target.ts',
+    },
     {
       content: menuPrimitiveTsTemplate,
       path: 'src/app/tailng-ui/menu/tng-menu-primitive.ts',

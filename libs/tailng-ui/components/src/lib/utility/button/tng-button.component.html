@@ -1,12 +1,14 @@
 <button
+  #buttonRef
   tngPress
   class="tng-button"
   [type]="type()"
   [disabled]="disabled()"
-  [ariaControls]="ariaControls()"
-  [ariaExpanded]="ariaExpanded()"
-  [ariaHasPopup]="ariaHasPopup()"
+  [ariaControls]="triggerAriaControls() ?? ariaControls()"
+  [ariaExpanded]="triggerAriaExpanded() ?? ariaExpanded()"
+  [ariaHasPopup]="triggerAriaHasPopup() ?? ariaHasPopup()"
   [ariaPressed]="ariaPressed()"
+  [attr.data-slot]="triggerDataSlot()"
   [attr.data-appearance]="appearance()"
   [attr.data-size]="size()"
   [attr.data-tone]="tone()"

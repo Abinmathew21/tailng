@@ -26,6 +26,7 @@ function collectRouteFiles(directory: string): readonly string[] {
 describe('ownable docs helpers', () => {
   it('derives generated files directly from the registry item', () => {
     expect(getRegistryGeneratedFilePaths('button')).toEqual([
+      'src/app/tailng-ui/tng-trigger-target.ts',
       'src/app/tailng-ui/button/tng-press-primitive.ts',
       'src/app/tailng-ui/button/tng-button.ts',
       'src/app/tailng-ui/button/tng-button.html',

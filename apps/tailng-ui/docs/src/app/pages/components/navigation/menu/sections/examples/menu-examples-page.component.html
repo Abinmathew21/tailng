@@ -67,6 +67,88 @@
 
   <section class="docs-overview-block">
     <app-docs-example-tabs-section
+      heading="Button trigger"
+      description="Use tng-button as the menu trigger. [tngMenuTriggerFor] wires open/close, keyboard support, and ARIA state on the button host."
+      ariaLabel="Button menu trigger examples"
+      tabListAriaLabel="Button menu trigger tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="tng-button menu trigger (plain CSS)"
+        [codeTabs]="buttonTriggerPlainCodeTabs"
+      >
+        <div class="docs-example-stage">
+          <div>
+            <tng-button
+              id="menu-examples-button-trigger"
+              type="button"
+              tone="neutral"
+              appearance="outline"
+              [tngMenuTriggerFor]="buttonTriggerMenu"
+            >
+              Options
+            </tng-button>
+            <tng-menu
+              #buttonTriggerMenu="tngMenu"
+              ariaLabel="Button trigger options menu"
+              (tngMenuSelect)="onButtonTriggerSelect($event)"
+            >
+              <div tngMenuGroupLabel>Options</div>
+              <button type="button" tngMenuItem tngMenuItemValue="Pin item">Pin</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Mute notifications">Mute</button>
+              <button type="button" tngMenuItem tngMenuItemValue="Remove item">Remove</button>
+            </tng-menu>
+          </div>
+        </div>
+        <p class="docs-overview-state">last command: {{ buttonTriggerCommand() }}</p>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="tng-button menu trigger (tailwind shell)"
+        [codeTabs]="buttonTriggerTailwindCodeTabs"
+      >
+        <div
+          class="rounded-xl border border-[var(--tng-semantic-border-subtle)] bg-[color-mix(in_srgb,var(--tng-semantic-background-surface)_88%,transparent)] p-4"
+        >
+          <div class="docs-example-stage">
+            <div>
+              <tng-button
+                id="menu-examples-button-trigger-tailwind"
+                type="button"
+                tone="primary"
+                appearance="solid"
+                size="sm"
+                [tngMenuTriggerFor]="buttonTriggerTailwindMenu"
+              >
+                Open menu
+              </tng-button>
+              <tng-menu
+                #buttonTriggerTailwindMenu="tngMenu"
+                ariaLabel="Button trigger actions menu"
+                (tngMenuSelect)="onButtonTriggerSelect($event)"
+              >
+                <div tngMenuGroupLabel>Actions</div>
+                <button type="button" tngMenuItem tngMenuItemValue="Export report">Export report</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Share link">Share link</button>
+                <button type="button" tngMenuItem tngMenuItemValue="Copy path">Copy path</button>
+              </tng-menu>
+            </div>
+          </div>
+        </div>
+        <p class="docs-overview-state">last command: {{ buttonTriggerCommand() }}</p>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
+  <section class="docs-overview-block">
+    <app-docs-example-tabs-section
       heading="State-driven styling hooks"
       description="Style wrapper menus through public attributes like aria-expanded, data-state, data-active, and aria-disabled without reaching into private DOM."
       ariaLabel="State driven styling examples"

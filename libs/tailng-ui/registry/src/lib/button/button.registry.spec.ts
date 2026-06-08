@@ -5,7 +5,7 @@ describe('button registry item', () => {
   it('contains expected metadata', () => {
     expect(buttonRegistryItem.name).toBe('button');
     expect(buttonRegistryItem.dependencies).toEqual([]);
-    expect(buttonRegistryItem.files).toHaveLength(5);
+    expect(buttonRegistryItem.files).toHaveLength(6);
   });
 
   it('generates local button source files', () => {
@@ -16,7 +16,15 @@ describe('button registry item', () => {
     expect(tsFile?.content).toContain("from './tng-press-primitive';");
     expect(tsFile?.content).toContain('coerceTngPressAriaHasPopup');
     expect(tsFile?.content).toContain('coerceTngPressNullableBoolean');
+    expect(tsFile?.content).toContain('TNG_TRIGGER_TARGET');
+    expect(tsFile?.content).toContain('getTngTriggerElement');
     expect(tsFile?.content).toContain("selector: 'tng-button'");
+
+    const triggerTargetFile = buttonRegistryItem.files.find((file) =>
+      file.path.endsWith('tailng-ui/tng-trigger-target.ts'),
+    );
+    expect(triggerTargetFile).toBeDefined();
+    expect(triggerTargetFile?.content).toContain('export const TNG_TRIGGER_TARGET');
 
     const primitiveFile = buttonRegistryItem.files.find((file) =>
       file.path.endsWith('tailng-ui/button/tng-press-primitive.ts'),

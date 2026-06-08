@@ -251,13 +251,43 @@ export class TngPressPrimitive {
 }
 `;
 
-const buttonComponentTsTemplate = `import { booleanAttribute, Component, input } from '@angular/core';
+const triggerTargetTsTemplate = `import { InjectionToken } from '@angular/core';
+
+export type TngTriggerTargetAttributes = Readonly<{
+  ariaControls?: string | null;
+  ariaExpanded?: boolean | null;
+  ariaHasPopup?: string | null;
+  dataSlot?: string | null;
+}>;
+
+export interface TngTriggerTarget {
+  getTngTriggerElement(): HTMLElement | null;
+  setTngTriggerAttributes(attributes: TngTriggerTargetAttributes): void;
+}
+
+export const TNG_TRIGGER_TARGET = new InjectionToken<TngTriggerTarget>('TNG_TRIGGER_TARGET');
+`;
+
+const buttonComponentTsTemplate = `import {
+  booleanAttribute,
+  Component,
+  ElementRef,
+  forwardRef,
+  input,
+  signal,
+  viewChild,
+} from '@angular/core';
 import {
   coerceTngPressAriaHasPopup,
   coerceTngPressNullableBoolean,
   TngPressPrimitive,
 } from './tng-press-primitive';
 import type { TngPressAriaHasPopup, TngPressType } from './tng-press-primitive';
+import {
+  TNG_TRIGGER_TARGET,
+  type TngTriggerTarget,
+  type TngTriggerTargetAttributes,
+} from '../tng-trigger-target';
 
 type NullableBooleanInput = boolean | null | string | undefined;
 export type TngButtonAppearance = 'ghost' | 'outline' | 'solid';
@@ -267,10 +297,11 @@ export type TngButtonTone = 'danger' | 'neutral' | 'primary' | 'success';
 @Component({
   selector: 'tng-button',
   imports: [TngPressPrimitive],
+  providers: [{ provide: TNG_TRIGGER_TARGET, useExisting: forwardRef(() => TngButton) }],
   templateUrl: './tng-button.html',
   styleUrl: './tng-button.css',
 })
-export class TngButton {
+export class TngButton implements TngTriggerTarget {
   public readonly appearance = input<TngButtonAppearance>('solid');
   public readonly ariaControls = input<string | null>(null);
   public readonly ariaExpanded = input<boolean | null, NullableBooleanInput>(null, {
@@ -291,18 +322,48 @@ export class TngButton {
   public readonly size = input<TngButtonSize>('md');
   public readonly tone = input<TngButtonTone>('primary');
   public readonly type = input<TngPressType>('button');
+
+  protected readonly triggerAriaControls = signal<string | null>(null);
+  protected readonly triggerAriaExpanded = signal<boolean | null>(null);
+  protected readonly triggerAriaHasPopup = signal<TngPressAriaHasPopup | null>(null);
+  protected readonly triggerDataSlot = signal<string | null>(null);
+  protected readonly buttonRef = viewChild<ElementRef<HTMLButtonElement>>('buttonRef');
+
+  public getTngTriggerElement(): HTMLButtonElement | null {
+    return this.buttonRef()?.nativeElement ?? null;
+  }
+
+  public setTngTriggerAttributes(attributes: TngTriggerTargetAttributes): void {
+    if ('ariaControls' in attributes) {
+      this.triggerAriaControls.set(attributes.ariaControls ?? null);
+    }
+
+    if ('ariaExpanded' in attributes) {
+      this.triggerAriaExpanded.set(attributes.ariaExpanded ?? null);
+    }
+
+    if ('ariaHasPopup' in attributes) {
+      this.triggerAriaHasPopup.set(coerceTngPressAriaHasPopup(attributes.ariaHasPopup));
+    }
+
+    if ('dataSlot' in attributes) {
+      this.triggerDataSlot.set(attributes.dataSlot ?? null);
+    }
+  }
 }
 `;
 
 const buttonTemplateHtml = `<button
+  #buttonRef
   tngPress
   class="tng-button"
   [type]="type()"
   [disabled]="disabled()"
-  [ariaControls]="ariaControls()"
-  [ariaExpanded]="ariaExpanded()"
-  [ariaHasPopup]="ariaHasPopup()"
+  [ariaControls]="triggerAriaControls() ?? ariaControls()"
+  [ariaExpanded]="triggerAriaExpanded() ?? ariaExpanded()"
+  [ariaHasPopup]="triggerAriaHasPopup() ?? ariaHasPopup()"
   [ariaPressed]="ariaPressed()"
+  [attr.data-slot]="triggerDataSlot()"
   [attr.data-appearance]="appearance()"
   [attr.data-size]="size()"
   [attr.data-tone]="tone()"
@@ -397,6 +458,10 @@ export const buttonRegistryItem: RegistryItemSource = {
   dependencies: [],
   description: 'Shadcn-style source files for button primitive and styled wrapper.',
   files: [
+    {
+      content: triggerTargetTsTemplate,
+      path: 'src/app/tailng-ui/tng-trigger-target.ts',
+    },
     {
       content: buttonPrimitiveTsTemplate,
       path: 'src/app/tailng-ui/button/tng-press-primitive.ts',

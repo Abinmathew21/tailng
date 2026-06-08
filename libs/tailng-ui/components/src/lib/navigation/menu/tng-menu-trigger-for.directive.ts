@@ -1,10 +1,14 @@
-import { Directive, ElementRef, HostBinding, HostListener, effect, inject, input } from '@angular/core';
-import { TngMenu } from '@tailng-ui/primitives';
+import { Directive, ElementRef, HostListener, effect, inject, input } from '@angular/core';
+import { createTngIdFactory } from '@tailng-ui/cdk';
+import type { TngMenu } from '@tailng-ui/primitives';
+import { TNG_TRIGGER_TARGET, type TngTriggerTargetAttributes } from '../../trigger-target';
 
 type TngMenuTriggerKeyboardEvent = Readonly<Pick<KeyboardEvent, 'key'>> &
   Readonly<{ preventDefault: () => void }>;
 
 type TngMenuOpenFocusAction = 'none' | 'first' | 'last';
+
+const createMenuTriggerId = createTngIdFactory('tng-menu-trigger');
 
 function resolveFocusActionForOpenKey(key: string): TngMenuOpenFocusAction | null {
   switch (key) {
@@ -25,28 +29,36 @@ function resolveFocusActionForOpenKey(key: string): TngMenuOpenFocusAction | nul
   exportAs: 'tngMenuTriggerFor',
 })
 export class TngMenuTriggerFor {
-  readonly tngMenuTriggerFor = input.required<TngMenu>();
+  public readonly tngMenuTriggerFor = input.required<TngMenu>();
 
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly triggerTarget = inject(TNG_TRIGGER_TARGET, { optional: true, self: true });
   private readonly dataSlot = 'menu-trigger' as const;
-
-  @HostBinding('attr.aria-haspopup')
-  protected readonly ariaHasPopup = 'menu' as const;
 
   public constructor() {
     effect((onCleanup): void => {
       const menu = this.tngMenuTriggerFor();
-      const trigger = this.hostRef.nativeElement;
-      trigger.setAttribute('data-slot', this.dataSlot);
-      menu.setTriggerElement(trigger, () => this.syncAriaState());
+      const trigger = this.triggerTarget?.getTngTriggerElement() ?? this.hostRef.nativeElement;
+      const generatedTriggerId = this.ensureTriggerId(trigger);
+      this.setTriggerAttributes(trigger, {
+        dataSlot: this.dataSlot,
+        ariaHasPopup: 'menu',
+      });
+      menu.setTriggerElement(trigger, () => this.syncAriaState(trigger));
       menu.setRestoreFocusOnOutsideClick(false);
-      this.syncAriaState();
+      this.syncAriaState(trigger);
 
       onCleanup((): void => {
         menu.clearTriggerLink(trigger);
-        trigger.removeAttribute('data-slot');
-        trigger.removeAttribute('aria-controls');
-        trigger.removeAttribute('aria-expanded');
+        this.setTriggerAttributes(trigger, {
+          dataSlot: null,
+          ariaHasPopup: null,
+          ariaControls: null,
+          ariaExpanded: null,
+        });
+        if (generatedTriggerId) {
+          trigger.removeAttribute('id');
+        }
       });
     });
   }
@@ -86,11 +98,94 @@ export class TngMenuTriggerFor {
     }
   }
 
-  private syncAriaState(): void {
-    const trigger = this.hostRef.nativeElement;
+  private syncAriaState(trigger: Readonly<HTMLElement>): void {
     const menu = this.tngMenuTriggerFor();
 
-    trigger.setAttribute('aria-controls', menu.id);
-    trigger.setAttribute('aria-expanded', menu.isOpen() ? 'true' : 'false');
+    this.setTriggerAttributes(trigger, {
+      ariaControls: menu.id,
+      ariaExpanded: menu.isOpen(),
+    });
+  }
+
+  private ensureTriggerId(trigger: HTMLElement): boolean {
+    if (trigger.id.length > 0) {
+      return false;
+    }
+
+    trigger.id = createMenuTriggerId();
+    return true;
+  }
+
+  private setTriggerAttributes(trigger: Readonly<HTMLElement>, attributes: TngTriggerTargetAttributes): void {
+    if (this.triggerTarget !== null) {
+      this.triggerTarget.setTngTriggerAttributes(attributes);
+      return;
+    }
+
+    this.applyDataSlotAttribute(trigger, attributes);
+    this.applyAriaHasPopupAttribute(trigger, attributes);
+    this.applyAriaControlsAttribute(trigger, attributes);
+    this.applyAriaExpandedAttribute(trigger, attributes);
+  }
+
+  private applyDataSlotAttribute(
+    trigger: Readonly<HTMLElement>,
+    attributes: TngTriggerTargetAttributes,
+  ): void {
+    if ('dataSlot' in attributes) {
+      this.setOrRemoveAttribute(trigger, 'data-slot', attributes.dataSlot);
+    }
+  }
+
+  private applyAriaHasPopupAttribute(
+    trigger: Readonly<HTMLElement>,
+    attributes: TngTriggerTargetAttributes,
+  ): void {
+    if ('ariaHasPopup' in attributes) {
+      this.setOrRemoveAttribute(trigger, 'aria-haspopup', attributes.ariaHasPopup);
+    }
+  }
+
+  private applyAriaControlsAttribute(
+    trigger: Readonly<HTMLElement>,
+    attributes: TngTriggerTargetAttributes,
+  ): void {
+    if ('ariaControls' in attributes) {
+      this.setOrRemoveAttribute(trigger, 'aria-controls', attributes.ariaControls);
+    }
+  }
+
+  private applyAriaExpandedAttribute(
+    trigger: Readonly<HTMLElement>,
+    attributes: TngTriggerTargetAttributes,
+  ): void {
+    if ('ariaExpanded' in attributes) {
+      this.setOrRemoveAttribute(
+        trigger,
+        'aria-expanded',
+        this.toAriaExpandedAttributeValue(attributes.ariaExpanded),
+      );
+    }
+  }
+
+  private toAriaExpandedAttributeValue(value: boolean | null | undefined): 'false' | 'true' | null {
+    if (value === null || value === undefined) {
+      return null;
+    }
+
+    return value ? 'true' : 'false';
+  }
+
+  private setOrRemoveAttribute(
+    trigger: Readonly<HTMLElement>,
+    name: string,
+    value: boolean | string | null | undefined,
+  ): void {
+    if (value === null || value === undefined) {
+      trigger.removeAttribute(name);
+      return;
+    }
+
+    trigger.setAttribute(name, String(value));
   }
 }
