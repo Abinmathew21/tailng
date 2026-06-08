@@ -770,7 +770,12 @@ describe('tng-table grouped headers', () => {
         query<HTMLTableCellElement>(fixture, 'th[data-column-id="firstName"]').getAttribute(
           'data-slot',
         ),
-      ).toBe('table-sort-header');
+      ).toBe('table-header-cell');
+      expect(
+        query<HTMLTableCellElement>(fixture, 'th[data-column-id="firstName"]').hasAttribute(
+          'data-sort-active',
+        ),
+      ).toBe(false);
       expect(
         query<HTMLTableCellElement>(fixture, 'th[data-column-id="email"]').getAttribute(
           'data-slot',

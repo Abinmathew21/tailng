@@ -153,6 +153,9 @@ export class TngSortHeader implements OnDestroy, OnInit {
     alias: 'tngSortHeaderDisabled',
     transform: booleanAttribute,
   });
+  public readonly dataSlot = input<string>('table-sort-header', {
+    alias: 'tngSortHeaderDataSlot',
+  });
 
   @HostBinding('attr.aria-sort')
   protected get ariaSortAttr(): TngTableAriaSort | null {
@@ -164,7 +167,9 @@ export class TngSortHeader implements OnDestroy, OnInit {
   }
 
   @HostBinding('attr.data-slot')
-  protected readonly dataSlot = 'table-sort-header' as const;
+  protected get dataSlotAttr(): string {
+    return this.dataSlot();
+  }
 
   @HostBinding('attr.data-sort-active')
   protected get dataSortActiveAttr(): '' | null {

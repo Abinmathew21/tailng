@@ -1,12 +1,12 @@
 <div
   tngTableScrollContainer
   class="tng-table__scroll"
-  [attr.data-slot]="'table-scroll'"
   [attr.data-scroll-axis]="scrollAxis()"
   [attr.data-sticky-header]="stickyHeader() ? '' : null"
   [dir]="dir()"
   [style.overflow-x]="getScrollOverflowX()"
   [style.overflow-y]="getScrollOverflowY()"
+  tngTableDataSlot="table-scroll"
   [tngTableScrollAxis]="scrollAxis()"
 >
   <table
@@ -39,7 +39,7 @@
 
     <thead tngTableHeader data-slot="table-header" [tngTableHeaderSticky]="stickyHeader()">
       @for (row of headerRows; track $index) {
-        <tr tngTableRow data-slot="table-header-row">
+        <tr tngTableRow data-slot="table-header-row" tngTableDataSlot="table-header-row">
           @for (node of row; track getNodeKey(node)) {
             @if (isSortableLeaf(node)) {
               <th
@@ -53,6 +53,7 @@
                 [attr.data-align]="getHeaderAlign(node)"
                 [attr.data-header-group]="node.isGroup ? '' : null"
                 [attr.data-header-depth]="node.depth"
+                tngSortHeaderDataSlot="table-header-cell"
                 [tngSortHeader]="node.id"
                 [tngTableColspan]="node.colspan"
                 [tngTableColumnId]="node.id"
@@ -105,8 +106,8 @@
           <td
             tngTableCell
             class="tng-table__state-cell"
-            [attr.data-slot]="'table-state-cell'"
             [attr.colspan]="getColspan()"
+            tngTableDataSlot="table-state-cell"
           >
             Loading
           </td>
@@ -116,8 +117,8 @@
           <td
             tngTableCell
             class="tng-table__state-cell"
-            [attr.data-slot]="'table-state-cell'"
             [attr.colspan]="getColspan()"
+            tngTableDataSlot="table-state-cell"
           >
             Error
           </td>
@@ -127,8 +128,8 @@
           <td
             tngTableCell
             class="tng-table__state-cell"
-            [attr.data-slot]="'table-state-cell'"
             [attr.colspan]="getColspan()"
+            tngTableDataSlot="table-state-cell"
           >
             No results
           </td>

@@ -450,13 +450,18 @@ export class TngTableScrollContainer {
     alias: 'tngTableScrollAxis',
     transform: normalizeTableScrollAxis,
   });
+  public readonly dataSlot = input<string>('table-scroll-container', {
+    alias: 'tngTableDataSlot',
+  });
   public readonly dir = input<TngTableDirection | null, unknown>(null, {
     alias: 'dir',
     transform: normalizeTableDirection,
   });
 
   @HostBinding('attr.data-slot')
-  protected readonly dataSlot = 'table-scroll-container' as const;
+  protected get dataSlotAttr(): string {
+    return this.dataSlot();
+  }
 
   @HostBinding('attr.dir')
   protected get dirAttr(): TngTableDirection | null {
@@ -758,12 +763,17 @@ export class TngTableRow {
     alias: 'tngTableRowSelected',
     transform: normalizeBooleanOrNull,
   });
+  public readonly dataSlot = input<string>('table-row', {
+    alias: 'tngTableDataSlot',
+  });
 
   public readonly rowClick = output<TngTableRowClickEvent>();
   public readonly rowContextMenu = output<TngTableRowContextMenuEvent>();
 
   @HostBinding('attr.data-slot')
-  protected readonly dataSlot = 'table-row' as const;
+  protected get dataSlotAttr(): string {
+    return this.dataSlot();
+  }
 
   @HostBinding('attr.aria-disabled')
   protected get ariaDisabledAttr(): string | null {
@@ -892,6 +902,9 @@ export class TngTableCell implements OnDestroy, OnInit {
     alias: 'tngTableTruncate',
     transform: booleanAttribute,
   });
+  public readonly dataSlot = input<string>('table-cell', {
+    alias: 'tngTableDataSlot',
+  });
 
   @Input('tngTableColspan')
   public set tableColspan(value: unknown) {
@@ -904,7 +917,9 @@ export class TngTableCell implements OnDestroy, OnInit {
   }
 
   @HostBinding('attr.data-slot')
-  protected readonly dataSlot = 'table-cell' as const;
+  protected get dataSlotAttr(): string {
+    return this.dataSlot();
+  }
 
   @HostBinding('attr.data-column-id')
   protected get dataColumnIdAttr(): string | null {
