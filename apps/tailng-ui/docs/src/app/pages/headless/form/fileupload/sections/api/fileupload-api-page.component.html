@@ -79,6 +79,24 @@
     </div>
   </section>
 
+  <section id="drag-and-drop-behavior" class="headless-fileupload-api-block">
+    <h3>Drag and drop behavior</h3>
+    <ul class="headless-fileupload-api-list">
+      <li>
+        The host remains the drop target even when the pointer releases over nested markup such as
+        labels, icons, or hint text inside the zone.
+      </li>
+      <li>
+        Drag state is not reset when the pointer moves between the host and its descendants;
+        only a true exit from the zone clears <code>data-dragging</code>.
+      </li>
+      <li>
+        Accepted and rejected file outputs are scheduled inside Angular's zone so owner templates
+        update as soon as the drop completes.
+      </li>
+    </ul>
+  </section>
+
   <section id="validation-model" class="headless-fileupload-api-block">
     <h3>Validation model</h3>
     <p>

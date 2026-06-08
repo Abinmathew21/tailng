@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 
 import { Component, computed, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import type { TngTableSortChange } from '@tailng-ui/primitives';
+import type { TngTableScrollAxis, TngTableSortChange } from '@tailng-ui/primitives';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import {
@@ -59,6 +59,7 @@ type DepartmentRow = Readonly<{
       [error]="error()"
       [items]="items()"
       [loading]="loading()"
+      [scrollAxis]="scrollAxis()"
       [sortActive]="sortActive()"
       [sortDirection]="sortDirection()"
       [stickyHeader]="stickyHeader()"
@@ -85,6 +86,7 @@ class TableHostComponent {
     { id: 'b', name: 'Beta', status: 'Draft', total: 7 },
   ]);
   public readonly loading = signal(false);
+  public readonly scrollAxis = signal<TngTableScrollAxis>('x');
   public readonly sortActive = signal<string | null | undefined>(undefined);
   public readonly sortDirection = signal<'asc' | 'desc' | null | undefined>(undefined);
   public readonly stickyHeader = signal(false);
@@ -356,6 +358,7 @@ describe('tng-table component', () => {
   it('renders a native primitive table with headers and rows', () => {
     const fixture = createFixture();
 
+    expect(query<HTMLDivElement>(fixture, '[data-slot="table-scroll"]')).toBeTruthy();
     const table = query<HTMLTableElement>(fixture, 'table.tng-table');
     expect(table.getAttribute('data-slot')).toBe('table');
     expect(table.getAttribute('aria-label')).toBe('Orders');
@@ -367,6 +370,36 @@ describe('tng-table component', () => {
     expect(
       query<HTMLTableCellElement>(fixture, 'td[data-column-id="total"]').textContent?.trim(),
     ).toBe('12');
+  });
+
+  it('exposes stable data slots for table structure and states', () => {
+    const fixture = createFixture();
+
+    expect(query<HTMLTableSectionElement>(fixture, 'thead').getAttribute('data-slot')).toBe(
+      'table-header',
+    );
+    expect(query<HTMLTableSectionElement>(fixture, 'tbody').getAttribute('data-slot')).toBe(
+      'table-body',
+    );
+    expect(query<HTMLTableRowElement>(fixture, 'thead tr').getAttribute('data-slot')).toBe(
+      'table-header-row',
+    );
+    expect(query<HTMLTableRowElement>(fixture, 'tbody tr').getAttribute('data-slot')).toBe(
+      'table-row',
+    );
+    expect(query<HTMLTableCellElement>(fixture, 'thead th').getAttribute('data-slot')).toBe(
+      'table-header-cell',
+    );
+    expect(query<HTMLTableCellElement>(fixture, 'tbody td').getAttribute('data-slot')).toBe(
+      'table-cell',
+    );
+
+    fixture.componentInstance.items.set([]);
+    fixture.detectChanges();
+
+    expect(query<HTMLTableCellElement>(fixture, 'tbody td').getAttribute('data-slot')).toBe(
+      'table-state-cell',
+    );
   });
 
   it('uses projected header and cell templates', () => {
@@ -414,6 +447,25 @@ describe('tng-table component', () => {
     expect(query<HTMLTableElement>(fixture, 'table').hasAttribute('data-error')).toBe(true);
   });
 
+  it('reflects scroll axis and sticky header state on the scroll wrapper', () => {
+    const fixture = createFixture();
+    const scroll = query<HTMLDivElement>(fixture, '[data-slot="table-scroll"]');
+
+    expect(scroll.getAttribute('data-scroll-axis')).toBe('x');
+    expect(scroll.style.overflowX).toBe('var(--tng-table-scroll-overflow-x, auto)');
+    expect(scroll.style.overflowY).toBe('hidden');
+    expect(scroll.hasAttribute('data-sticky-header')).toBe(false);
+
+    fixture.componentInstance.scrollAxis.set('both');
+    fixture.componentInstance.stickyHeader.set(true);
+    fixture.detectChanges();
+
+    expect(scroll.getAttribute('data-scroll-axis')).toBe('both');
+    expect(scroll.getAttribute('data-sticky-header')).toBe('');
+    expect(scroll.style.overflowX).toBe('var(--tng-table-scroll-overflow-x, auto)');
+    expect(scroll.style.overflowY).toBe('var(--tng-table-scroll-overflow-y, auto)');
+  });
+
   it('defines top body alignment while preserving header, state, and horizontal alignment styles', () => {
     const sharedCellStyle = findStyleBlock(
       /\.tng-table__header-cell,\s*\.tng-table__cell,\s*\.tng-table__state-cell\s*\{([^}]*)\}/,
@@ -451,6 +503,39 @@ describe('tng-table component', () => {
 
     const stateCellStyle = findStyleBlock(/(?<!,)\n\.tng-table__state-cell\s*\{([^}]*)\}/);
     expectDeclaration(stateCellStyle, 'text-align', 'center');
+  });
+
+  it('defines scroll, table sizing, and sticky header CSS variable hooks', () => {
+    const hostStyle = findStyleBlock(/:host\s*\{([^}]*)\}/);
+    expectDeclaration(hostStyle, '--tng-table-scroll-max-height', 'none');
+    expectDeclaration(hostStyle, '--tng-table-scroll-overflow-x', 'auto');
+    expectDeclaration(hostStyle, '--tng-table-scroll-overflow-y', 'auto');
+    expectDeclaration(hostStyle, '--tng-table-min-width', '100%');
+    expectDeclaration(hostStyle, '--tng-table-header-z-index', '2');
+
+    const scrollStyle = findStyleBlock(
+      /\.tng-table__scroll,\s*\[data-slot='table-scroll'\]\s*\{([^}]*)\}/,
+    );
+    expectDeclaration(scrollStyle, 'max-height', 'var\\(--tng-table-scroll-max-height\\)');
+    expectDeclaration(scrollStyle, 'min-width', '0');
+    expectDeclaration(scrollStyle, 'overflow-x', 'var\\(--tng-table-scroll-overflow-x\\)');
+    expectDeclaration(scrollStyle, 'overflow-y', 'var\\(--tng-table-scroll-overflow-y\\)');
+
+    const tableStyle = findStyleBlock(/\.tng-table,\s*\[data-slot='table'\]\s*\{([^}]*)\}/);
+    expectDeclaration(tableStyle, 'min-width', 'var\\(--tng-table-min-width\\)');
+
+    const stickyHeaderStyle = findStyleBlock(
+      /\[data-slot='table-scroll'\]\[data-sticky-header\]\s*\[data-slot='table-header-cell'\]\s*\{([^}]*)\}/,
+    );
+    expect(stickyHeaderStyle).toMatch(/background\s*:\s*var\(/);
+    expectDeclaration(stickyHeaderStyle, 'position', 'sticky');
+    expectDeclaration(stickyHeaderStyle, 'top', '0');
+    expectDeclaration(stickyHeaderStyle, 'z-index', 'var\\(--tng-table-header-z-index\\)');
+
+    const stickyCellStyle = findStyleBlock(
+      /\.tng-table\s*\[data-sticky\]:not\(\[data-sticky-header\]\)\s*\{([^}]*)\}/,
+    );
+    expectDeclaration(stickyCellStyle, 'background', 'inherit');
   });
 
   it('applies density and sticky header configuration', () => {

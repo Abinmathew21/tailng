@@ -40,6 +40,14 @@
   margin: 0;
 }
 
+.headless-fileupload-api-list {
+  color: var(--tng-semantic-foreground-secondary);
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
 .headless-fileupload-api-table-wrap {
   overflow-x: auto;
 }

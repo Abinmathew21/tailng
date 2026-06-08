@@ -133,6 +133,27 @@
     </div>
   </section>
 
+  <section id="drag-and-drop-behavior" class="fileupload-api-block">
+    <h3>Drag and drop behavior</h3>
+    <ul class="fileupload-api-list">
+      <li>
+        Drops are accepted when the pointer releases over the host or any nested content inside the
+        zone. The directive listens on the host and processes bubbled <code>drop</code> events from
+        descendants.
+      </li>
+      <li>
+        Moving between the host and its child elements does not prematurely clear
+        <code>data-dragging</code> — <code>dragleave</code> events whose
+        <code>relatedTarget</code> is still inside the host are ignored.
+      </li>
+      <li>
+        File selection outputs are emitted inside Angular's zone so signal- and template-bound
+        feedback (for example an <code>&#64;if</code> status line) updates immediately after drop
+        without requiring a follow-up pointer move.
+      </li>
+    </ul>
+  </section>
+
   <section id="type-reference" class="fileupload-api-block">
     <h3>Type reference</h3>
     <div class="fileupload-api-table-wrap">

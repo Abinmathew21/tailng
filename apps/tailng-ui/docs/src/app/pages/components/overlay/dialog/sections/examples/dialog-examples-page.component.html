@@ -90,4 +90,81 @@
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
+
+  <section id="content-slot-styling" class="dialog-examples-block">
+    <app-docs-example-tabs-section
+      heading="Content slot styling"
+      description="Target the projected body wrapper with [data-slot=&quot;dialog-content&quot;] for spacing, surface, and scroll treatment."
+      ariaLabel="Dialog content slot styling"
+      tabListAriaLabel="Dialog content slot style tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Style dialog body through the content slot"
+        [codeTabs]="contentSlotPlainCodeTabs"
+      >
+        <div class="dialog-example-stage dialog-example-slot-shell">
+          <button type="button" class="dialog-example-trigger" (click)="contentSlotOpen.set(true)">
+            Open rollout notes
+          </button>
+
+          <tng-dialog
+            title="Rollout notes"
+            description="Review the deployment summary before approving."
+            [open]="contentSlotOpen()"
+            (openChange)="contentSlotOpen.set($event)"
+          >
+            <p class="dialog-content-slot-copy">
+              Traffic shifts in us-east first, then eu-west after health checks pass.
+            </p>
+            <ul class="dialog-content-slot-list">
+              <li>Canary window: 15 minutes</li>
+              <li>Rollback owner: platform-oncall</li>
+              <li>Feature flags: checkout-v2, billing-sync</li>
+            </ul>
+          </tng-dialog>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Tailwind content slot treatment"
+        [codeTabs]="contentSlotTailwindCodeTabs"
+      >
+        <div class="rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900/60">
+          <div class="dialog-example-stage dialog-example-slot-shell dialog-example-slot-shell--tailwind">
+            <button
+              type="button"
+              class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+              (click)="contentSlotTailwindOpen.set(true)"
+            >
+              Open rollout notes
+            </button>
+
+            <tng-dialog
+              title="Rollout notes"
+              description="Review the deployment summary before approving."
+              [open]="contentSlotTailwindOpen()"
+              (openChange)="contentSlotTailwindOpen.set($event)"
+            >
+              <p class="m-0 text-sm text-slate-700 dark:text-slate-300">
+                Traffic shifts in us-east first, then eu-west after health checks pass.
+              </p>
+              <ul class="m-0 grid list-disc gap-1 pl-5 text-sm text-slate-700 dark:text-slate-300">
+                <li>Canary window: 15 minutes</li>
+                <li>Rollback owner: platform-oncall</li>
+                <li>Feature flags: checkout-v2, billing-sync</li>
+              </ul>
+            </tng-dialog>
+          </div>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
 </article>

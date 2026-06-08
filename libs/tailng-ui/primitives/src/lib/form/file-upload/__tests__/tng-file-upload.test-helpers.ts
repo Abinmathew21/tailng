@@ -1,6 +1,6 @@
 import { Component, ViewChild, signal } from '@angular/core';
 import type { ElementRef } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { TestBed, type ComponentFixture } from '@angular/core/testing';
 
 import { TngFileUploadDirective } from '../tng-file-upload';
 import type {
@@ -54,10 +54,52 @@ export class FileUploadHostComponent {
   public directive!: TngFileUploadDirective;
 }
 
+/**
+ * Host mirroring docs examples: signal-driven status text and decorative child
+ * elements inside the drop zone.
+ */
+@Component({
+  imports: [TngFileUploadDirective],
+  template: `
+    <div
+      #zone
+      tngFileUpload
+      (filesSelected)="onSelected($event)"
+    >
+      <span #child class="drop-zone-child">Drop here</span>
+    </div>
+    @if (files().length > 0) {
+      <p data-testid="upload-status">Accepted: {{ files()[0]?.name }}</p>
+    }
+  `,
+})
+export class FileUploadSignalHostComponent {
+  public readonly files = signal<readonly File[]>([]);
+
+  @ViewChild('zone', { static: true })
+  public zone!: ElementRef<HTMLDivElement>;
+
+  @ViewChild('child', { static: true })
+  public child!: ElementRef<HTMLSpanElement>;
+
+  protected onSelected(event: TngFileUploadSelectedEvent): void {
+    this.files.set(event.files);
+  }
+}
+
 export type FileUploadFixture = {
   readonly component: FileUploadHostComponent;
   readonly element: HTMLDivElement;
   readonly detectChanges: () => void;
+};
+
+export type FileUploadSignalFixture = {
+  readonly component: FileUploadSignalHostComponent;
+  readonly element: HTMLDivElement;
+  readonly child: HTMLSpanElement;
+  readonly nativeElement: HTMLElement;
+  readonly detectChanges: () => void;
+  readonly fixture: ComponentFixture<FileUploadSignalHostComponent>;
 };
 
 export function createFileUploadFixture(): FileUploadFixture {
@@ -74,6 +116,23 @@ export function createFileUploadFixture(): FileUploadFixture {
   };
 }
 
+export function createFileUploadSignalFixture(): FileUploadSignalFixture {
+  const fixture = TestBed.configureTestingModule({
+    imports: [FileUploadSignalHostComponent],
+  }).createComponent(FileUploadSignalHostComponent);
+
+  fixture.autoDetectChanges(true);
+
+  return {
+    component: fixture.componentInstance,
+    element: fixture.componentInstance.zone.nativeElement,
+    child: fixture.componentInstance.child.nativeElement,
+    nativeElement: fixture.nativeElement as HTMLElement,
+    detectChanges: () => fixture.detectChanges(),
+    fixture,
+  };
+}
+
 /** Build a `File` of an exact byte size with the given name and MIME type. */
 export function makeFile(name: string, type = '', size = 8): File {
   return new File([new Uint8Array(Math.max(0, size))], name, { type });
@@ -87,12 +146,24 @@ export function makeFile(name: string, type = '', size = 8): File {
  *
  * Pass `files` as `null` to omit `dataTransfer` entirely.
  */
+export type DispatchDragOptions = Readonly<{
+  relatedTarget?: EventTarget | null;
+}>;
+
 export function dispatchDrag(
   element: HTMLElement,
   type: 'dragenter' | 'dragover' | 'dragleave' | 'drop',
   files?: readonly File[] | null,
+  options?: DispatchDragOptions,
 ): Event {
   const event = new Event(type, { bubbles: true, cancelable: true });
+
+  if (options?.relatedTarget !== undefined) {
+    Object.defineProperty(event, 'relatedTarget', {
+      configurable: true,
+      value: options.relatedTarget,
+    });
+  }
 
   if (files !== null) {
     Object.defineProperty(event, 'dataTransfer', {

@@ -503,7 +503,7 @@ const dialogTemplateHtml = `@if (open()) {
         </button>
       </header>
 
-      <div class="tng-dialog-content">
+      <div class="tng-dialog-content" data-slot="dialog-content">
         <ng-content />
       </div>
     </section>

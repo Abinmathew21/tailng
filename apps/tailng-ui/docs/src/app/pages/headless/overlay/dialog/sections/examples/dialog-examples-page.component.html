@@ -168,14 +168,16 @@
                 <p tngDialogDescription class="headless-dialog-example-copy">
                   Complete the release checklist before continuing with deployment.
                 </p>
-                <ul class="headless-dialog-review-list">
-                  <li>Static analysis must be clean.</li>
-                  <li>QA sign-off must be attached to the release note.</li>
-                  <li>Rollback instructions must be linked in the deployment ticket.</li>
-                </ul>
-                <p class="headless-dialog-review-note">
-                  Backdrop click and Escape are disabled until someone chooses an action.
-                </p>
+                <div tngDialogContent class="headless-dialog-review-content">
+                  <ul class="headless-dialog-review-list">
+                    <li>Static analysis must be clean.</li>
+                    <li>QA sign-off must be attached to the release note.</li>
+                    <li>Rollback instructions must be linked in the deployment ticket.</li>
+                  </ul>
+                  <p class="headless-dialog-review-note">
+                    Backdrop click and Escape are disabled until someone chooses an action.
+                  </p>
+                </div>
                 <div tngDialogActions class="headless-dialog-action-row">
                   <button type="button" tngDialogClose class="headless-dialog-example-secondary">
                     Cancel review
@@ -238,14 +240,19 @@
                       Complete the release checklist before continuing with deployment.
                     </p>
                   </div>
-                  <ul class="grid gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200">
-                    <li>Static analysis must be clean.</li>
-                    <li>QA sign-off must be attached to the release note.</li>
-                    <li>Rollback instructions must be linked in the deployment ticket.</li>
-                  </ul>
-                  <p class="m-0 text-sm text-slate-500 dark:text-slate-400">
-                    Backdrop click and Escape are disabled until someone chooses an action.
-                  </p>
+                  <div
+                    tngDialogContent
+                    class="grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900"
+                  >
+                    <ul class="m-0 grid gap-2 pl-5 text-sm text-slate-700 dark:text-slate-200">
+                      <li>Static analysis must be clean.</li>
+                      <li>QA sign-off must be attached to the release note.</li>
+                      <li>Rollback instructions must be linked in the deployment ticket.</li>
+                    </ul>
+                    <p class="m-0 text-sm text-slate-500 dark:text-slate-400">
+                      Backdrop click and Escape are disabled until someone chooses an action.
+                    </p>
+                  </div>
                   <div tngDialogActions class="flex flex-wrap justify-end gap-2">
                     <button
                       type="button"

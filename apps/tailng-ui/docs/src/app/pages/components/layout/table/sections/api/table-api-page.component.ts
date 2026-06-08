@@ -88,6 +88,17 @@ import { Component } from '@angular/core';
                   <td>Makes the header row sticky inside the scroll container.</td>
                 </tr>
                 <tr>
+                  <td><code>scrollAxis</code></td>
+                  <td><code>'none' | 'x' | 'y' | 'both'</code></td>
+                  <td>
+                    Controls primitive scroll behavior for the outer scroll wrapper. Use
+                    <code>'x'</code> or <code>'both'</code> with
+                    <code>--tng-table-min-width</code> for horizontal overflow, and
+                    <code>'y'</code> or <code>'both'</code> with
+                    <code>--tng-table-scroll-max-height</code> for vertical overflow.
+                  </td>
+                </tr>
+                <tr>
                   <td><code>sortActive</code>, <code>sortDirection</code></td>
                   <td><code>string | null</code></td>
                   <td>Controlled sorting state forwarded to sortable headers.</td>
@@ -154,7 +165,9 @@ import { Component } from '@angular/core';
                 <tr>
                   <td><code>column.headerStyle</code></td>
                   <td><code>TngTableStyleInput</code></td>
-                  <td>Inline styles for the column's header cell. Valid on leaf and group columns.</td>
+                  <td>
+                    Inline styles for the column's header cell. Valid on leaf and group columns.
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -165,6 +178,84 @@ import { Component } from '@angular/core';
             <code>rowStyle</code>, <code>cellStyle</code>, and <code>headerStyle</code> when the
             styling should be driven from component code and component CSS variables.
           </p>
+        </section>
+
+        <section id="slots-and-css-variables" class="docs-section-anchor docs-overview-block">
+          <h3>Slots and CSS variables</h3>
+          <p class="docs-overview-lead">
+            The component exposes stable <code>data-slot</code> hooks for global styling and CSS
+            custom properties for app-level layout. Prefer variables for scroll height, overflow,
+            table width, and sticky header layering; they work from component-scoped CSS without
+            <code>::ng-deep</code>.
+          </p>
+          <div class="docs-table-scroll">
+            <table class="docs-api-table">
+              <thead>
+                <tr>
+                  <th>Hook</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>data-slot="table-scroll"</code></td>
+                  <td>
+                    Outer scroll wrapper. Reflects <code>data-scroll-axis</code> and
+                    <code>data-sticky-header</code>.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>data-slot="table"</code></td>
+                  <td>
+                    Native table. Reflects <code>data-density</code>, <code>data-hover-mode</code>,
+                    and primitive table state attributes.
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <code>table-header</code>, <code>table-body</code>,
+                    <code>table-header-row</code>, <code>table-row</code>
+                  </td>
+                  <td>Section and row slots for global style rules.</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code>table-header-cell</code>, <code>table-cell</code>,
+                    <code>table-state-cell</code>
+                  </td>
+                  <td>
+                    Cell slots. Alignment, grouping, sticky-column, and truncation attributes remain
+                    available on the relevant cells.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>--tng-table-scroll-max-height</code></td>
+                  <td>Maximum scroll wrapper height. Defaults to <code>none</code>.</td>
+                </tr>
+                <tr>
+                  <td>
+                    <code>--tng-table-scroll-overflow-x</code>,
+                    <code>--tng-table-scroll-overflow-y</code>
+                  </td>
+                  <td>
+                    Overflow values used for axes enabled by <code>scrollAxis</code>. Both default
+                    to <code>auto</code>.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>--tng-table-min-width</code></td>
+                  <td>
+                    Minimum width of the native table. Set this wider than the container to create
+                    horizontal scrolling.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>--tng-table-header-z-index</code></td>
+                  <td>Sticky header stacking level. Defaults to <code>2</code>.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
         <section id="outputs-and-templates" class="docs-section-anchor docs-overview-block">

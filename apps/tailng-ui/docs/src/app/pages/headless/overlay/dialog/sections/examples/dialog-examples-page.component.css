@@ -139,6 +139,15 @@
   max-width: min(34rem, 100%);
 }
 
+.headless-dialog-review-content {
+  background: color-mix(in srgb, var(--tng-semantic-accent-brand) 7%, var(--tng-semantic-background-surface));
+  border: 1px solid color-mix(in srgb, var(--tng-semantic-border-subtle) 90%, transparent);
+  border-radius: 0.8rem;
+  display: grid;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+}
+
 .headless-dialog-review-list {
   color: var(--tng-semantic-foreground-primary);
   display: grid;

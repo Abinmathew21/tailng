@@ -2,7 +2,9 @@ import {
   Directive,
   HostBinding,
   HostListener,
+  NgZone,
   booleanAttribute,
+  inject,
   input,
   output,
   signal,
@@ -52,6 +54,8 @@ import {
   exportAs: 'tngFileUpload',
 })
 export class TngFileUploadDirective {
+  private readonly ngZone = inject(NgZone);
+
   /** Accepted file types (extensions, exact MIME types, or wildcard MIME groups). */
   public readonly accept = input<readonly string[], TngFileUploadAcceptInput>([], {
     transform: normalizeTngFileUploadAccept,
@@ -141,6 +145,10 @@ export class TngFileUploadDirective {
       return;
     }
 
+    if (this.isDragMovingToHostChild(event)) {
+      return;
+    }
+
     if (this.dragDepth > 0) {
       this.dragDepth -= 1;
     }
@@ -157,14 +165,28 @@ export class TngFileUploadDirective {
     }
 
     event.preventDefault();
-    this.dragDepth = 0;
-    this.setDragState('idle');
-    this.handleFiles(extractTngFileUploadFiles(event), 'drop');
+    const files = extractTngFileUploadFiles(event);
+    this.ngZone.run(() => {
+      this.dragDepth = 0;
+      this.setDragState('idle');
+      this.handleFiles(files, 'drop');
+    });
   }
 
   private toDomEvent(args: readonly unknown[]): Event | null {
     const [event] = args;
     return event instanceof Event ? event : null;
+  }
+
+  /** Ignore dragleave fired when the pointer moves onto a descendant of the host. */
+  private isDragMovingToHostChild(event: Event): boolean {
+    const currentTarget = event.currentTarget;
+    if (!(currentTarget instanceof Node)) {
+      return false;
+    }
+
+    const relatedTarget = (event as DragEvent).relatedTarget;
+    return relatedTarget instanceof Node && currentTarget.contains(relatedTarget);
   }
 
   private setDragState(next: TngFileUploadDragState): void {

@@ -1,13 +1,19 @@
 <div
   tngTableScrollContainer
   class="tng-table__scroll"
+  [attr.data-slot]="'table-scroll'"
+  [attr.data-scroll-axis]="scrollAxis()"
+  [attr.data-sticky-header]="stickyHeader() ? '' : null"
   [dir]="dir()"
+  [style.overflow-x]="getScrollOverflowX()"
+  [style.overflow-y]="getScrollOverflowY()"
   [tngTableScrollAxis]="scrollAxis()"
 >
   <table
     tngTable
     tngTableSort
     class="tng-table"
+    data-slot="table"
     [attr.data-density]="density()"
     [attr.data-hover-mode]="hoverMode()"
     [ariaLabel]="ariaLabel()"
@@ -31,15 +37,16 @@
       }
     </colgroup>
 
-    <thead tngTableHeader [tngTableHeaderSticky]="stickyHeader()">
+    <thead tngTableHeader data-slot="table-header" [tngTableHeaderSticky]="stickyHeader()">
       @for (row of headerRows; track $index) {
-        <tr tngTableRow>
+        <tr tngTableRow data-slot="table-header-row">
           @for (node of row; track getNodeKey(node)) {
             @if (isSortableLeaf(node)) {
               <th
                 tngTableHeaderCell
                 tngSortHeader
                 class="tng-table__header-cell"
+                data-slot="table-header-cell"
                 scope="col"
                 [class]="resolveHeaderClass(node)"
                 [ngStyle]="resolveHeaderStyle(node)"
@@ -65,6 +72,7 @@
               <th
                 tngTableHeaderCell
                 class="tng-table__header-cell"
+                data-slot="table-header-cell"
                 [attr.scope]="node.isGroup ? 'colgroup' : 'col'"
                 [class]="resolveHeaderClass(node)"
                 [ngStyle]="resolveHeaderStyle(node)"
@@ -91,18 +99,37 @@
       }
     </thead>
 
-    <tbody tngTableBody>
+    <tbody tngTableBody data-slot="table-body">
       @if (loading()) {
-        <tr tngTableRow>
-          <td tngTableCell class="tng-table__state-cell" [attr.colspan]="getColspan()">Loading</td>
+        <tr tngTableRow data-slot="table-row">
+          <td
+            tngTableCell
+            class="tng-table__state-cell"
+            [attr.data-slot]="'table-state-cell'"
+            [attr.colspan]="getColspan()"
+          >
+            Loading
+          </td>
         </tr>
       } @else if (error()) {
-        <tr tngTableRow>
-          <td tngTableCell class="tng-table__state-cell" [attr.colspan]="getColspan()">Error</td>
+        <tr tngTableRow data-slot="table-row">
+          <td
+            tngTableCell
+            class="tng-table__state-cell"
+            [attr.data-slot]="'table-state-cell'"
+            [attr.colspan]="getColspan()"
+          >
+            Error
+          </td>
         </tr>
       } @else if (items().length === 0) {
-        <tr tngTableRow>
-          <td tngTableCell class="tng-table__state-cell" [attr.colspan]="getColspan()">
+        <tr tngTableRow data-slot="table-row">
+          <td
+            tngTableCell
+            class="tng-table__state-cell"
+            [attr.data-slot]="'table-state-cell'"
+            [attr.colspan]="getColspan()"
+          >
             No results
           </td>
         </tr>
@@ -110,6 +137,7 @@
         @for (row of items(); track getRowId(row, $index); let rowIndex = $index) {
           <tr
             tngTableRow
+            data-slot="table-row"
             [tngTableRowId]="getRowId(row, rowIndex)"
             [class]="resolveRowClass(row, rowIndex)"
             [ngStyle]="resolveRowStyle(row, rowIndex)"
@@ -123,6 +151,7 @@
                   <td
                     tngTableCell
                     class="tng-table__cell"
+                    data-slot="table-cell"
                     [class]="resolveCellClass(column, row, rowIndex)"
                     [ngStyle]="resolveCellStyle(column, row, rowIndex)"
                     [attr.data-align]="getCellAlign(column)"

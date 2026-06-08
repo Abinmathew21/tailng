@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ApplicationRef, Component, NgZone } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
 
@@ -6,6 +6,7 @@ import * as fileUploadFeature from '../index';
 import { TngFileUploadDirective } from '../tng-file-upload';
 import {
   createFileUploadFixture,
+  createFileUploadSignalFixture,
   dispatchDrag,
   dispatchDropWithNonFile,
   makeFile,
@@ -399,6 +400,74 @@ describe('TngFileUploadDirective', () => {
       const rejected = fixture.component.rejectedEvents[0];
       expect(rejected.accepted).toEqual([good]);
       expect(rejected.rejected.map((entry) => entry.reason)).toEqual(['type', 'size']);
+    });
+  });
+
+  describe('change detection after drop', () => {
+    function dropOutsideAngular(element: HTMLElement, file: File): void {
+      const ngZone = TestBed.inject(NgZone);
+      const appRef = TestBed.inject(ApplicationRef);
+
+      ngZone.runOutsideAngular(() => {
+        dispatchDrag(element, 'dragenter', [file]);
+        dispatchDrag(element, 'drop', [file]);
+      });
+
+      appRef.tick();
+    }
+
+    it('updates consumer template bindings after an outside-zone drop', () => {
+      const { element, component, nativeElement } = createFileUploadSignalFixture();
+      const file = makeFile('a.png', 'image/png');
+
+      dropOutsideAngular(element, file);
+
+      expect(component.files()).toHaveLength(1);
+      const status = nativeElement.querySelector('[data-testid="upload-status"]');
+      expect(status).not.toBeNull();
+      expect(status!.textContent).toContain('a.png');
+    });
+
+    it('removes data-dragging after an outside-zone drop', () => {
+      const { element } = createFileUploadSignalFixture();
+      const file = makeFile('a.png', 'image/png');
+
+      dropOutsideAngular(element, file);
+
+      expect(element.hasAttribute('data-dragging')).toBe(false);
+    });
+  });
+
+  describe('drag state with child elements', () => {
+    it('keeps data-dragging when dragleave is caused by entering a child element', () => {
+      const { element, child, detectChanges } = createFileUploadSignalFixture();
+      const file = makeFile('a.png', 'image/png');
+
+      dispatchDrag(element, 'dragenter', [file]);
+      detectChanges();
+      dispatchDrag(element, 'dragleave', [file], { relatedTarget: child });
+      detectChanges();
+
+      expect(element.hasAttribute('data-dragging')).toBe(true);
+    });
+
+    it('emits filesSelected when drop targets a child element', () => {
+      const { element, child, component, nativeElement } = createFileUploadSignalFixture();
+      const ngZone = TestBed.inject(NgZone);
+      const appRef = TestBed.inject(ApplicationRef);
+      const file = makeFile('a.png', 'image/png');
+
+      ngZone.runOutsideAngular(() => {
+        dispatchDrag(element, 'dragenter', [file]);
+        dispatchDrag(child, 'drop', [file]);
+      });
+
+      appRef.tick();
+
+      expect(component.files()).toHaveLength(1);
+      const status = nativeElement.querySelector('[data-testid="upload-status"]');
+      expect(status).not.toBeNull();
+      expect(status!.textContent).toContain('a.png');
     });
   });
 

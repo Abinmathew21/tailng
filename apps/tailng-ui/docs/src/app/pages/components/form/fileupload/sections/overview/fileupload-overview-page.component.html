@@ -133,6 +133,11 @@
         Communicate rejection reasons visually and programmatically — an
         <code>aria-live</code> region works well for announcing validation failures.
       </li>
+      <li>
+        Nested content inside the drop zone (icons, labels, hint text) is supported. Keep decorative
+        children in the DOM for layout, and rely on <code>data-dragging</code> on the host for active
+        drag feedback.
+      </li>
     </ul>
   </section>
 </article>

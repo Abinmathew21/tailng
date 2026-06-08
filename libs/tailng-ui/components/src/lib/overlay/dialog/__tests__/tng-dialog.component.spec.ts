@@ -20,6 +20,10 @@ function findBackdrop(fixture: { nativeElement: HTMLElement }): HTMLElement | nu
   return fixture.nativeElement.querySelector('.tng-dialog-backdrop');
 }
 
+function findContentSlot(fixture: { nativeElement: HTMLElement }): HTMLElement | null {
+  return fixture.nativeElement.querySelector('[data-slot="dialog-content"]');
+}
+
 function keydown(target: EventTarget, key: string, init: Partial<KeyboardEventInit> = {}): KeyboardEvent {
   const event = new KeyboardEvent('keydown', {
     bubbles: true,
@@ -119,6 +123,37 @@ describe('tng-dialog component behavior', () => {
 
     expect(findBackdrop(fixture)).toBeNull();
     expect(findPanel(fixture)).toBeNull();
+    expect(findContentSlot(fixture)).toBeNull();
+  });
+
+  it('exposes data-slot="dialog-content" on the projected content wrapper when open', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ManagedDialogHostComponent],
+    }).createComponent(ManagedDialogHostComponent);
+    fixture.componentInstance.open.set(true);
+
+    await settle(fixture);
+
+    const content = findContentSlot(fixture);
+    expect(content).not.toBeNull();
+    expect(content?.classList.contains('tng-dialog-content')).toBe(true);
+    expect(content?.getAttribute('data-slot')).toBe('dialog-content');
+  });
+
+  it('projects slotted content inside the dialog-content wrapper', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [ManagedDialogHostComponent],
+    }).createComponent(ManagedDialogHostComponent);
+    fixture.componentInstance.open.set(true);
+
+    await settle(fixture);
+
+    const content = findContentSlot(fixture);
+    const first = getByTestId<HTMLButtonElement>(fixture, 'inside-first');
+    const last = getByTestId<HTMLButtonElement>(fixture, 'inside-last');
+
+    expect(content?.contains(first)).toBe(true);
+    expect(content?.contains(last)).toBe(true);
   });
 
   it('renders aria semantics when open=true', async () => {

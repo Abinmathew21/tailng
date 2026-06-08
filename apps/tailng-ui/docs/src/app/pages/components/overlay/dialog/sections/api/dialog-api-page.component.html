@@ -48,6 +48,12 @@
             <td><code>'escape' | 'backdrop' | 'close-button' | 'programmatic'</code></td>
             <td>Close reason payload for analytics and custom workflows.</td>
           </tr>
+          <tr>
+            <td><code>&lt;tng-dialog&gt;</code> projected content</td>
+            <td><code>data-slot="dialog-content"</code></td>
+            <td>attribute</td>
+            <td>Wrapper exposes a stable body hook around projected <code>ng-content</code>.</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -81,7 +87,7 @@
             <td><code>[tngDialogTrigger]</code>, <code>[tngDialogClose]</code></td>
           </tr>
           <tr>
-            <td><code>tngDialogTitle</code>, <code>tngDialogDescription</code>, <code>tngDialogActions</code></td>
+            <td><code>tngDialogTitle</code>, <code>tngDialogDescription</code>, <code>tngDialogContent</code>, <code>tngDialogActions</code></td>
             <td>Structured slots and IDs for accessible dialog labeling.</td>
             <td>-</td>
           </tr>

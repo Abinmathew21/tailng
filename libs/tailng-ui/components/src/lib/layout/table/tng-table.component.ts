@@ -382,6 +382,16 @@ export class TngTableComponent<TRow = unknown> {
     return this.headerTreeModel().leafColumns;
   }
 
+  protected getScrollOverflowX(): string {
+    const axis = this.scrollAxis();
+    return axis === 'x' || axis === 'both' ? 'var(--tng-table-scroll-overflow-x, auto)' : 'hidden';
+  }
+
+  protected getScrollOverflowY(): string {
+    const axis = this.scrollAxis();
+    return axis === 'y' || axis === 'both' ? 'var(--tng-table-scroll-overflow-y, auto)' : 'hidden';
+  }
+
   protected getColumnLabel(column: TngTableColumn<TRow>): string {
     return getColumnLabelText(column);
   }

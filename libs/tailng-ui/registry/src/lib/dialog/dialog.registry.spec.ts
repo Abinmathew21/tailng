@@ -17,6 +17,12 @@ describe('dialog registry item', () => {
     expect(dialogFile?.content).toContain("from './tng-dialog-primitive';");
     expect(dialogFile?.content).not.toContain('@tailng-ui/cdk');
 
+    const templateFile = dialogRegistryItem.files.find((file) =>
+      file.path.endsWith('tailng-ui/dialog/tng-dialog.html'),
+    );
+    expect(templateFile).toBeDefined();
+    expect(templateFile?.content).toContain('data-slot="dialog-content"');
+
     const primitiveFile = dialogRegistryItem.files.find((file) =>
       file.path.endsWith('tailng-ui/dialog/tng-dialog-primitive.ts'),
     );

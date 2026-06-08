@@ -8,8 +8,9 @@ import { Component } from '@angular/core';
         <section id="state-and-slot-hooks" class="docs-section-anchor docs-overview-block">
           <h2 class="docs-overview-title">Table styling</h2>
           <p class="docs-overview-lead">
-            Table styling is wrapper-first, with stable classes for the scroll shell, generated
-            table, header cells, body cells, and state rows.
+            Table styling is wrapper-first. Use CSS variables for component-scoped layout changes
+            such as scroll height, overflow, table width, and header background. Use stable
+            <code>data-slot</code> hooks for shared global CSS.
           </p>
           <div class="docs-table-scroll">
             <table class="docs-api-table">
@@ -21,23 +22,26 @@ import { Component } from '@angular/core';
               </thead>
               <tbody>
                 <tr>
-                  <td><code>.tng-table__scroll</code></td>
-                  <td>Outer border, radius, background, and scroll behavior.</td>
+                  <td><code>[data-slot='table-scroll']</code></td>
+                  <td>
+                    Outer border, radius, background, max height, and scroll wrapper state. Reflects
+                    <code>data-scroll-axis</code> and <code>data-sticky-header</code>.
+                  </td>
                 </tr>
                 <tr>
-                  <td><code>.tng-table</code></td>
-                  <td>Typography, table layout, width, and density state.</td>
+                  <td><code>[data-slot='table']</code></td>
+                  <td>Typography, table layout, min width, density, and hover mode state.</td>
                 </tr>
                 <tr>
-                  <td><code>.tng-table__header-cell</code></td>
+                  <td><code>[data-slot='table-header-cell']</code></td>
                   <td>Header background, sort affordance, focus ring, and sticky presentation.</td>
                 </tr>
                 <tr>
-                  <td><code>.tng-table__cell</code></td>
+                  <td><code>[data-slot='table-cell']</code></td>
                   <td>Body cell padding, borders, alignment, truncation, and hover state.</td>
                 </tr>
                 <tr>
-                  <td><code>.tng-table__state-cell</code></td>
+                  <td><code>[data-slot='table-state-cell']</code></td>
                   <td>Loading, error, and empty states.</td>
                 </tr>
               </tbody>
@@ -81,7 +85,10 @@ import { Component } from '@angular/core';
                 </tr>
                 <tr>
                   <td><code>column.cellClass</code></td>
-                  <td>Body cells of one column (static or a <code>(row, value, index)</code> predicate).</td>
+                  <td>
+                    Body cells of one column (static or a
+                    <code>(row, value, index)</code> predicate).
+                  </td>
                 </tr>
                 <tr>
                   <td><code>column.cellStyle</code></td>
@@ -108,6 +115,15 @@ import { Component } from '@angular/core';
           <pre class="docs-code-block"><code>{{ styleHookExample }}</code></pre>
         </section>
 
+        <section id="scroll-and-sizing" class="docs-section-anchor docs-overview-block">
+          <h3>Scroll and sizing</h3>
+          <p class="docs-overview-lead">
+            <code>scrollAxis</code> enables the primitive scroll axes. CSS variables define the
+            wrapper constraints and the native table's minimum width.
+          </p>
+          <pre class="docs-code-block"><code>{{ scrollSizingExample }}</code></pre>
+        </section>
+
         <section id="css-starter" class="docs-section-anchor docs-overview-block">
           <h3>CSS starter</h3>
           <pre class="docs-code-block"><code>{{ cssStarter }}</code></pre>
@@ -123,6 +139,27 @@ export class TableStylingPageComponent {
   --tng-table-cell-px: 1rem;
   --tng-table-cell-py: 0.75rem;
   --tng-table-header-bg: var(--tng-semantic-background-muted);
+  --tng-table-scroll-max-height: none;
+  --tng-table-scroll-overflow-x: auto;
+  --tng-table-scroll-overflow-y: auto;
+  --tng-table-min-width: 100%;
+  --tng-table-header-z-index: 2;
+}`;
+
+  protected readonly scrollSizingExample = `<!-- component.html -->
+<tng-table
+  class="statement-preview-table"
+  scrollAxis="both"
+  [stickyHeader]="true"
+  [columns]="columns"
+  [items]="rows"
+/>
+
+/* component.css */
+.statement-preview-table {
+  --tng-table-scroll-max-height: min(14rem, 30vh);
+  --tng-table-min-width: 84rem;
+  --tng-table-header-bg: var(--tng-semantic-background-surface);
 }`;
 
   protected readonly styleHookExample = `// component.ts

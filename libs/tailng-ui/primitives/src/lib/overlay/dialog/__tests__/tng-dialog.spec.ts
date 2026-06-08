@@ -6,6 +6,7 @@ import {
   TngDialogActions,
   TngDialogBackdrop,
   TngDialogClose,
+  TngDialogContent,
   TngDialogDescription,
   TngDialogPanel,
   TngDialogTitle,
@@ -61,6 +62,7 @@ async function settle(fixture: { detectChanges(): void; whenStable(): Promise<un
     TngDialogDescription,
     TngDialogActions,
     TngDialogClose,
+    TngDialogContent,
   ],
   template: `
     <button type="button" data-testid="before">Before</button>
@@ -89,10 +91,12 @@ async function settle(fixture: { detectChanges(): void; whenStable(): Promise<un
           <h2 tngDialogTitle data-testid="title">Dialog title</h2>
           <p tngDialogDescription data-testid="description">Dialog description</p>
 
-          <button type="button" data-testid="inside-first" data-tng-dialog-initial-focus>
-            First action
-          </button>
-          <button type="button" data-testid="inside-last">Last action</button>
+          <div tngDialogContent data-testid="content">
+            <button type="button" data-testid="inside-first" data-tng-dialog-initial-focus>
+              First action
+            </button>
+            <button type="button" data-testid="inside-last">Last action</button>
+          </div>
 
           <div tngDialogActions>
             <button type="button" tngDialogClose data-testid="close">Close</button>
@@ -168,6 +172,20 @@ describe('tng-dialog primitive behavior', () => {
     expect(backdrop.getAttribute('hidden')).toBe('');
     expect(panel.getAttribute('hidden')).toBe('');
     expect(panel.getAttribute('data-slot')).toBe('dialog-panel');
+  });
+
+  it('exposes data-slot="dialog-content" on tngDialogContent', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDialogHarnessComponent],
+    }).createComponent(UncontrolledDialogHarnessComponent);
+    fixture.componentInstance.defaultOpen.set(true);
+
+    await settle(fixture);
+
+    const content = getByTestId<HTMLElement>(fixture, 'content');
+    expect(content.getAttribute('data-slot')).toBe('dialog-content');
+    expect(content.contains(getByTestId<HTMLElement>(fixture, 'inside-first'))).toBe(true);
+    expect(content.contains(getByTestId<HTMLElement>(fixture, 'inside-last'))).toBe(true);
   });
 
   it('supports defaultOpen and wires dialog accessibility attributes', async () => {

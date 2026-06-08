@@ -5,6 +5,7 @@ import {
   TngTableComponent,
   TngTableHeaderTemplate,
   type TngTableColumn,
+  type TngTableStyleInput,
 } from '@tailng-ui/components';
 import type { TngTableSortChange } from '@tailng-ui/primitives';
 import type { DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
@@ -39,6 +40,17 @@ type DepartmentRow = Readonly<{
   employee: string;
   level: string;
   salary: string;
+}>;
+
+type StatementRow = Readonly<{
+  amount: string;
+  balance: string;
+  category: string;
+  date: string;
+  description: string;
+  method: string;
+  reference: string;
+  status: string;
 }>;
 
 function createCodeTabs(
@@ -211,6 +223,96 @@ const healthTailwindHtml = [
   '      </span>',
   '    </ng-template>',
   '  </tng-table>',
+  '</section>',
+  '',
+].join('\n');
+
+const scrollTableTs = [
+  "import { Component } from '@angular/core';",
+  "import { TngTableComponent, type TngTableColumn } from '@tailng-ui/components';",
+  '',
+  'type StatementRow = Readonly<{',
+  '  date: string;',
+  '  description: string;',
+  '  category: string;',
+  '  method: string;',
+  '  reference: string;',
+  '  status: string;',
+  '  amount: string;',
+  '  balance: string;',
+  '}>;',
+  '',
+  '@Component({',
+  "  selector: 'app-statement-preview-table',",
+  '  standalone: true,',
+  '  imports: [TngTableComponent],',
+  "  templateUrl: './statement-preview-table.component.html',",
+  "  styleUrl: './statement-preview-table.component.css',",
+  '})',
+  'export class StatementPreviewTableComponent {',
+  '  protected readonly columns: readonly TngTableColumn<StatementRow>[] = [',
+  "    { id: 'date', label: 'Date', width: '8rem' },",
+  "    { id: 'description', label: 'Description', width: '16rem' },",
+  "    { id: 'category', label: 'Category', width: '10rem' },",
+  "    { id: 'method', label: 'Method', width: '9rem' },",
+  "    { id: 'reference', label: 'Reference', width: '10rem' },",
+  "    { id: 'status', label: 'Status', width: '9rem' },",
+  "    { id: 'amount', label: 'Amount', align: 'end', width: '8rem' },",
+  "    { id: 'balance', label: 'Balance', align: 'end', width: '8rem' },",
+  '  ];',
+  '',
+  '  protected readonly rows: readonly StatementRow[] = [',
+  "    { date: 'Jan 02', description: 'Opening balance', category: 'Ledger', method: 'System', reference: 'BAL-1000', status: 'Posted', amount: '$0.00', balance: '$14,820.00' },",
+  "    { date: 'Jan 04', description: 'Wire from Acme Supply', category: 'Receivable', method: 'Wire', reference: 'WIRE-1832', status: 'Posted', amount: '$3,240.00', balance: '$18,060.00' },",
+  "    { date: 'Jan 08', description: 'Payroll batch', category: 'Payroll', method: 'ACH', reference: 'PAY-0148', status: 'Posted', amount: '-$6,850.00', balance: '$11,210.00' },",
+  "    { date: 'Jan 10', description: 'Software subscription', category: 'Tools', method: 'Card', reference: 'CARD-4431', status: 'Posted', amount: '-$489.00', balance: '$10,721.00' },",
+  "    { date: 'Jan 15', description: 'Client retainer', category: 'Revenue', method: 'ACH', reference: 'ACH-2204', status: 'Pending', amount: '$4,500.00', balance: '$15,221.00' },",
+  "    { date: 'Jan 17', description: 'Travel reimbursement', category: 'Expense', method: 'ACH', reference: 'EXP-0911', status: 'Posted', amount: '-$780.00', balance: '$14,441.00' },",
+  "    { date: 'Jan 22', description: 'Tax estimate', category: 'Tax', method: 'ACH', reference: 'TAX-2026', status: 'Scheduled', amount: '-$2,100.00', balance: '$12,341.00' },",
+  '  ];',
+  '}',
+].join('\n');
+
+const scrollPlainHtml = [
+  '<section class="table-card">',
+  '  <tng-table',
+  '    class="statement-preview-table"',
+  '    ariaLabel="Statement preview"',
+  '    scrollAxis="both"',
+  '    [stickyHeader]="true"',
+  '    [columns]="columns"',
+  '    [items]="rows"',
+  '    density="compact"',
+  '  />',
+  '</section>',
+  '',
+].join('\n');
+
+const scrollPlainCss = [
+  '.table-card {',
+  '  border: 1px solid var(--tng-semantic-border-subtle);',
+  '  border-radius: 0.875rem;',
+  '  padding: 1rem;',
+  '}',
+  '',
+  '.statement-preview-table {',
+  '  --tng-table-scroll-max-height: min(14rem, 30vh);',
+  '  --tng-table-min-width: 84rem;',
+  '  --tng-table-header-bg: var(--tng-semantic-background-surface);',
+  '}',
+].join('\n');
+
+const scrollTailwindHtml = [
+  '<section class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">',
+  '  <tng-table',
+  '    ariaLabel="Statement preview"',
+  '    class="[--tng-table-scroll-max-height:min(14rem,30vh)] [--tng-table-min-width:84rem] [--tng-table-header-bg:var(--tng-semantic-background-surface)]"',
+  '    scrollAxis="both"',
+  '    [stickyHeader]="true"',
+  '    [columns]="columns"',
+  '    [items]="rows"',
+  '    density="compact"',
+  '  />',
   '</section>',
   '',
 ].join('\n');
@@ -474,7 +576,7 @@ const classHookTableTs = [
   "      label: 'Seats',",
   "      align: 'end',",
   '      // Per-cell style hook receives (row, value, index).',
-  "      cellStyle: (_row, value) =>",
+  '      cellStyle: (_row, value) =>',
   "        Number(value) < 20 ? { color: 'var(--account-low-seat-color)', fontWeight: 650 } : null,",
   '    },',
   "    { id: 'health', label: 'Health' },",
@@ -653,6 +755,57 @@ const classHookTailwindHtml = [
       </app-docs-example-tabs-section>
 
       <app-docs-example-tabs-section
+        id="scrollable-sticky-statement-table"
+        class="table-doc__block"
+        heading="Scrollable sticky statement table"
+        description="Use scrollAxis with table sizing variables when the table needs both vertical and horizontal scrolling. The header stays sticky while the vertical axis scrolls."
+        ariaLabel="Scrollable statement table variants"
+        tabListAriaLabel="Scrollable statement table style tabs"
+        defaultValue="plain-css"
+        [codeBlockTheme]="codeBlockTheme()"
+      >
+        <ng-template
+          appDocsExampleVariant
+          value="plain-css"
+          label="Plain-CSS"
+          panelTitle="Scrollable table (Plain CSS)"
+          [codeTabs]="scrollPlainCodeTabs"
+        >
+          <section class="table-demo-shell">
+            <tng-table
+              class="statement-preview-table"
+              ariaLabel="Statement preview"
+              scrollAxis="both"
+              [stickyHeader]="true"
+              [columns]="statementColumns"
+              [items]="statementRows"
+              density="compact"
+            />
+          </section>
+        </ng-template>
+
+        <ng-template
+          appDocsExampleVariant
+          value="tailwind-css"
+          label="Tailwind CSS"
+          panelTitle="Scrollable table (Tailwind CSS)"
+          [codeTabs]="scrollTailwindCodeTabs"
+        >
+          <section class="rounded-xl border border-tng-border-subtle bg-tng-bg-surface p-4">
+            <tng-table
+              ariaLabel="Statement preview"
+              class="[--tng-table-scroll-max-height:min(14rem,30vh)] [--tng-table-min-width:84rem] [--tng-table-header-bg:var(--tng-semantic-background-surface)]"
+              scrollAxis="both"
+              [stickyHeader]="true"
+              [columns]="statementColumns"
+              [items]="statementRows"
+              density="compact"
+            />
+          </section>
+        </ng-template>
+      </app-docs-example-tabs-section>
+
+      <app-docs-example-tabs-section
         id="grouped-column-headers"
         class="table-doc__block"
         heading="Grouped column headers"
@@ -706,7 +859,7 @@ const classHookTailwindHtml = [
         id="grouped-body-rows"
         class="table-doc__block"
         heading="Grouped body rows"
-        description="Mark a leaf column with groupBy to merge consecutive equal values into native rowspan cells. Keep the incoming rows sorted by the grouped column so each group is contiguous. Set hoverMode=&quot;group&quot; so hovering any row highlights the whole merged group instead of a single physical row."
+        description='Mark a leaf column with groupBy to merge consecutive equal values into native rowspan cells. Keep the incoming rows sorted by the grouped column so each group is contiguous. Set hoverMode="group" so hovering any row highlights the whole merged group instead of a single physical row.'
         ariaLabel="Grouped body row variants"
         tabListAriaLabel="Grouped body row style tabs"
         defaultValue="plain-css"
@@ -822,6 +975,7 @@ const classHookTailwindHtml = [
       .table-doc {
         display: grid;
         gap: 1.5rem;
+        min-width: 0;
       }
 
       .table-doc__title {
@@ -841,6 +995,8 @@ const classHookTailwindHtml = [
       .table-demo-shell {
         border: 1px solid var(--tng-semantic-border-subtle);
         border-radius: 1rem;
+        max-width: 100%;
+        min-width: 0;
         padding: 1rem;
       }
 
@@ -850,6 +1006,12 @@ const classHookTailwindHtml = [
         display: inline-flex;
         font-size: 0.75rem;
         padding: 0.25rem 0.55rem;
+      }
+
+      .statement-preview-table {
+        --tng-table-header-bg: var(--tng-semantic-background-surface);
+        --tng-table-min-width: 84rem;
+        --tng-table-scroll-max-height: min(14rem, 30vh);
       }
 
       .group-header {
@@ -937,6 +1099,18 @@ export class TableExamplesPageComponent implements OnDestroy {
     healthTailwindHtml,
     '/* Tailwind utilities are applied directly in the template. */',
   );
+  protected readonly scrollPlainCodeTabs = createCodeTabs(
+    'statement-preview-table-plain-css',
+    scrollTableTs,
+    scrollPlainHtml,
+    scrollPlainCss,
+  );
+  protected readonly scrollTailwindCodeTabs = createCodeTabs(
+    'statement-preview-table-tailwind',
+    scrollTableTs,
+    scrollTailwindHtml,
+    '/* Tailwind arbitrary properties set the table CSS variables in the template. */',
+  );
   protected readonly groupedPlainCodeTabs = createCodeTabs(
     'person-table-plain-css',
     groupedTableTs,
@@ -981,10 +1155,8 @@ export class TableExamplesPageComponent implements OnDestroy {
     { id: 'health', label: 'Health' },
   ];
 
-  protected readonly classHookRowStyle = (row: AccountRow) =>
-    row.health === 'At risk'
-      ? { '--tng-table-row-bg': 'var(--account-risk-row-bg)' }
-      : null;
+  protected readonly classHookRowStyle = (row: AccountRow): TngTableStyleInput =>
+    row.health === 'At risk' ? { '--tng-table-row-bg': 'var(--account-risk-row-bg)' } : null;
 
   protected readonly classHookColumns: readonly TngTableColumn<AccountRow>[] = [
     { id: 'owner', label: 'Owner' },
@@ -994,9 +1166,7 @@ export class TableExamplesPageComponent implements OnDestroy {
       label: 'Seats',
       align: 'end',
       cellStyle: (_row, value) =>
-        Number(value) < 20
-          ? { color: 'var(--account-low-seat-color)', fontWeight: 650 }
-          : null,
+        Number(value) < 20 ? { color: 'var(--account-low-seat-color)', fontWeight: 650 } : null,
     },
     { id: 'health', label: 'Health' },
   ];
@@ -1005,6 +1175,90 @@ export class TableExamplesPageComponent implements OnDestroy {
     { owner: 'Ava Mathews', plan: 'Enterprise', seats: 82, health: 'Healthy' },
     { owner: 'Mina Lee', plan: 'Growth', seats: 28, health: 'Needs review' },
     { owner: 'Omar Aziz', plan: 'Starter', seats: 9, health: 'At risk' },
+  ];
+
+  protected readonly statementColumns: readonly TngTableColumn<StatementRow>[] = [
+    { id: 'date', label: 'Date', width: '8rem' },
+    { id: 'description', label: 'Description', width: '16rem' },
+    { id: 'category', label: 'Category', width: '10rem' },
+    { id: 'method', label: 'Method', width: '9rem' },
+    { id: 'reference', label: 'Reference', width: '10rem' },
+    { id: 'status', label: 'Status', width: '9rem' },
+    { id: 'amount', label: 'Amount', align: 'end', width: '8rem' },
+    { id: 'balance', label: 'Balance', align: 'end', width: '8rem' },
+  ];
+
+  protected readonly statementRows: readonly StatementRow[] = [
+    {
+      date: 'Jan 02',
+      description: 'Opening balance',
+      category: 'Ledger',
+      method: 'System',
+      reference: 'BAL-1000',
+      status: 'Posted',
+      amount: '$0.00',
+      balance: '$14,820.00',
+    },
+    {
+      date: 'Jan 04',
+      description: 'Wire from Acme Supply',
+      category: 'Receivable',
+      method: 'Wire',
+      reference: 'WIRE-1832',
+      status: 'Posted',
+      amount: '$3,240.00',
+      balance: '$18,060.00',
+    },
+    {
+      date: 'Jan 08',
+      description: 'Payroll batch',
+      category: 'Payroll',
+      method: 'ACH',
+      reference: 'PAY-0148',
+      status: 'Posted',
+      amount: '-$6,850.00',
+      balance: '$11,210.00',
+    },
+    {
+      date: 'Jan 10',
+      description: 'Software subscription',
+      category: 'Tools',
+      method: 'Card',
+      reference: 'CARD-4431',
+      status: 'Posted',
+      amount: '-$489.00',
+      balance: '$10,721.00',
+    },
+    {
+      date: 'Jan 15',
+      description: 'Client retainer',
+      category: 'Revenue',
+      method: 'ACH',
+      reference: 'ACH-2204',
+      status: 'Pending',
+      amount: '$4,500.00',
+      balance: '$15,221.00',
+    },
+    {
+      date: 'Jan 17',
+      description: 'Travel reimbursement',
+      category: 'Expense',
+      method: 'ACH',
+      reference: 'EXP-0911',
+      status: 'Posted',
+      amount: '-$780.00',
+      balance: '$14,441.00',
+    },
+    {
+      date: 'Jan 22',
+      description: 'Tax estimate',
+      category: 'Tax',
+      method: 'ACH',
+      reference: 'TAX-2026',
+      status: 'Scheduled',
+      amount: '-$2,100.00',
+      balance: '$12,341.00',
+    },
   ];
 
   protected readonly personColumns: readonly TngTableColumn<PersonRow>[] = [
