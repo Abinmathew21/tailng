@@ -21,17 +21,10 @@
   color: var(--tng-semantic-foreground-primary);
   display: grid;
   gap: 1rem;
+  height: var(--tng-dialog-height, auto);
   max-height: calc(100vh - 2rem);
   overflow: auto;
-  width: min(92vw, 34rem);
-}
-
-.tng-dialog-panel[data-size='sm'] {
-  width: min(92vw, 26rem);
-}
-
-.tng-dialog-panel[data-size='lg'] {
-  width: min(92vw, 48rem);
+  width: min(92vw, var(--tng-dialog-width, 34rem));
 }
 
 .tng-dialog-header {

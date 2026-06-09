@@ -13,7 +13,6 @@ import {
   TngDialogTrigger,
   type TngDialogAutoFocus,
   type TngDialogCloseReason,
-  type TngDialogSize,
 } from '../tng-dialog';
 
 function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement }, testId: string): T {
@@ -79,7 +78,6 @@ async function settle(fixture: { detectChanges(): void; whenStable(): Promise<un
       [restoreFocus]="restoreFocus()"
       [autoFocus]="autoFocus()"
       [trapFocus]="trapFocus()"
-      [size]="size()"
       [ariaLabel]="ariaLabel()"
       [ariaLabelledby]="ariaLabelledby()"
       [ariaDescribedby]="ariaDescribedby()"
@@ -118,7 +116,6 @@ class UncontrolledDialogHarnessComponent {
   readonly restoreFocus = signal(true);
   readonly autoFocus = signal<TngDialogAutoFocus>('first-focusable');
   readonly trapFocus = signal(true);
-  readonly size = signal<TngDialogSize>('md');
   readonly ariaLabel = signal<string | null>(null);
   readonly ariaLabelledby = signal<string | null>(null);
   readonly ariaDescribedby = signal<string | null>(null);

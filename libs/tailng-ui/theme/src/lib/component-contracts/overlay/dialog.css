@@ -1,6 +1,8 @@
 @layer tng.contracts {
   :where(tng-dialog, [tngDialog]) {
     --tng-dialog-radius:            var(--tng-radius-surface);
+    --tng-dialog-width:             34rem;
+    --tng-dialog-height:            auto;
     --tng-dialog-title-font-size:   var(--tng-text-xl);
     --tng-dialog-title-font-weight: var(--tng-font-weight-semibold);
     --tng-dialog-desc-font-size:    var(--tng-text-body);

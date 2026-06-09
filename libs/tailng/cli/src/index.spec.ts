@@ -986,14 +986,24 @@ it('tailng cli integration: add writes dialog source files', async (): Promise<v
   const dialogTsPath = path.join(targetRoot, 'src/app/tailng-ui/dialog/tng-dialog.ts');
   const primitivePath = path.join(targetRoot, 'src/app/tailng-ui/dialog/tng-dialog-primitive.ts');
   const htmlPath = path.join(targetRoot, 'src/app/tailng-ui/dialog/tng-dialog.html');
+  const cssPath = path.join(targetRoot, 'src/app/tailng-ui/dialog/tng-dialog.css');
 
   expect(await pathExists(dialogTsPath)).toBe(true);
   expect(await pathExists(primitivePath)).toBe(true);
   expect(await pathExists(htmlPath)).toBe(true);
+  expect(await pathExists(cssPath)).toBe(true);
 
   const dialogTsContent = await readFile(dialogTsPath, 'utf8');
   expect(dialogTsContent).toContain("selector: 'tng-dialog'");
   expect(dialogTsContent).toContain("from './tng-dialog-primitive';");
+  expect(dialogTsContent).not.toContain('TngDialogSize');
+
+  const htmlContent = await readFile(htmlPath, 'utf8');
+  expect(htmlContent).not.toContain('data-size');
+
+  const cssContent = await readFile(cssPath, 'utf8');
+  expect(cssContent).toContain('var(--tng-dialog-width, 34rem)');
+  expect(cssContent).toContain('var(--tng-dialog-height, auto)');
 });
 
 it('tailng cli integration: add writes popover source files', async (): Promise<void> => {

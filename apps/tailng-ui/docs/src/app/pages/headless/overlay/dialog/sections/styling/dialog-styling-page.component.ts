@@ -10,6 +10,7 @@ import { TngCodeBlockComponent } from '@tailng-ui/components';
 export class HeadlessDialogStylingPageComponent {
   protected readonly cssStarterCode = [
     '[data-slot="dialog-backdrop"] {',
+    '  --tng-dialog-width: 64rem;',
     '  align-items: center;',
     '  background: rgb(2 6 23 / 58%);',
     '  display: grid;',
@@ -25,12 +26,8 @@ export class HeadlessDialogStylingPageComponent {
     '  box-shadow: 0 24px 56px rgb(2 6 23 / 28%);',
     '  display: grid;',
     '  gap: 0.85rem;',
-    '  inline-size: min(100%, 34rem);',
+    '  inline-size: min(100%, var(--tng-dialog-width, 34rem));',
     '  padding: 1rem;',
-    '}',
-    '',
-    '[data-slot="dialog-panel"][data-size="lg"] {',
-    '  inline-size: min(100%, 42rem);',
     '}',
     '',
     '[data-slot="dialog-content"] {',

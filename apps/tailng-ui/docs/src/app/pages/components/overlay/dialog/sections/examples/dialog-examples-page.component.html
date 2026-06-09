@@ -167,4 +167,65 @@
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
+
+  <section id="custom-dimensions" class="dialog-examples-block">
+    <app-docs-example-tabs-section
+      heading="Custom dimensions"
+      description="Set dialog panel width and height through CSS variables on the wrapper host."
+      ariaLabel="Dialog custom dimensions example"
+      tabListAriaLabel="Dialog custom dimensions code tabs"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Open a dialog with entered width and height"
+        [codeTabs]="customSizeCodeTabs"
+      >
+        <div class="dialog-size-demo">
+          <label class="dialog-size-field">
+            <span>Width</span>
+            <input
+              type="text"
+              inputmode="text"
+              [value]="customWidth()"
+              aria-label="Dialog width"
+              (input)="onCustomWidthInput($event)"
+            />
+          </label>
+
+          <label class="dialog-size-field">
+            <span>Height</span>
+            <input
+              type="text"
+              inputmode="text"
+              [value]="customHeight()"
+              aria-label="Dialog height"
+              (input)="onCustomHeightInput($event)"
+            />
+          </label>
+
+          <button type="button" class="dialog-example-primary" (click)="customSizeOpen.set(true)">
+            Open custom dialog
+          </button>
+        </div>
+
+        <tng-dialog
+          title="Custom dimensions"
+          description="The panel uses CSS variables from the dialog host."
+          [style.--tng-dialog-width]="customWidth()"
+          [style.--tng-dialog-height]="customHeight()"
+          [open]="customSizeOpen()"
+          (openChange)="customSizeOpen.set($event)"
+        >
+          <div class="dialog-size-summary">
+            <p>Width: {{ customWidth() }}</p>
+            <p>Height: {{ customHeight() }}</p>
+          </div>
+        </tng-dialog>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
 </article>

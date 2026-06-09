@@ -9,9 +9,9 @@
   <section id="slot-and-state-hooks" class="headless-dialog-styling-block">
     <h3>Slot and state hooks</h3>
     <ul>
-      <li><code>[data-slot="dialog"]</code> mirrors <code>data-open</code>, <code>data-state</code>, <code>data-size</code>, and <code>data-disabled</code>.</li>
+      <li><code>[data-slot="dialog"]</code> mirrors <code>data-open</code>, <code>data-state</code>, and <code>data-disabled</code>.</li>
       <li><code>[data-slot="dialog-backdrop"]</code> is the fixed overlay layer that owns spacing and backdrop visuals.</li>
-      <li><code>[data-slot="dialog-panel"]</code> is the focus target with size and open-state attributes.</li>
+      <li><code>[data-slot="dialog-panel"]</code> is the focus target with open-state attributes.</li>
       <li><code>[data-slot="dialog-content"]</code> wraps the body region when you use <code>tngDialogContent</code>.</li>
       <li><code>[data-slot="dialog-trigger"]</code>, <code>[data-slot="dialog-close"]</code>, <code>[data-slot="dialog-title"]</code>, <code>[data-slot="dialog-description"]</code>, and <code>[data-slot="dialog-actions"]</code> provide stable hooks for shell polish.</li>
     </ul>
@@ -35,7 +35,7 @@
     <ul>
       <li>Keep the backdrop and panel styling local to the dialog shell so modal contrast stays consistent.</li>
       <li>Size the panel from the slot hooks instead of hard-coding widths on inner content wrappers.</li>
-      <li>Use <code>data-size</code> as the shared contract between layout tokens and product-specific variants.</li>
+      <li>Use shell CSS variables or local classes for product-specific panel dimensions.</li>
       <li>Prefer styling focus states on your trigger and action buttons directly; the primitive only manages the behavior.</li>
     </ul>
   </section>

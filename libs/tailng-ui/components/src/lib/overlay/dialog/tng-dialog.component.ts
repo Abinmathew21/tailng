@@ -37,7 +37,6 @@ type TngFocusTrapState = Readonly<{
 }>;
 
 export type TngDialogCloseReason = 'backdrop' | 'close-button' | 'escape' | 'programmatic';
-export type TngDialogSize = 'lg' | 'md' | 'sm';
 
 function readKeyboardEvent(event: unknown): KeyboardEvent | null {
   return event instanceof KeyboardEvent ? event : null;
@@ -125,7 +124,6 @@ export class TngDialogComponent implements OnDestroy {
   public readonly open = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
-  public readonly size = input<TngDialogSize>('md');
   public readonly title = input<string>('Dialog');
 
   public readonly closed = output<TngDialogCloseReason>();

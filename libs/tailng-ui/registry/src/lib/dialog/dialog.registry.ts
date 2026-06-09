@@ -5,7 +5,6 @@ const dialogPrimitiveTsTemplate = `export type TngDialogCloseReason =
   | 'close-button'
   | 'escape'
   | 'programmatic';
-export type TngDialogSize = 'lg' | 'md' | 'sm';
 
 type TngDialogScrollLockSnapshot = Readonly<{
   overflow: string;
@@ -195,7 +194,6 @@ import {
   resolveDialogMarkedInitialElement,
   toDialogScrollLockDocument,
   type TngDialogCloseReason,
-  type TngDialogSize,
 } from './tng-dialog-primitive';
 
 type TngDialogFocusTrapState = Readonly<{
@@ -221,7 +219,6 @@ export class TngDialog implements OnDestroy {
   public readonly open = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
-  public readonly size = input<TngDialogSize>('md');
   public readonly title = input<string>('Dialog');
 
   public readonly closed = output<TngDialogCloseReason>();
@@ -484,7 +481,6 @@ const dialogTemplateHtml = `@if (open()) {
       role="dialog"
       aria-modal="true"
       class="tng-dialog-panel"
-      [attr.data-size]="size()"
       [attr.aria-labelledby]="titleId"
       [attr.aria-describedby]="description() ? descriptionId : null"
       tabindex="-1"
@@ -534,17 +530,10 @@ const dialogTemplateCss = `:host {
   color: var(--tng-semantic-foreground-primary, #0f172a);
   display: grid;
   gap: 1rem;
+  height: var(--tng-dialog-height, auto);
   max-height: calc(100vh - 2rem);
   overflow: auto;
-  width: min(92vw, 34rem);
-}
-
-.tng-dialog-panel[data-size='sm'] {
-  width: min(92vw, 26rem);
-}
-
-.tng-dialog-panel[data-size='lg'] {
-  width: min(92vw, 48rem);
+  width: min(92vw, var(--tng-dialog-width, 34rem));
 }
 
 .tng-dialog-header {

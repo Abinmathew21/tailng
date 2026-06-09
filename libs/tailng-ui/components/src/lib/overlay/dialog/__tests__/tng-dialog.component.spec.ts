@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
-import { TngDialogComponent, type TngDialogCloseReason, type TngDialogSize } from '../tng-dialog.component';
+import { TngDialogComponent, type TngDialogCloseReason } from '../tng-dialog.component';
 
 function getByTestId<T extends Element>(fixture: { nativeElement: HTMLElement }, testId: string): T {
   const element = fixture.nativeElement.querySelector(`[data-testid="${testId}"]`) as T | null;
@@ -62,7 +62,6 @@ async function settle(fixture: { detectChanges(): void; whenStable(): Promise<un
       [description]="description()"
       [closeOnBackdrop]="closeOnBackdrop()"
       [closeOnEscape]="closeOnEscape()"
-      [size]="size()"
       (openChange)="onOpenChange($event)"
       (closed)="closedReasons.push($event)"
     >
@@ -81,7 +80,6 @@ class ManagedDialogHostComponent {
   readonly description = signal('Configure project, owner, and notes.');
   readonly closeOnBackdrop = signal(true);
   readonly closeOnEscape = signal(true);
-  readonly size = signal<TngDialogSize>('md');
   readonly syncOpenOnChange = signal(true);
 
   readonly openChanges: boolean[] = [];
@@ -266,18 +264,6 @@ describe('tng-dialog component behavior', () => {
     await settle(fixture);
     expect(backward.defaultPrevented).toBe(true);
     expect(document.activeElement).toBe(last);
-  });
-
-  it('applies size state on panel', async () => {
-    const fixture = TestBed.configureTestingModule({
-      imports: [ManagedDialogHostComponent],
-    }).createComponent(ManagedDialogHostComponent);
-    fixture.componentInstance.open.set(true);
-    fixture.componentInstance.size.set('lg');
-
-    await settle(fixture);
-
-    expect(findPanel(fixture)?.getAttribute('data-size')).toBe('lg');
   });
 
   it('controlled mode emits close events but stays open until host updates input', async () => {

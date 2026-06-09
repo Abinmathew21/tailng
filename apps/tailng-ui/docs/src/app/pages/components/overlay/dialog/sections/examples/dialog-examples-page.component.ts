@@ -29,6 +29,9 @@ export class DialogExamplesPageComponent implements OnDestroy {
   protected readonly tailwindOpen = signal(false);
   protected readonly contentSlotOpen = signal(false);
   protected readonly contentSlotTailwindOpen = signal(false);
+  protected readonly customSizeOpen = signal(false);
+  protected readonly customWidth = signal('42rem');
+  protected readonly customHeight = signal('24rem');
 
   protected readonly plainResult = signal('No decision yet');
   protected readonly tailwindResult = signal('No decision yet');
@@ -240,6 +243,89 @@ export class DialogExamplesPageComponent implements OnDestroy {
     },
   ]);
 
+  protected readonly customSizeCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'dialog-custom-size.component.ts',
+      code: [
+        "import { Component, signal } from '@angular/core';",
+        "import { TngDialogComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-dialog-custom-size',",
+        '  standalone: true,',
+        '  imports: [TngDialogComponent],',
+        "  templateUrl: './dialog-custom-size.component.html',",
+        "  styleUrl: './dialog-custom-size.component.css',",
+        '})',
+        'export class DialogCustomSizeComponent {',
+        '  protected readonly open = signal(false);',
+        "  protected readonly width = signal('42rem');",
+        "  protected readonly height = signal('24rem');",
+        '',
+        '  protected onWidthInput(event: Event): void {',
+        '    this.width.set((event.target as HTMLInputElement).value);',
+        '  }',
+        '',
+        '  protected onHeightInput(event: Event): void {',
+        '    this.height.set((event.target as HTMLInputElement).value);',
+        '  }',
+        '}',
+      ].join('\n'),
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'dialog-custom-size.component.html',
+      code: [
+        '<div class="dialog-size-controls">',
+        '  <label>',
+        '    Width',
+        '    <input type="text" [value]="width()" (input)="onWidthInput($event)" />',
+        '  </label>',
+        '  <label>',
+        '    Height',
+        '    <input type="text" [value]="height()" (input)="onHeightInput($event)" />',
+        '  </label>',
+        '  <button type="button" (click)="open.set(true)">Open custom dialog</button>',
+        '</div>',
+        '',
+        '<tng-dialog',
+        '  title="Custom dimensions"',
+        '  description="Width and height come from CSS variables on the host."',
+        '  [style.--tng-dialog-width]="width()"',
+        '  [style.--tng-dialog-height]="height()"',
+        '  [open]="open()"',
+        '  (openChange)="open.set($event)"',
+        '>',
+        '  <p>Current width: {{ width() }}</p>',
+        '  <p>Current height: {{ height() }}</p>',
+        '</tng-dialog>',
+      ].join('\n'),
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'dialog-custom-size.component.css',
+      code: [
+        '.dialog-size-controls {',
+        '  display: grid;',
+        '  gap: 0.75rem;',
+        '  max-width: 28rem;',
+        '}',
+        '',
+        '.dialog-size-controls label {',
+        '  display: grid;',
+        '  gap: 0.35rem;',
+        '}',
+      ].join('\n'),
+    },
+  ]);
+
   protected readonly tailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
       value: 'ts',
@@ -334,5 +420,13 @@ export class DialogExamplesPageComponent implements OnDestroy {
   protected onTailwindCancel(): void {
     this.tailwindResult.set('Canceled');
     this.tailwindOpen.set(false);
+  }
+
+  protected onCustomWidthInput(event: Event): void {
+    this.customWidth.set((event.target as HTMLInputElement).value);
+  }
+
+  protected onCustomHeightInput(event: Event): void {
+    this.customHeight.set((event.target as HTMLInputElement).value);
   }
 }

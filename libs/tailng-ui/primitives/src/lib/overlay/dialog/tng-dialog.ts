@@ -38,7 +38,6 @@ const createDialogFocusableId = createTngIdFactory('tng-dialog-focusable');
 
 export type TngDialogAutoFocus = 'dialog' | 'first-focusable' | 'none';
 export type TngDialogCloseReason = 'backdrop' | 'close-button' | 'escape' | 'programmatic';
-export type TngDialogSize = 'lg' | 'md' | 'sm';
 
 type OptionalBooleanInput = boolean | null | string | undefined;
 
@@ -177,7 +176,6 @@ export class TngDialog implements OnDestroy, OnInit {
   public readonly ariaLabel = input<string | null>(null);
   public readonly ariaLabelledby = input<string | null>(null);
   public readonly ariaDescribedby = input<string | null>(null);
-  public readonly size = input<TngDialogSize>('md');
 
   public readonly openChange = output<boolean>();
   public readonly closed = output<TngDialogCloseReason>();
@@ -229,11 +227,6 @@ export class TngDialog implements OnDestroy, OnInit {
   @HostBinding('attr.data-disabled')
   protected get dataDisabledAttr(): '' | null {
     return this.disabled() ? '' : null;
-  }
-
-  @HostBinding('attr.data-size')
-  protected get dataSizeAttr(): TngDialogSize {
-    return this.size();
   }
 
   public ngOnInit(): void {
@@ -689,11 +682,6 @@ export class TngDialogPanel implements OnDestroy, OnInit {
   @HostBinding('attr.data-open')
   protected get dataOpenAttr(): 'false' | 'true' {
     return this.dialog.isOpen() ? 'true' : 'false';
-  }
-
-  @HostBinding('attr.data-size')
-  protected get dataSizeAttr(): TngDialogSize {
-    return this.dialog.size();
   }
 
   @HostBinding('attr.data-state')
