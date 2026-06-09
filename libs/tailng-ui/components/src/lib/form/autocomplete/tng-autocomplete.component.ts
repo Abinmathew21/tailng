@@ -74,7 +74,11 @@ export type TngAutocompleteSelectedContext<O, V> = {
     },
   ],
   templateUrl: './tng-autocomplete.component.html',
-  styleUrl: './tng-autocomplete.component.css',
+  styleUrls: [
+    './tng-autocomplete.component.css',
+    './tng-autocomplete.overlay.component.css',
+    './tng-autocomplete.form-field.component.css',
+  ],
   encapsulation: ViewEncapsulation.None,
 })
 export class TngAutocompleteComponent<O = unknown, V = unknown> {

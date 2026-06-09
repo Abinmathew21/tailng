@@ -1,0 +1,83 @@
+/* Inside a form-field the wrapper provides the border, background, padding,
+   and focus indication, so neutralize the autocomplete trigger's own chrome to
+   render as a single control. Targets the in-flow trigger only — the portalled
+   overlay is outside the form-field, so its own visuals are preserved. */
+tng-form-field tng-autocomplete [data-slot='autocomplete-trigger-container'] {
+  background: transparent;
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  min-height: 0;
+  padding-inline: 0;
+}
+
+tng-form-field tng-autocomplete [data-slot='autocomplete-trigger-container']:hover:not(:has([aria-disabled='true'])) {
+  border-color: transparent;
+}
+
+tng-form-field
+  tng-autocomplete
+  [data-slot='autocomplete-trigger-container']:has(
+    [data-slot='autocomplete-trigger']:is(:focus, :focus-visible)
+  ) {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+tng-form-field tng-autocomplete[data-state='open'] [data-slot='autocomplete-trigger-container'] {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+tng-form-field tng-autocomplete[data-invalid] [data-slot='autocomplete-trigger-container'] {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+tng-form-field tng-autocomplete [data-slot='autocomplete-trigger'] {
+  padding-inline: 0;
+}
+
+tng-form-field tng-autocomplete [data-slot='autocomplete-trigger'].tng-autocomplete-trigger--has-selected-visual {
+  padding-inline-start: var(--tng-autocomplete-selected-input-padding-start, 2.65rem);
+}
+
+tng-form-field tng-autocomplete [data-slot='autocomplete-icon'] {
+  margin-inline-end: 0;
+}
+
+/* Rich option/value template helpers */
+
+tng-autocomplete .tng-autocomplete-option-content,
+tng-autocomplete .tng-autocomplete-selected-content,
+tng-autocomplete .flag-option,
+tng-autocomplete .flag-selected {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--tng-autocomplete-rich-content-gap, 0.55rem);
+  min-width: 0;
+}
+
+tng-autocomplete .tng-autocomplete-option-label,
+tng-autocomplete .tng-autocomplete-selected-label,
+tng-autocomplete .flag-option > span:not(.flag-chip):not(.flag-code),
+tng-autocomplete .flag-selected > span:not(.flag-chip):not(.flag-code) {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+tng-autocomplete .flag-code {
+  color: var(--tng-autocomplete-muted, currentColor);
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+  margin-inline-start: auto;
+  opacity: 0.85;
+  text-transform: uppercase;
+}
+
+tng-autocomplete .flag-chip {
+  flex: 0 0 auto;
+  margin-inline-start: 0;
+}
