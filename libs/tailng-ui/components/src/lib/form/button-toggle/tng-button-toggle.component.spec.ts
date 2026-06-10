@@ -20,7 +20,7 @@ function click(el: HTMLElement): void {
   `,
 })
 class StandaloneToggleHostComponent {
-  readonly pressed = signal(false);
+  public readonly pressed = signal(false);
 }
 
 @Component({
@@ -38,7 +38,7 @@ class StandaloneToggleHostComponent {
     </tng-button-toggle-group>
   `,
 })
-class GroupToggleHostComponent {}
+class GroupToggleHostComponent { }
 
 @Component({
   imports: [TngButtonToggleComponent, TngButtonToggleGroupComponent],
@@ -55,7 +55,7 @@ class GroupToggleHostComponent {}
   `,
 })
 class GroupStandaloneGuardHostComponent {
-  readonly onStandalonePressedChange = vi.fn<(next: boolean) => void>();
+  public readonly onStandalonePressedChange = vi.fn<(next: boolean) => void>();
 }
 
 @Component({
@@ -69,7 +69,7 @@ class GroupStandaloneGuardHostComponent {
   `,
 })
 class GroupSelectionHostComponent {
-  readonly value = signal<'left' | 'center' | 'right' | null>('left');
+  public readonly value = signal<'left' | 'center' | 'right' | null>('left');
 }
 
 describe('tng-button-toggle component', () => {
@@ -116,8 +116,9 @@ describe('tng-button-toggle component', () => {
       '[data-slot="button-toggle-group"]',
     ) as HTMLElement | null;
     const buttons = Array.from(
-      fixture.nativeElement.querySelectorAll('[data-slot="button-toggle"]'),
-    ) as HTMLButtonElement[];
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLButtonElement>(
+        '[data-slot="button-toggle"]'),
+    );
 
     expect(group).toBeTruthy();
     expect(group?.getAttribute('data-type')).toBe('multiple');
@@ -155,8 +156,9 @@ describe('tng-button-toggle component', () => {
     fixture.detectChanges();
 
     const buttons = Array.from(
-      fixture.nativeElement.querySelectorAll('[data-slot="button-toggle"]'),
-    ) as HTMLButtonElement[];
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLButtonElement>(
+        '[data-slot="button-toggle"]'),
+    );
 
     expect(buttons).toHaveLength(3);
     expect(buttons[0]?.getAttribute('data-selected')).toBe('true');
@@ -172,12 +174,13 @@ describe('tng-button-toggle component', () => {
 
     const host = fixture.componentInstance;
     const buttons = Array.from(
-      fixture.nativeElement.querySelectorAll('[data-slot="button-toggle"]'),
-    ) as HTMLButtonElement[];
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLButtonElement>(
+        '[data-slot="button-toggle"]'),
+    );
 
     expect(buttons).toHaveLength(3);
 
-    click(buttons[1]!);
+    click(buttons[1]);
     fixture.detectChanges();
 
     expect(host.value()).toBe('center');

@@ -30,7 +30,7 @@ function normalizeOptionalButtonToggleValue(
     return value;
   }
 
-  return String(value);
+  return String(value as unknown);
 }
 
 @Component({
