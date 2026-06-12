@@ -12,6 +12,7 @@ export class SkeletonApiPageComponent {
     '<tng-skeleton width="75%" height="1rem"></tng-skeleton>',
     '<tng-skeleton width="100%" height="7rem" [rounded]="false"></tng-skeleton>',
     '<tng-skeleton width="12rem" height="2.25rem" [animated]="false"></tng-skeleton>',
+    '<tng-skeleton width="100%" height="1.1rem" message="Preparing your dashboard..."></tng-skeleton>',
     '',
   ].join('\n');
 

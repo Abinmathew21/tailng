@@ -1,6 +1,9 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, inject, signal, type OnDestroy } from '@angular/core';
-import { observeDocsCodeThemeChanges, resolveDocsCodeBlockTheme } from '../../../../../../shared/util';
+import {
+  observeDocsCodeThemeChanges,
+  resolveDocsCodeBlockTheme,
+} from '../../../../../../shared/util';
 import { TngSkeletonComponent } from '@tailng-ui/components';
 import { type DocsExampleCodeTab } from '../../../../../../shared/example-panel/docs-example-panel.component';
 import {
@@ -10,11 +13,7 @@ import {
 
 @Component({
   selector: 'app-skeleton-examples-page',
-  imports: [
-    TngSkeletonComponent,
-    DocsExampleTabsSectionComponent,
-    DocsExampleVariantDirective,
-  ],
+  imports: [TngSkeletonComponent, DocsExampleTabsSectionComponent, DocsExampleVariantDirective],
   templateUrl: './skeleton-examples-page.component.html',
   styleUrl: './skeleton-examples-page.component.css',
 })
@@ -27,6 +26,12 @@ export class SkeletonExamplesPageComponent implements OnDestroy {
     this.documentRef,
     this.codeBlockTheme,
   );
+  protected readonly loadingMessages = [
+    'Preparing your dashboard...',
+    'Crunching the numbers...',
+    'Almost ready...',
+    'Loading your workspace...',
+  ];
 
   protected readonly textPlainTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     {
@@ -68,13 +73,7 @@ export class SkeletonExamplesPageComponent implements OnDestroy {
       label: 'CSS',
       language: 'css',
       title: 'skeleton-examples-text-plain-css.component.css',
-      code: [
-        '.text-shell {',
-        '  display: grid;',
-        '  gap: 0.65rem;',
-        '}',
-        '',
-      ].join('\n'),
+      code: ['.text-shell {', '  display: grid;', '  gap: 0.65rem;', '}', ''].join('\n'),
     },
   ]);
 
@@ -227,6 +226,77 @@ export class SkeletonExamplesPageComponent implements OnDestroy {
       language: 'css',
       title: 'skeleton-examples-card-tailwind.component.css',
       code: '/* Tailwind utilities are applied directly in the template. */',
+    },
+  ]);
+
+  protected readonly messagePlainTabs: readonly DocsExampleCodeTab[] = Object.freeze([
+    {
+      value: 'ts',
+      label: 'TS',
+      language: 'ts',
+      title: 'skeleton-examples-message.component.ts',
+      code: [
+        "import { Component } from '@angular/core';",
+        "import { TngSkeletonComponent } from '@tailng-ui/components';",
+        '',
+        '@Component({',
+        "  selector: 'app-skeleton-examples-message',",
+        '  standalone: true,',
+        '  imports: [TngSkeletonComponent],',
+        "  templateUrl: './skeleton-examples-message.component.html',",
+        "  styleUrl: './skeleton-examples-message.component.css',",
+        '})',
+        'export class SkeletonExamplesMessageComponent {',
+        '  protected readonly loadingMessages = [',
+        "    'Preparing your dashboard...',",
+        "    'Crunching the numbers...',",
+        "    'Almost ready...',",
+        "    'Loading your workspace...',",
+        '  ];',
+        '}',
+      ].join('\n'),
+    },
+    {
+      value: 'html',
+      label: 'HTML',
+      language: 'html',
+      title: 'skeleton-examples-message.component.html',
+      code: [
+        '<section class="message-shell">',
+        '  <tng-skeleton',
+        '    width="100%"',
+        '    height="1.1rem"',
+        '    message="Preparing your dashboard..."',
+        '  ></tng-skeleton>',
+        '',
+        '  <tng-skeleton width="100%" height="1.1rem">',
+        '    Preparing your dashboard...',
+        '  </tng-skeleton>',
+        '',
+        '  <tng-skeleton',
+        '    width="100%"',
+        '    height="1.1rem"',
+        '    [messages]="loadingMessages"',
+        '  ></tng-skeleton>',
+        '',
+        '  <tng-skeleton',
+        '    width="100%"',
+        '    height="1.1rem"',
+        '    messageMode="random"',
+        '    messageStrategy="interval"',
+        '    [messageInterval]="5000"',
+        '    [messages]="loadingMessages"',
+        '  ></tng-skeleton>',
+        '</section>',
+        '',
+      ].join('\n'),
+    },
+    {
+      value: 'css',
+      label: 'CSS',
+      language: 'css',
+      title: 'skeleton-examples-message.component.css',
+      code: ['.message-shell {', '  display: grid;', '  gap: 0.65rem;', '}', ''].join('\n'),
     },
   ]);
 

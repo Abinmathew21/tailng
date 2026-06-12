@@ -48,6 +48,46 @@
     </app-docs-example-tabs-section>
   </section>
 
+  <section id="message-placeholder" class="skeleton-examples-block">
+    <app-docs-example-tabs-section
+      heading="Message skeleton"
+      description="Add static or random status text for longer loading states."
+      ariaLabel="Skeleton message examples"
+      tabListAriaLabel="Skeleton message style variants"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Wrapper message skeleton"
+        [codeTabs]="messagePlainTabs"
+      >
+        <section class="skeleton-message-shell">
+          <tng-skeleton
+            width="100%"
+            height="1.1rem"
+            message="Preparing your dashboard..."
+          ></tng-skeleton>
+
+          <tng-skeleton width="100%" height="1.1rem"> Preparing your dashboard... </tng-skeleton>
+
+          <tng-skeleton width="100%" height="1.1rem" [messages]="loadingMessages"></tng-skeleton>
+
+          <tng-skeleton
+            width="100%"
+            height="1.1rem"
+            messageMode="random"
+            messageStrategy="interval"
+            [messageInterval]="5000"
+            [messages]="loadingMessages"
+          ></tng-skeleton>
+        </section>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
+
   <section id="card-placeholder" class="skeleton-examples-block">
     <app-docs-example-tabs-section
       heading="Card placeholder"

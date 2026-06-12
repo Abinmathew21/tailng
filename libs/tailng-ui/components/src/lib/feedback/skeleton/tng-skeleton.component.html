@@ -1,8 +1,20 @@
-<div
-  tngSkeleton
-  class="tng-skeleton"
-  [animated]="animated()"
-  [rounded]="rounded()"
-  [style.width]="resolveWidth()"
-  [style.height]="resolveHeight()"
-></div>
+<div class="tng-skeleton-shell" [style.width]="resolveWidth()" [style.height]="resolveHeight()">
+  <div
+    tngSkeleton
+    class="tng-skeleton"
+    [animated]="animated()"
+    [rounded]="rounded()"
+    [style.width]="resolveWidth()"
+    [style.height]="resolveHeight()"
+  ></div>
+
+  @if (statusMessage() !== null) {
+    <span class="tng-skeleton-message" role="status" aria-live="polite">
+      {{ statusMessage() }}
+    </span>
+  } @else if (shouldRenderProjectedMessage()) {
+    <span class="tng-skeleton-message" role="status" aria-live="polite">
+      <ng-content></ng-content>
+    </span>
+  }
+</div>

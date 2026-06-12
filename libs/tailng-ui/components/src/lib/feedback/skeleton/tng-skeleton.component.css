@@ -2,6 +2,11 @@
   display: block;
 }
 
+.tng-skeleton-shell {
+  position: relative;
+  display: block;
+}
+
 .tng-skeleton {
   background: linear-gradient(
     90deg,
@@ -10,6 +15,30 @@
     var(--tng-semantic-foreground-secondary) 100%
   );
   background-size: 220% 100%;
+}
+
+.tng-skeleton-message {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  overflow: hidden;
+  padding: 0 0.75rem;
+  color: var(--tng-semantic-foreground-primary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1;
+  pointer-events: none;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tng-skeleton-message:empty {
+  display: none;
 }
 
 .tng-skeleton[data-rounded='true'] {

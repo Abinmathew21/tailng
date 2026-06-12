@@ -36,6 +36,7 @@
 
 .skeleton-example-shell--headless,
 .skeleton-example-shell--plain,
+.skeleton-message-shell,
 .skeleton-card-shell {
   border: 1px solid var(--tng-semantic-border-subtle);
   border-radius: 0.9rem;
