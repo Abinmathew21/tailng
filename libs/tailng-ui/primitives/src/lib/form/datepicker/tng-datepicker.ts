@@ -760,11 +760,14 @@ class DatepickerController<TDate> implements TngDatepickerController<TDate> {
 
     const previousMonth = this.state.visibleMonth;
     const previousYear = this.config.adapter.getYear(previousMonth);
-    const nextMonth = this.config.adapter.createDate(
+    const nextMonth = this.resolveSelectableMonthInYear(
       normalizedYear,
       this.config.adapter.getMonth(previousMonth),
-      1,
     );
+    if (nextMonth === null) {
+      return;
+    }
+
     this.state.visibleMonth = nextMonth;
     this.yearPageStart = this.resolveCenteredYearPageStart(normalizedYear);
     const nextActive = clampDateToMonth(this.config.adapter, this.state.activeDate, nextMonth);
@@ -1938,6 +1941,38 @@ class DatepickerController<TDate> implements TngDatepickerController<TDate> {
     }
 
     return fallback;
+  }
+
+  private resolveSelectableMonthInYear(year: number, preferredMonth: number): TDate | null {
+    const normalizedPreferredMonth = Math.max(0, Math.min(11, Math.trunc(preferredMonth)));
+    const createMonth = (month: number): TDate => this.config.adapter.createDate(year, month, 1);
+    const hasSelectableDate = (monthDate: TDate): boolean =>
+      hasSelectableDateInMonth(this.config.adapter, monthDate, (date) => this.isDateDisabled(date));
+
+    const preferred = createMonth(normalizedPreferredMonth);
+    if (hasSelectableDate(preferred)) {
+      return preferred;
+    }
+
+    for (let offset = 1; offset < 12; offset += 1) {
+      const previousMonth = normalizedPreferredMonth - offset;
+      if (previousMonth >= 0) {
+        const previous = createMonth(previousMonth);
+        if (hasSelectableDate(previous)) {
+          return previous;
+        }
+      }
+
+      const nextMonth = normalizedPreferredMonth + offset;
+      if (nextMonth < 12) {
+        const next = createMonth(nextMonth);
+        if (hasSelectableDate(next)) {
+          return next;
+        }
+      }
+    }
+
+    return null;
   }
 
   private resolveLayout(): TngDatepickerLayout {

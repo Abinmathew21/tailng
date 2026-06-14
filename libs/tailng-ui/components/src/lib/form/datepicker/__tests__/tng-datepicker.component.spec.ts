@@ -126,6 +126,18 @@ function getSelectedDayCell(): HTMLButtonElement {
   return getRequiredFromRoot<HTMLButtonElement>(document.body, '[data-slot="datepicker-cell"][data-selected="true"]');
 }
 
+function getPickerButton(slot: 'datepicker-month' | 'datepicker-year', label: string): HTMLButtonElement {
+  const button = Array.from(document.body.querySelectorAll(`[data-slot="${slot}"]`)).find(
+    (element) => (element as HTMLElement).textContent?.trim() === label,
+  ) as HTMLButtonElement | undefined;
+
+  if (button === undefined) {
+    throw new Error(`Expected ${slot} button ${label} to exist.`);
+  }
+
+  return button;
+}
+
 async function expectInputCommitReopensSelectedDate(
   hostComponent: Type<unknown>,
   initialInputValue: string,
@@ -533,6 +545,90 @@ describe('tng-datepicker component behavior', () => {
 
     expect(march?.disabled).toBe(false);
     expect(april?.disabled).toBe(true);
+  });
+
+  it('keeps month focus on the first enabled month after keyboard-selecting the min-boundary year', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDatepickerHostComponent],
+    }).createComponent(UncontrolledDatepickerHostComponent);
+    fixture.componentInstance.defaultOpen.set(true);
+    fixture.componentInstance.defaultValue.set('2026-03-31');
+    fixture.componentInstance.minDate.set('2025-04-01');
+    fixture.componentInstance.maxDate.set('2026-03-31');
+
+    await settle(fixture);
+
+    getRequiredFromRoot<HTMLButtonElement>(document.body, '[data-slot="datepicker-period-button"]').click();
+    await settle(fixture);
+
+    const yearGrid = getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="datepicker-grid"]');
+    keydown(yearGrid, 'ArrowLeft');
+    await settle(fixture);
+
+    expect(getPickerButton('datepicker-year', '2025').getAttribute('data-active')).toBe('true');
+
+    keydown(yearGrid, 'Enter');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    const march = getPickerButton('datepicker-month', 'Mar');
+    const april = getPickerButton('datepicker-month', 'Apr');
+
+    expect(march.disabled).toBe(true);
+    expect(april.disabled).toBe(false);
+    expect(march.getAttribute('data-active')).toBeNull();
+    expect(april.getAttribute('data-active')).toBe('true');
+    expect(document.activeElement).toBe(april);
+  });
+
+  it('selects the min-boundary month by keyboard after year selection', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDatepickerHostComponent],
+    }).createComponent(UncontrolledDatepickerHostComponent);
+    fixture.componentInstance.defaultOpen.set(true);
+    fixture.componentInstance.defaultValue.set('2026-03-31');
+    fixture.componentInstance.minDate.set('2025-04-01');
+    fixture.componentInstance.maxDate.set('2026-03-31');
+
+    await settle(fixture);
+
+    getRequiredFromRoot<HTMLButtonElement>(document.body, '[data-slot="datepicker-period-button"]').click();
+    await settle(fixture);
+
+    const yearGrid = getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="datepicker-grid"]');
+    keydown(yearGrid, 'ArrowLeft');
+    await settle(fixture);
+    keydown(yearGrid, 'Enter');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    const monthGrid = getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="datepicker-grid"]');
+    expect(getPickerButton('datepicker-month', 'Apr').getAttribute('data-active')).toBe('true');
+
+    keydown(monthGrid, 'Enter');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expect(
+      getRequiredFromRoot<HTMLButtonElement>(document.body, '[data-slot="datepicker-period-button"]').textContent?.includes(
+        defaultDatepickerDateAdapter.format(new Date(2025, 3, 1), 'month-year', 'en-US'),
+      ),
+    ).toBe(true);
+
+    const aprilFirst = Array.from(document.body.querySelectorAll('[data-slot="datepicker-cell"]')).find(
+      (element) => (element as HTMLElement).textContent?.trim() === '1',
+    ) as HTMLButtonElement | undefined;
+
+    expect(aprilFirst).not.toBeUndefined();
+    expect(aprilFirst?.disabled).toBe(false);
+
+    aprilFirst?.click();
+    await settle(fixture);
+
+    expect(getRequired<HTMLInputElement>(fixture, '[data-slot="datepicker-input"]').value).toBe('04-01-2025');
   });
 
   it('uses Angular LOCALE_ID for month labels when no locale input is provided', async () => {

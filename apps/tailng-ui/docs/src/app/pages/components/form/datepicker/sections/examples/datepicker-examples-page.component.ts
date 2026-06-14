@@ -263,6 +263,46 @@ export class DatepickerExamplesPageComponent implements OnDestroy {
     '/* Tailwind handles spacing while semantic tokens keep the shell synced to theme changes. */',
   );
 
+  protected readonly fiscalBoundaryPlainCodeTabs = createCodeTabs(
+    'fiscal-boundary-datepicker-plain-css',
+    createWrapperTsCode('fiscal-boundary-datepicker-plain-css'),
+    [
+      '<tng-datepicker',
+      '  [defaultOpen]="false"',
+      '  [defaultValue]="\'2026-03-31\'"',
+      '  [today]="\'2026-03-31\'"',
+      '  [minDate]="\'2025-04-01\'"',
+      '  [maxDate]="\'2026-03-31\'"',
+      '  [fullWidth]="false"',
+      '  ariaLabel="Fiscal period date"',
+      '></tng-datepicker>',
+      '',
+    ].join('\n'),
+    '.datepicker-example { inline-size: 18.5rem; }\n',
+  );
+
+  protected readonly fiscalBoundaryTailwindCodeTabs = createCodeTabs(
+    'fiscal-boundary-datepicker-tailwind',
+    createWrapperTsCode('fiscal-boundary-datepicker-tailwind'),
+    [
+      '<div',
+      '  class="w-full max-w-[18.5rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"',
+      '>',
+      '  <tng-datepicker',
+      '    [defaultOpen]="false"',
+      '    [defaultValue]="\'2026-03-31\'"',
+      '    [today]="\'2026-03-31\'"',
+      '    [minDate]="\'2025-04-01\'"',
+      '    [maxDate]="\'2026-03-31\'"',
+      '    [fullWidth]="false"',
+      '    ariaLabel="Fiscal period date"',
+      '  ></tng-datepicker>',
+      '</div>',
+      '',
+    ].join('\n'),
+    '/* Tailwind handles spacing while semantic tokens keep the shell synced to theme changes. */',
+  );
+
   public ngOnDestroy(): void {
     this.colorSchemeObserver?.disconnect();
   }

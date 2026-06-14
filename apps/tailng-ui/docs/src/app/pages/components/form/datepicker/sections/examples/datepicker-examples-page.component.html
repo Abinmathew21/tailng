@@ -229,4 +229,68 @@
       </ng-template>
     </app-docs-example-tabs-section>
   </section>
+
+  <section class="datepicker-examples-block">
+    <app-docs-example-tabs-section
+      heading="Fiscal year boundary"
+      description="A cross-year fiscal window keeps month and year navigation on selectable values when the current month is outside the selected year."
+      ariaLabel="Fiscal year boundary datepicker variants"
+      tabListAriaLabel="Fiscal year boundary example styles"
+      defaultValue="plain-css"
+      [codeBlockTheme]="codeBlockTheme()"
+    >
+      <ng-template
+        appDocsExampleVariant
+        value="plain-css"
+        label="Plain-CSS"
+        panelTitle="Fiscal year boundary (Plain-CSS)"
+        [codeTabs]="fiscalBoundaryPlainCodeTabs"
+      >
+        <div class="datepicker-example-preview">
+          <div class="datepicker-example-control">
+            <tng-datepicker
+              [defaultOpen]="false"
+              [defaultValue]="'2026-03-31'"
+              [today]="'2026-03-31'"
+              [minDate]="'2025-04-01'"
+              [maxDate]="'2026-03-31'"
+              [fullWidth]="false"
+              ariaLabel="Fiscal period date"
+            ></tng-datepicker>
+          </div>
+          <p class="datepicker-example-note">
+            Drill into the year panel and choose 2025; April becomes the first enabled month while
+            January through March stay disabled.
+          </p>
+        </div>
+      </ng-template>
+
+      <ng-template
+        appDocsExampleVariant
+        value="tailwind-css"
+        label="Tailwind CSS"
+        panelTitle="Fiscal year boundary (Tailwind CSS)"
+        [codeTabs]="fiscalBoundaryTailwindCodeTabs"
+      >
+        <div class="datepicker-example-preview">
+          <div
+            class="w-full max-w-[18.5rem] rounded-2xl border border-[var(--tng-semantic-border-subtle)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--tng-semantic-background-base)_92%,var(--tng-semantic-background-surface)_8%),color-mix(in_srgb,var(--tng-semantic-background-base)_76%,var(--tng-semantic-background-surface)_24%))] p-3 text-[var(--tng-semantic-foreground-primary)] shadow-[0_10px_24px_color-mix(in_srgb,var(--tng-semantic-foreground-primary)_10%,transparent)]"
+          >
+            <tng-datepicker
+              [defaultOpen]="false"
+              [defaultValue]="'2026-03-31'"
+              [today]="'2026-03-31'"
+              [minDate]="'2025-04-01'"
+              [maxDate]="'2026-03-31'"
+              [fullWidth]="false"
+              ariaLabel="Fiscal period date"
+            ></tng-datepicker>
+          </div>
+          <p class="datepicker-example-note">
+            The same bounded fiscal-year behavior works inside a utility-composed shell.
+          </p>
+        </div>
+      </ng-template>
+    </app-docs-example-tabs-section>
+  </section>
 </article>
