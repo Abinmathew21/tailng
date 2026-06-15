@@ -13,6 +13,7 @@ import {
 
 import { TngAutocompleteComponent } from '../autocomplete/tng-autocomplete.component';
 import { TngCheckboxComponent } from '../checkbox/tng-checkbox.component';
+import { TngDatepickerComponent } from '../datepicker/tng-datepicker.component';
 import { TngInputOtpComponent } from '../input-otp/tng-input-otp.component';
 import { TngInputComponent } from '../input/tng-input.component';
 import { TngMultiAutocompleteComponent } from '../multi-autocomplete/tng-multi-autocomplete.component';
@@ -95,6 +96,15 @@ class InputOtpPatternSignalFormsHostComponent {
   readonly verificationForm = form(this.verificationModel, (verification) => {
     patternValidator(verification.code, /^[A-Z]+$/);
   });
+}
+
+@Component({
+  imports: [FormField, TngDatepickerComponent],
+  template: `<tng-datepicker data-testid="datepicker" [formField]="bookingForm.date"></tng-datepicker>`,
+})
+class DatepickerSignalFormsHostComponent {
+  readonly bookingModel = signal<{ date: Date | null }>({ date: new Date(2026, 2, 31) });
+  readonly bookingForm = form(this.bookingModel);
 }
 
 @Component({
@@ -194,6 +204,65 @@ function queryRequiredElement<T extends Element>(
   }
 
   return element;
+}
+
+async function settle(fixture: {
+  detectChanges(): void;
+  whenStable(): Promise<unknown>;
+}): Promise<void> {
+  fixture.detectChanges();
+  await fixture.whenStable();
+  fixture.detectChanges();
+}
+
+async function waitForAnimationFrame(): Promise<void> {
+  await new Promise<void>((resolve) => {
+    requestAnimationFrame(() => resolve());
+  });
+}
+
+async function openDatepicker(fixture: ReturnType<typeof TestBed.createComponent>): Promise<void> {
+  queryRequiredElement(
+    fixture,
+    '[data-testid="datepicker"] [data-slot="datepicker-trigger"]',
+    HTMLButtonElement,
+  ).click();
+  await settle(fixture);
+  await waitForAnimationFrame();
+  await settle(fixture);
+}
+
+async function selectDatepickerDay(
+  fixture: ReturnType<typeof TestBed.createComponent>,
+  dayLabel: string,
+): Promise<void> {
+  await openDatepicker(fixture);
+
+  const target = Array.from(document.body.querySelectorAll('[data-slot="datepicker-cell"]')).find(
+    (element) =>
+      element instanceof HTMLButtonElement &&
+      !element.disabled &&
+      element.textContent?.trim() === dayLabel,
+  );
+
+  if (!(target instanceof HTMLButtonElement)) {
+    throw new Error(`Expected datepicker day ${dayLabel} to exist.`);
+  }
+
+  target.click();
+  await settle(fixture);
+}
+
+function expectDateParts(
+  value: Date | null,
+  year: number,
+  monthIndex: number,
+  day: number,
+): void {
+  expect(value).toBeInstanceOf(Date);
+  expect(value?.getFullYear()).toBe(year);
+  expect(value?.getMonth()).toBe(monthIndex);
+  expect(value?.getDate()).toBe(day);
 }
 
 describe('tailng-ui signal forms interop', () => {
@@ -339,6 +408,65 @@ describe('tailng-ui signal forms interop', () => {
     fixture.detectChanges();
 
     expect(host.verificationModel().code).toBe('CB');
+  });
+
+  it('reflects signal form model values into tng-datepicker', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DatepickerSignalFormsHostComponent],
+    }).createComponent(DatepickerSignalFormsHostComponent);
+
+    await settle(fixture);
+
+    const host = fixture.componentInstance;
+    const input = queryRequiredElement(
+      fixture,
+      '[data-testid="datepicker"] input[data-slot="datepicker-input"]',
+      HTMLInputElement,
+    );
+
+    expect(input.value).toBe('03-31-2026');
+
+    host.bookingModel.set({ date: new Date(2025, 3, 1) });
+    await settle(fixture);
+
+    expect(input.value).toBe('04-01-2025');
+  });
+
+  it('updates the signal form model when tng-datepicker commits typed input on blur', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DatepickerSignalFormsHostComponent],
+    }).createComponent(DatepickerSignalFormsHostComponent);
+
+    await settle(fixture);
+
+    const host = fixture.componentInstance;
+    const input = queryRequiredElement(
+      fixture,
+      '[data-testid="datepicker"] input[data-slot="datepicker-input"]',
+      HTMLInputElement,
+    );
+
+    input.value = '04-24-2026';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle(fixture);
+
+    input.dispatchEvent(new FocusEvent('blur'));
+    await settle(fixture);
+
+    expectDateParts(host.bookingModel().date, 2026, 3, 24);
+  });
+
+  it('updates the signal form model when tng-datepicker selects a calendar date', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DatepickerSignalFormsHostComponent],
+    }).createComponent(DatepickerSignalFormsHostComponent);
+
+    await settle(fixture);
+
+    const host = fixture.componentInstance;
+    await selectDatepickerDay(fixture, '24');
+
+    expectDateParts(host.bookingModel().date, 2026, 2, 24);
   });
 
   it('binds tng-select through its host directive model signal', () => {

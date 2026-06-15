@@ -5,6 +5,7 @@ import {
   LOCALE_ID,
   computed,
   effect,
+  forwardRef,
   inject,
   input,
   output,
@@ -35,6 +36,11 @@ import {
   type TngWeekdayIndex,
   type TngYearOption,
 } from '@tailng-ui/primitives';
+import {
+  TNG_FORM_FIELD_CONTROL,
+  type TngFormFieldControl,
+} from '../form-field/tng-form-field.control';
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 type OptionalBooleanInput = boolean | null | string | undefined;
 type TngDatepickerPlacement = 'auto' | 'bottom' | 'top';
@@ -74,6 +80,13 @@ function createDatepickerInputId(): string {
   imports: [TngDatepickerOverlay],
   templateUrl: './tng-datepicker.component.html',
   styleUrl: './tng-datepicker.component.css',
+  providers: [
+    {
+      provide: TNG_FORM_FIELD_CONTROL,
+      useFactory: (cmp: TngDatepickerComponent) => cmp.formFieldControl,
+      deps: [forwardRef(() => TngDatepickerComponent)],
+    },
+  ],
 })
 export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
   private readonly hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
@@ -183,6 +196,9 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
   public readonly readonly = input<boolean, boolean | string>(false, {
     transform: booleanAttribute,
   });
+  public readonly required = input<boolean, boolean | string>(false, {
+    transform: booleanAttribute,
+  });
   public readonly restoreFocus = input<boolean, boolean | string>(true, {
     transform: booleanAttribute,
   });
@@ -221,6 +237,16 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
   protected readonly overlayCollision = computed(() => this.resolveOverlayCollision(this.placement()));
   protected readonly overlayPlacement = computed(() => this.resolveOverlayPlacement(this.placement()));
   protected readonly overlayThemeSource = this.hostElement.nativeElement;
+
+  public readonly formFieldControl: TngFormFieldControl = createFormFieldAdapter({
+    hostElement: this.hostElement.nativeElement,
+    focusableSelector: 'input[data-slot="datepicker-input"]',
+    controlKind: 'text',
+    isDisabled: () => this.disabled(),
+    isFocused: () => this.isFocusWithinHost(),
+    isInvalid: () => this.invalidState(),
+    isRequired: () => this.required(),
+  });
 
   protected readonly materialPeriodLabel = computed(() => {
     const outputs = this.outputs();
@@ -325,6 +351,12 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
     this.controller.open();
   }
 
+  public focus(): void {
+    this.hostElement.nativeElement.querySelector<HTMLInputElement>(
+      'input[data-slot="datepicker-input"]',
+    )?.focus();
+  }
+
   public showDaysPanel(): void {
     this.controller.showDaysPanel();
     this.queueOverlayFocusSync();
@@ -363,6 +395,13 @@ export class TngDatepickerComponent<TDate = Date> implements OnDestroy {
 
   protected isYearView(): boolean {
     return this.outputs().view === 'year';
+  }
+
+  private isFocusWithinHost(): boolean {
+    const activeElement = this.ownerDocument?.activeElement;
+    return activeElement !== null && activeElement !== undefined
+      ? this.hostElement.nativeElement.contains(activeElement)
+      : false;
   }
 
   protected onDayCellClick(cell: Readonly<TngDateCell<TDate>>): void {

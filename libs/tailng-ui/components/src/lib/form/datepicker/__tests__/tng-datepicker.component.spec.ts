@@ -382,6 +382,74 @@ describe('tng-datepicker component behavior', () => {
     expect(input.value).toBe('04-24-2024');
   });
 
+  it('commits valid manual input on blur and emits valueChange', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDatepickerHostComponent],
+    }).createComponent(UncontrolledDatepickerHostComponent);
+
+    await settle(fixture);
+
+    const input = getRequired<HTMLInputElement>(fixture, '[data-slot="datepicker-input"]');
+    input.value = '04-24-2024';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle(fixture);
+
+    input.dispatchEvent(new FocusEvent('blur'));
+    await settle(fixture);
+
+    const lastValue = fixture.componentInstance.valueChanges.at(-1);
+    expect(lastValue).toBeInstanceOf(Date);
+    expect((lastValue as Date).getFullYear()).toBe(2024);
+    expect((lastValue as Date).getMonth()).toBe(3);
+    expect((lastValue as Date).getDate()).toBe(24);
+    expect(input.value).toBe('04-24-2024');
+  });
+
+  it('keeps the committed value and marks the input invalid when invalid manual input blurs', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDatepickerHostComponent],
+    }).createComponent(UncontrolledDatepickerHostComponent);
+
+    await settle(fixture);
+
+    const initialChangeCount = fixture.componentInstance.valueChanges.length;
+    const input = getRequired<HTMLInputElement>(fixture, '[data-slot="datepicker-input"]');
+    input.value = 'not-a-date';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle(fixture);
+
+    input.dispatchEvent(new FocusEvent('blur'));
+    await settle(fixture);
+
+    expect(fixture.componentInstance.valueChanges.length).toBe(initialChangeCount);
+    expect(getRequired<HTMLElement>(fixture, '[data-slot="datepicker-input-shell"]').getAttribute('data-invalid')).toBe('true');
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+
+    await openOverlay(fixture);
+
+    expect(
+      getRequiredFromRoot<HTMLButtonElement>(document.body, '[data-slot="datepicker-period-button"]').textContent?.includes(
+        defaultDatepickerDateAdapter.format(new Date(2024, 3, 22), 'month-year', 'en-US'),
+      ),
+    ).toBe(true);
+    expect(getSelectedDayCell().textContent?.trim()).toBe('22');
+  });
+
+  it('emits valueChange immediately when selecting a calendar date', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDatepickerHostComponent],
+    }).createComponent(UncontrolledDatepickerHostComponent);
+
+    await settle(fixture);
+    await selectOverlayDay(fixture, '24');
+
+    const lastValue = fixture.componentInstance.valueChanges.at(-1);
+    expect(lastValue).toBeInstanceOf(Date);
+    expect((lastValue as Date).getFullYear()).toBe(2024);
+    expect((lastValue as Date).getMonth()).toBe(3);
+    expect((lastValue as Date).getDate()).toBe(24);
+  });
+
   it('reopens with the year typed into the input selected in the overlay', async () => {
     await expectInputCommitReopensSelectedDate(
       UncontrolledDatepickerHostComponent,

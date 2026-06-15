@@ -481,7 +481,11 @@ export class TngFormFieldComponent implements AfterContentChecked {
     const focusable = customControl?.focusableElement ?? null;
     if (focusable !== null) {
       const focusableId = this.ensureFocusableId(focusable);
-      if (isLabelableElement(focusable) && normalizeId(label.getAttribute('for')) === null) {
+      const currentFor = normalizeId(label.getAttribute('for'));
+      if (
+        isLabelableElement(focusable) &&
+        (currentFor === null || currentFor === this.generatedControlId)
+      ) {
         label.setAttribute('for', focusableId);
       }
       customControl?.setLabelledById?.(label.id);

@@ -7,6 +7,7 @@ import { By } from '@angular/platform-browser';
 
 import { TngInput, TngInputGroup, TngLabel, TngInputFieldPrefix, TngInputFieldSuffix, TngTextarea } from '@tailng-ui/primitives';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
+import { TngDatepickerComponent } from '../../datepicker/tng-datepicker.component';
 import { TngInputComponent } from '../../input/tng-input.component';
 import { TngInputFieldComponent } from '../../input-field/tng-input-field.component';
 import { TngInputOtpComponent } from '../../input-otp/tng-input-otp.component';
@@ -254,6 +255,26 @@ class FieldAdornmentHostComponent {
   `,
 })
 class TextareaHostComponent {}
+
+@Component({
+  imports: [TngFormFieldComponent, TngHint, TngError, TngLabel, TngDatepickerComponent],
+  template: `
+    <tng-form-field>
+      <label tngLabel>Fiscal date</label>
+      <tng-datepicker
+        ariaLabel="Fiscal date"
+        [invalid]="invalid()"
+        [required]="required()"
+      />
+      <p tngHint id="fiscal-hint">Use a date in the fiscal window.</p>
+      <p tngError id="fiscal-error" [show]="invalid()">Date is required.</p>
+    </tng-form-field>
+  `,
+})
+class DatepickerFormFieldHostComponent {
+  public readonly invalid = signal(false);
+  public readonly required = signal(true);
+}
 
 describe('tng-form-field', () => {
   async function createNativeHost(): Promise<ReturnType<typeof TestBed.createComponent<NativeHostComponent>>> {
@@ -910,6 +931,37 @@ describe('tng-form-field: new control integrations', () => {
 
     const button = fixture.debugElement.query(By.css('button[tngToggle]')).nativeElement as HTMLButtonElement;
     expect(button.getAttribute('aria-describedby')).toBe('bold-hint');
+  });
+
+  it('routes label and described-by state to the datepicker input', async () => {
+    await TestBed.configureTestingModule({ imports: [DatepickerFormFieldHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(DatepickerFormFieldHostComponent);
+    await flush(fixture);
+
+    const field = fixture.debugElement.query(By.css('tng-form-field')).nativeElement as HTMLElement;
+    const label = fixture.debugElement.query(By.css('label[tngLabel]')).nativeElement as HTMLLabelElement;
+    const input = fixture.debugElement.query(
+      By.css('input[data-slot="datepicker-input"]'),
+    ).nativeElement as HTMLInputElement;
+
+    expect(input.id.length).toBeGreaterThan(0);
+    expect(label.htmlFor).toBe(input.id);
+    expect(field.getAttribute('data-required')).toBe('');
+    expect(input.required).toBe(true);
+    expect(input.getAttribute('aria-required')).toBe('true');
+    expect(input.getAttribute('aria-describedby')).toBe('fiscal-hint');
+
+    label.click();
+    await flush(fixture);
+
+    expect(document.activeElement).toBe(input);
+
+    fixture.componentInstance.invalid.set(true);
+    await flush(fixture);
+
+    expect(field.getAttribute('data-invalid')).toBe('');
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+    expect(input.getAttribute('aria-describedby')).toBe('fiscal-hint fiscal-error');
   });
 
   it('reflects invalid + required from a registered control', async () => {

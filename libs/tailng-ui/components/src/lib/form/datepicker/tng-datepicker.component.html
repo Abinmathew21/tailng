@@ -27,7 +27,7 @@
           inputmode="numeric"
           [disabled]="disabled()"
           [readOnly]="readonly() || !allowManualInput()"
-          [required]="false"
+          [required]="required()"
           [value]="outputs().inputText"
           [attr.aria-invalid]="invalidState() ? 'true' : null"
           [attr.aria-label]="inputAriaLabel()"
