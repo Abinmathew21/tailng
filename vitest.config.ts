@@ -8,10 +8,18 @@ export default defineConfig({
   plugins: [
     angular({
       // Point this to your actual base tsconfig or tsconfig.base.json
-      tsconfig: resolve(__dirname, 'tsconfig.base.json'), 
-    }), 
-    tsconfigPaths()
+      tsconfig: resolve(__dirname, 'tsconfig.base.json'),
+    }),
+    tsconfigPaths(),
   ],
+  resolve: {
+    alias: [
+      {
+        find: '@tailng-ui/primitives',
+        replacement: resolve(__dirname, 'libs/tailng-ui/primitives/src/index.ts'),
+      },
+    ],
+  },
   test: {
     globals: true,
     environment: 'jsdom',
