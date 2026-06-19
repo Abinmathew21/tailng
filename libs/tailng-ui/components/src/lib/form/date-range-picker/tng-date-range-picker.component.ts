@@ -7,12 +7,14 @@ import {
   effect,
   inject,
   input,
+  model,
   output,
   signal,
   viewChild,
 } from '@angular/core';
 import { booleanAttribute } from '@angular/core';
 import type { OnDestroy } from '@angular/core';
+import type { FormValueControl } from '@angular/forms/signals';
 import {
   type TngOverlayRuntime,
   type TngOverlayCollisionOptions,
@@ -97,7 +99,8 @@ function createDateRangePickerInputId(): string {
   templateUrl: './tng-date-range-picker.component.html',
   styleUrl: './tng-date-range-picker.component.css',
 })
-export class TngDateRangePickerComponent<TDate = Date> implements OnDestroy {
+export class TngDateRangePickerComponent<TDate = Date>
+  implements FormValueControl<TngDateRangePickerSelectionInput<TDate> | undefined>, OnDestroy {
   private readonly hostElement = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly defaultLocale = inject(LOCALE_ID);
   private readonly fallbackInputId = createDateRangePickerInputId();
@@ -123,28 +126,28 @@ export class TngDateRangePickerComponent<TDate = Date> implements OnDestroy {
   );
 
   public readonly adapter = input<TngDateAdapter<TDate> | undefined>(undefined);
-  public readonly allowManualInput = input<boolean, boolean | string>(true, {
+  public readonly allowManualInput = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
   public readonly ariaDescribedBy = input<string | null>(null);
   public readonly ariaLabel = input<string | null>(null);
   public readonly ariaLabelledBy = input<string | null>(null);
-  public readonly autoCommitView = input<boolean, boolean | string>(false, {
+  public readonly autoCommitView = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly closeOnEscape = input<boolean, boolean | string>(true, {
+  public readonly closeOnEscape = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
-  public readonly closeOnOutsideClick = input<boolean, boolean | string>(true, {
+  public readonly closeOnOutsideClick = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
-  public readonly closeOnSelect = input<boolean, boolean | string>(true, {
+  public readonly closeOnSelect = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
-  public readonly closeOthersOnOpen = input<boolean, boolean | string>(false, {
+  public readonly closeOthersOnOpen = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly defaultOpen = input<boolean, boolean | string>(false, {
+  public readonly defaultOpen = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
   public readonly defaultValue = input<TngDateRangePickerSelectionInput<TDate> | undefined>(
@@ -152,24 +155,24 @@ export class TngDateRangePickerComponent<TDate = Date> implements OnDestroy {
   );
   public readonly direction = input<TngDateRangePickerDirection>('ltr');
   public readonly disableDate = input<((date: TDate) => boolean) | null>(null);
-  public readonly disabled = input<boolean, boolean | string>(false, {
+  public readonly disabled = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly enableRangeSelection = input<boolean, boolean | string>(true, {
+  public readonly enableRangeSelection = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
-  public readonly enableTypeahead = input<boolean, boolean | string>(true, {
+  public readonly enableTypeahead = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
-  public readonly fixedWeeks = input<boolean, boolean | string>(true, {
+  public readonly fixedWeeks = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
-  public readonly fullWidth = input<boolean, boolean | string>(true, {
+  public readonly fullWidth = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
   public readonly id = input<string | null>(null);
   public readonly inputAriaLabel = input<string>('Date range input');
-  public readonly invalid = input<boolean, boolean | string>(false, {
+  public readonly invalid = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
   public readonly locale = input<string>(this.defaultLocale);
@@ -182,28 +185,28 @@ export class TngDateRangePickerComponent<TDate = Date> implements OnDestroy {
   public readonly overlaySize = input<number, number | string>(320, {
     transform: normalizeNumberInput,
   });
-  public readonly onPartialInputCommit = input<boolean, boolean | string>(false, {
+  public readonly onPartialInputCommit = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
   public readonly placement = input<TngDateRangePickerPlacement>('auto');
   public readonly placeholder = input<string>('MM-DD-YYYY - MM-DD-YYYY');
-  public readonly readonly = input<boolean, boolean | string>(false, {
+  public readonly readonly = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly restoreFocus = input<boolean, boolean | string>(true, {
+  public readonly restoreFocus = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
-  public readonly showOutsideDays = input<boolean, boolean | string>(true, {
+  public readonly showOutsideDays = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
-  public readonly skipDisabled = input<boolean, boolean | string>(true, {
+  public readonly skipDisabled = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
   public readonly today = input<TngDateRangePickerDateInputValue<TDate> | undefined>(undefined);
-  public readonly trapFocus = input<boolean, boolean | string>(true, {
+  public readonly trapFocus = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
-  public readonly value = input<TngDateRangePickerSelectionInput<TDate> | undefined>(undefined);
+  public readonly value = model<TngDateRangePickerSelectionInput<TDate> | undefined>(undefined);
   public readonly weekStartsOn = input<TngWeekdayIndex, number | string>(0, {
     transform: normalizeWeekdayInput,
   });
@@ -216,7 +219,6 @@ export class TngDateRangePickerComponent<TDate = Date> implements OnDestroy {
   public readonly monthChange = output<TDate>();
   public readonly openChange = output<boolean>();
   public readonly previewEndDateChange = output<TDate>();
-  public readonly valueChange = output<TngDateRangePickerValue<TDate>>();
   public readonly viewChange = output<TngCalendarView>();
   public readonly yearChange = output<number>();
 
@@ -294,7 +296,7 @@ export class TngDateRangePickerComponent<TDate = Date> implements OnDestroy {
         this.previewEndDateChange.emit(event.previewEndDate);
         break;
       case 'valueChange':
-        this.valueChange.emit(event.value);
+        this.value.set(event.value);
         break;
       case 'viewChange':
         this.viewChange.emit(event.view);

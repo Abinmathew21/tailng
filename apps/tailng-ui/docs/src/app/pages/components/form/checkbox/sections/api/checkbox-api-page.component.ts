@@ -38,12 +38,12 @@ export class CheckboxApiPageComponent implements OnDestroy {
   protected readonly reactiveFormCode = [
     "import { Component } from '@angular/core';",
     "import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';",
-    "import { TngCheckboxComponent } from '@tailng-ui/components';",
+    "import { TngCheckboxAngularFormsAdapter, TngCheckboxComponent } from '@tailng-ui/components';",
     '',
     '@Component({',
     "  selector: 'app-release-checklist',",
     '  standalone: true,',
-    '  imports: [ReactiveFormsModule, TngCheckboxComponent],',
+    '  imports: [ReactiveFormsModule, TngCheckboxComponent, TngCheckboxAngularFormsAdapter],',
     "  templateUrl: './release-checklist.component.html',",
     '})',
     'export class ReleaseChecklistComponent {',
@@ -53,7 +53,7 @@ export class CheckboxApiPageComponent implements OnDestroy {
     '}',
     '',
     '<form [formGroup]="form">',
-    '  <tng-checkbox formControlName="releaseReady">',
+    '  <tng-checkbox tngAngularForms formControlName="releaseReady">',
     '    Release checklist complete',
     '  </tng-checkbox>',
     '</form>',
@@ -75,7 +75,7 @@ import { TngCheckboxComponent } from '@tailng-ui/components';
   \`,
 })
 export class ReleaseChecklistSignalFormComponent {
-  readonly releaseModel = signal<{ releaseReady: boolean | 'mixed' }>({
+  readonly releaseModel = signal<{ releaseReady: boolean }>({
     releaseReady: false,
   });
   readonly releaseForm = form(this.releaseModel);

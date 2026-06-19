@@ -9,17 +9,26 @@ import {
   TngMultiAutocomplete,
   TngMultiSelect,
   TngSelect,
+  type TngNumberRangeValue,
 } from '@tailng-ui/primitives';
 
 import { TngAutocompleteComponent } from '../autocomplete/tng-autocomplete.component';
 import { TngCheckboxComponent } from '../checkbox/tng-checkbox.component';
+import { TngDateRangePickerComponent } from '../date-range-picker/tng-date-range-picker.component';
 import { TngDatepickerComponent } from '../datepicker/tng-datepicker.component';
 import { TngInputOtpComponent } from '../input-otp/tng-input-otp.component';
 import { TngInputComponent } from '../input/tng-input.component';
+import { TngMonthDaypickerComponent } from '../month-daypicker/tng-month-daypicker.component';
 import { TngMultiAutocompleteComponent } from '../multi-autocomplete/tng-multi-autocomplete.component';
 import { TngMultiSelectComponent } from '../multiselect/tng-multiselect.component';
+import { TngNumberRangeComponent } from '../number-range/tng-number-range.component';
+import { TngRadioComponent } from '../radio/tng-radio.component';
 import { TngSelectComponent } from '../select/tng-select.component';
+import { TngSliderComponent } from '../slider/tng-slider.component';
+import { TngSwitchComponent } from '../switch/tng-switch.component';
+import { TngTextareaComponent } from '../textarea/tng-textarea.component';
 import { TngToggleComponent } from '../toggle/tng-toggle.component';
+import { TngYearpickerComponent } from '../yearpicker/tng-yearpicker.component';
 
 type TeamOption = Readonly<{
   id: string;
@@ -53,6 +62,24 @@ class InputPatternSignalFormsHostComponent {
 }
 
 @Component({
+  imports: [FormField, TngTextareaComponent],
+  template: `<tng-textarea data-testid="textarea" ariaLabel="Description" [formField]="projectForm.description"></tng-textarea>`,
+})
+class TextareaSignalFormsHostComponent {
+  readonly projectModel = signal({ description: 'Initial notes' });
+  readonly projectForm = form(this.projectModel);
+}
+
+@Component({
+  imports: [FormField, TngSliderComponent],
+  template: `<tng-slider data-testid="slider" [formField]="settingsForm.volume"></tng-slider>`,
+})
+class SliderSignalFormsHostComponent {
+  readonly settingsModel = signal({ volume: 25 });
+  readonly settingsForm = form(this.settingsModel);
+}
+
+@Component({
   imports: [FormField, TngCheckboxComponent],
   template: `
     <tng-checkbox data-testid="checkbox" [formField]="releaseForm.ready">
@@ -63,6 +90,32 @@ class InputPatternSignalFormsHostComponent {
 class CheckboxSignalFormsHostComponent {
   readonly releaseModel = signal({ ready: true });
   readonly releaseForm = form(this.releaseModel);
+}
+
+@Component({
+  imports: [FormField, TngRadioComponent],
+  template: `
+    <tng-radio data-testid="radio" [formField]="settingsForm.selected">
+      Primary option
+    </tng-radio>
+  `,
+})
+class RadioSignalFormsHostComponent {
+  readonly settingsModel = signal({ selected: false });
+  readonly settingsForm = form(this.settingsModel);
+}
+
+@Component({
+  imports: [FormField, TngSwitchComponent],
+  template: `
+    <tng-switch data-testid="switch" [formField]="settingsForm.enabled">
+      Enable sync
+    </tng-switch>
+  `,
+})
+class SwitchSignalFormsHostComponent {
+  readonly settingsModel = signal({ enabled: true });
+  readonly settingsForm = form(this.settingsModel);
 }
 
 @Component({
@@ -99,12 +152,55 @@ class InputOtpPatternSignalFormsHostComponent {
 }
 
 @Component({
+  imports: [FormField, TngNumberRangeComponent],
+  template: `<tng-number-range data-testid="range" ariaLabel="Price range" [formField]="pricingForm.range"></tng-number-range>`,
+})
+class NumberRangeSignalFormsHostComponent {
+  readonly pricingModel = signal<{ range: TngNumberRangeValue }>({
+    range: { min: 10, max: 50 },
+  });
+  readonly pricingForm = form(this.pricingModel);
+}
+
+@Component({
   imports: [FormField, TngDatepickerComponent],
   template: `<tng-datepicker data-testid="datepicker" [formField]="bookingForm.date"></tng-datepicker>`,
 })
 class DatepickerSignalFormsHostComponent {
   readonly bookingModel = signal<{ date: Date | null }>({ date: new Date(2026, 2, 31) });
   readonly bookingForm = form(this.bookingModel);
+}
+
+@Component({
+  imports: [FormField, TngDateRangePickerComponent],
+  template: `<tng-date-range-picker data-testid="date-range" [formField]="bookingForm.range"></tng-date-range-picker>`,
+})
+class DateRangePickerSignalFormsHostComponent {
+  readonly bookingModel = signal({
+    range: {
+      start: new Date(2024, 3, 22),
+      end: new Date(2024, 3, 24),
+    },
+  });
+  readonly bookingForm = form(this.bookingModel);
+}
+
+@Component({
+  imports: [FormField, TngMonthDaypickerComponent],
+  template: `<tng-month-daypicker data-testid="month-day" [formField]="reminderForm.date"></tng-month-daypicker>`,
+})
+class MonthDaypickerSignalFormsHostComponent {
+  readonly reminderModel = signal({ date: { month: 4, day: 22 } });
+  readonly reminderForm = form(this.reminderModel);
+}
+
+@Component({
+  imports: [FormField, TngYearpickerComponent],
+  template: `<tng-yearpicker data-testid="year" [formField]="archiveForm.year"></tng-yearpicker>`,
+})
+class YearpickerSignalFormsHostComponent {
+  readonly archiveModel = signal({ year: 2024 });
+  readonly archiveForm = form(this.archiveModel);
 }
 
 @Component({
@@ -266,7 +362,7 @@ function expectDateParts(
 }
 
 describe('tailng-ui signal forms interop', () => {
-  it('binds tng-input through ControlValueAccessor interop', () => {
+  it('binds tng-input through its signal forms value model', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [InputSignalFormsHostComponent],
     }).createComponent(InputSignalFormsHostComponent);
@@ -309,7 +405,61 @@ describe('tailng-ui signal forms interop', () => {
     expect(input.getAttribute('pattern')).toBe('^[A-Z]+$');
   });
 
-  it('binds tng-checkbox through ControlValueAccessor interop', () => {
+  it('binds tng-textarea through its signal forms value model', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [TextareaSignalFormsHostComponent],
+    }).createComponent(TextareaSignalFormsHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const textarea = queryRequiredElement(
+      fixture,
+      '[data-testid="textarea"] textarea',
+      HTMLTextAreaElement,
+    );
+
+    expect(textarea.value).toBe('Initial notes');
+
+    host.projectModel.set({ description: 'Updated notes' });
+    fixture.detectChanges();
+    expect(textarea.value).toBe('Updated notes');
+
+    textarea.value = 'User typed notes';
+    textarea.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(host.projectModel().description).toBe('User typed notes');
+  });
+
+  it('binds tng-slider through its signal forms value model', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [SliderSignalFormsHostComponent],
+    }).createComponent(SliderSignalFormsHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const slider = queryRequiredElement(
+      fixture,
+      '[data-testid="slider"] input[type="range"]',
+      HTMLInputElement,
+    );
+
+    expect(slider.value).toBe('25');
+
+    host.settingsModel.set({ volume: 75 });
+    fixture.detectChanges();
+    expect(slider.value).toBe('75');
+
+    slider.value = '42';
+    slider.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(host.settingsModel().volume).toBe(42);
+  });
+
+  it('binds tng-checkbox through its signal forms checked model', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [CheckboxSignalFormsHostComponent],
     }).createComponent(CheckboxSignalFormsHostComponent);
@@ -336,7 +486,65 @@ describe('tailng-ui signal forms interop', () => {
     expect(host.releaseModel().ready).toBe(true);
   });
 
-  it('binds tng-toggle through ControlValueAccessor interop', () => {
+  it('binds tng-radio through its signal forms checked model', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [RadioSignalFormsHostComponent],
+    }).createComponent(RadioSignalFormsHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const input = queryRequiredElement(
+      fixture,
+      '[data-testid="radio"] input',
+      HTMLInputElement,
+    );
+
+    expect(input.checked).toBe(false);
+
+    host.settingsModel.set({ selected: true });
+    fixture.detectChanges();
+    expect(input.checked).toBe(true);
+
+    input.checked = false;
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(host.settingsModel().selected).toBe(false);
+  });
+
+  it('binds tng-switch through its signal forms checked model', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [SwitchSignalFormsHostComponent],
+    }).createComponent(SwitchSignalFormsHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const input = queryRequiredElement(
+      fixture,
+      '[data-testid="switch"] input[type="checkbox"]',
+      HTMLInputElement,
+    );
+    const button = queryRequiredElement(
+      fixture,
+      '[data-testid="switch"] button',
+      HTMLButtonElement,
+    );
+
+    expect(input.checked).toBe(true);
+
+    host.settingsModel.set({ enabled: false });
+    fixture.detectChanges();
+    expect(input.checked).toBe(false);
+
+    button.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    fixture.detectChanges();
+
+    expect(host.settingsModel().enabled).toBe(true);
+  });
+
+  it('binds tng-toggle through its signal forms checked model', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [ToggleSignalFormsHostComponent],
     }).createComponent(ToggleSignalFormsHostComponent);
@@ -362,7 +570,7 @@ describe('tailng-ui signal forms interop', () => {
     expect(host.preferencesModel().pinned).toBe(false);
   });
 
-  it('binds tng-input-otp through ControlValueAccessor interop', () => {
+  it('binds tng-input-otp through its signal forms value model', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [InputOtpSignalFormsHostComponent],
     }).createComponent(InputOtpSignalFormsHostComponent);
@@ -408,6 +616,40 @@ describe('tailng-ui signal forms interop', () => {
     fixture.detectChanges();
 
     expect(host.verificationModel().code).toBe('CB');
+  });
+
+  it('binds tng-number-range through its signal forms value model', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [NumberRangeSignalFormsHostComponent],
+    }).createComponent(NumberRangeSignalFormsHostComponent);
+
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const minInput = queryRequiredElement(
+      fixture,
+      '[data-testid="range"] .tng-number-range__input--min',
+      HTMLInputElement,
+    );
+    const maxInput = queryRequiredElement(
+      fixture,
+      '[data-testid="range"] .tng-number-range__input--max',
+      HTMLInputElement,
+    );
+
+    expect(minInput.value).toBe('10');
+    expect(maxInput.value).toBe('50');
+
+    host.pricingModel.set({ range: { min: 20, max: 80 } });
+    fixture.detectChanges();
+    expect(minInput.value).toBe('20');
+    expect(maxInput.value).toBe('80');
+
+    minInput.value = '25';
+    minInput.dispatchEvent(new Event('input', { bubbles: true }));
+    fixture.detectChanges();
+
+    expect(host.pricingModel().range).toEqual({ min: 25, max: 80 });
   });
 
   it('reflects signal form model values into tng-datepicker', async () => {
@@ -467,6 +709,77 @@ describe('tailng-ui signal forms interop', () => {
     await selectDatepickerDay(fixture, '24');
 
     expectDateParts(host.bookingModel().date, 2026, 2, 24);
+  });
+
+  it('reflects signal form model values into tng-date-range-picker', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DateRangePickerSignalFormsHostComponent],
+    }).createComponent(DateRangePickerSignalFormsHostComponent);
+
+    await settle(fixture);
+
+    const host = fixture.componentInstance;
+    const input = queryRequiredElement(
+      fixture,
+      '[data-testid="date-range"] input[data-slot="date-range-picker-input"]',
+      HTMLInputElement,
+    );
+
+    expect(input.value).toBe('04-22-2024 – 04-24-2024');
+
+    host.bookingModel.set({
+      range: {
+        start: new Date(2024, 4, 1),
+        end: new Date(2024, 4, 8),
+      },
+    });
+    await settle(fixture);
+
+    expect(input.value).toBe('05-01-2024 – 05-08-2024');
+  });
+
+  it('reflects signal form model values into tng-month-daypicker', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [MonthDaypickerSignalFormsHostComponent],
+    }).createComponent(MonthDaypickerSignalFormsHostComponent);
+
+    await settle(fixture);
+
+    const host = fixture.componentInstance;
+    const input = queryRequiredElement(
+      fixture,
+      '[data-testid="month-day"] input[data-slot="datepicker-input"]',
+      HTMLInputElement,
+    );
+
+    expect(input.value).toBe('04-22');
+
+    host.reminderModel.set({ date: { month: 5, day: 8 } });
+    await settle(fixture);
+
+    expect(input.value).toBe('05-08');
+  });
+
+  it('reflects signal form model values into tng-yearpicker', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [YearpickerSignalFormsHostComponent],
+    }).createComponent(YearpickerSignalFormsHostComponent);
+
+    await settle(fixture);
+
+    const host = fixture.componentInstance;
+    const input = queryRequiredElement(
+      fixture,
+      '[data-testid="year"] input[data-slot="datepicker-input"]',
+      HTMLInputElement,
+    );
+
+    expect(input.value).toBe('2024');
+
+    host.archiveModel.set({ year: 2030 });
+    await settle(fixture);
+
+    expect(input.value).toBe('2030');
   });
 
   it('binds tng-select through its host directive model signal', () => {

@@ -25,9 +25,14 @@
       let-previewJson="previewJson"
       let-query="query"
       let-riskLabel="riskLabel"
+      let-submittedJson="submittedJson"
     >
       <div [class]="classes.shell">
-        <form [class]="classes.form" aria-label="Workspace access request">
+        <form
+          [class]="classes.form"
+          aria-label="Workspace access request"
+          (submit)="submitRequest($event, model, submittedJson)"
+        >
           <section [class]="classes.section">
             <div>
               <h2>Requester Verification</h2>
@@ -77,7 +82,7 @@
                   ariaLabel="Business justification"
                   [rows]="5"
                   [value]="model().businessJustification"
-                  (valueChange)="updateRequestField(model, 'businessJustification', $event)"
+                  (valueChange)="updateRequestField(model, 'businessJustification', $event ?? '')"
                 />
               </div>
             </div>
@@ -250,7 +255,7 @@
                   [value]="model().budgetYear"
                   [minYear]="2024"
                   [maxYear]="2030"
-                  (valueChange)="updateRequestField(model, 'budgetYear', $event)"
+                  (valueChange)="updateRequestField(model, 'budgetYear', normalizeBudgetYear($event))"
                 />
               </div>
 
@@ -319,6 +324,17 @@
               >
             </tng-input-field>
           </section>
+
+          <div [class]="classes.actions">
+            <tng-button type="submit">Submit request</tng-button>
+
+            @if (submittedJson(); as submitted) {
+              <section [class]="classes.submitted" aria-label="Submitted signal form values">
+                <h2>Submitted values</h2>
+                <pre [class]="classes.submittedPre">{{ submitted }}</pre>
+              </section>
+            }
+          </div>
         </form>
 
         <aside [class]="classes.preview" aria-label="Signal form model preview">
@@ -354,6 +370,7 @@
             previewJson: preview,
             query: reviewerQuery,
             riskLabel: riskLabel,
+            submittedJson: submittedJson,
           }"
         />
       </ng-template>
@@ -376,6 +393,7 @@
             previewJson: tailwindPreview,
             query: tailwindReviewerQuery,
             riskLabel: tailwindRiskLabel,
+            submittedJson: tailwindSubmittedJson,
           }"
         />
       </ng-template>

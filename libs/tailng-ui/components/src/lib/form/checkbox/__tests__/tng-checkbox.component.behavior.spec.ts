@@ -118,7 +118,7 @@ describe('tng-checkbox component behavior', () => {
     expect(input.getAttribute('aria-describedby')).toBe('hint-id');
   });
 
-  it('emits checkedChange and indeterminateChange on input change', () => {
+  it('emits checkedChange on input change', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [CheckboxComponentHostComponent],
     }).createComponent(CheckboxComponentHostComponent);
@@ -133,14 +133,33 @@ describe('tng-checkbox component behavior', () => {
     input.dispatchEvent(new Event('change', { bubbles: true }));
 
     expect(host.checkedChanges).toEqual([true]);
-    expect(host.indeterminateChanges).toEqual([false]);
+    expect(host.indeterminateChanges).toEqual([]);
 
     input.checked = false;
     input.indeterminate = true;
     input.dispatchEvent(new Event('change', { bubbles: true }));
 
     expect(host.checkedChanges).toEqual([true, false]);
-    expect(host.indeterminateChanges).toEqual([false, true]);
+    expect(host.indeterminateChanges).toEqual([]);
+  });
+
+  it('clears mixed state and emits true when a mixed checkbox is changed', () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [CheckboxComponentHostComponent],
+    }).createComponent(CheckboxComponentHostComponent);
+
+    fixture.componentInstance.indeterminate.set(true);
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const input = queryNativeInput(queryCheckboxHost(fixture));
+
+    input.checked = false;
+    input.indeterminate = true;
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+
+    expect(host.checkedChanges).toEqual([true]);
+    expect(host.indeterminateChanges).toEqual([false]);
   });
 
   it('emits checkedChange on direct input click interaction', () => {

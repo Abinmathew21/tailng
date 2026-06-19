@@ -7,13 +7,13 @@ import {
   forwardRef,
   inject,
   input,
+  model,
   output,
   Renderer2,
   signal,
 } from '@angular/core';
 import { booleanAttribute } from '@angular/core';
-import type { ControlValueAccessor } from '@angular/forms';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import type { FormValueControl } from '@angular/forms/signals';
 import {
   applyTngOtpCharacters,
   clampTngOtpValue,
@@ -35,7 +35,6 @@ import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 export type TngInputOtpType = 'numeric' | 'alphanumeric' | 'custom';
 export type TngInputOtpInputMode = 'numeric' | 'text' | 'tel' | 'decimal';
-type TngInputOtpPatternInput = string | RegExp | readonly RegExp[] | null | undefined;
 
 export {
   applyTngOtpCharacters,
@@ -80,7 +79,7 @@ function clampOtpIndex(index: number, length: number): number {
   return Math.trunc(index);
 }
 
-function normalizeOtpPatternInput(value: TngInputOtpPatternInput): readonly RegExp[] {
+function normalizeOtpPatternInput(value: unknown): readonly RegExp[] {
   if (value === undefined || value === null) return [];
 
   if (typeof value === 'string') {
@@ -90,7 +89,11 @@ function normalizeOtpPatternInput(value: TngInputOtpPatternInput): readonly RegE
 
   if (value instanceof RegExp) return [value];
 
-  return value;
+  if (Array.isArray(value) && value.every((item) => item instanceof RegExp)) {
+    return value;
+  }
+
+  return [];
 }
 
 @Component({
@@ -100,18 +103,13 @@ function normalizeOtpPatternInput(value: TngInputOtpPatternInput): readonly RegE
   styleUrl: './tng-input-otp.component.css',
   providers: [
     {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TngInputOtpComponent),
-      multi: true,
-    },
-    {
       provide: TNG_FORM_FIELD_CONTROL,
       useFactory: (cmp: TngInputOtpComponent) => cmp.formFieldControl,
       deps: [forwardRef(() => TngInputOtpComponent)],
     },
   ],
 })
-export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor, OnDestroy {
+export class TngInputOtpComponent implements AfterViewInit, FormValueControl<string>, OnDestroy {
   private readonly hostRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
   private readonly hostEl: HTMLElement = this.hostRef.nativeElement;
@@ -120,10 +118,6 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
   private resetUnlisten: (() => void) | null = null;
   private hasInitializedUncontrolled = false;
 
-  private onChangeCallback: (value: string) => void = () => undefined;
-  private onTouchedCallback: () => void = () => undefined;
-
-  private readonly uncontrolledValue = signal('');
   private readonly formsDisabled = signal(false);
   private readonly focusedState = signal(false);
   private readonly focusVisibleState = signal(false);
@@ -134,41 +128,41 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
     transform: (value: number | string): number =>
       normalizeTngOtpLength(typeof value === 'number' ? value : Number(value)),
   });
-  public readonly valueInput = input<string | null | undefined>(undefined, { alias: 'value' });
+  public readonly value = model<string>('');
   public readonly defaultValue = input<string>('');
   public readonly type = input<TngInputOtpType>('numeric');
-  public readonly pattern: InputSignalWithTransform<readonly RegExp[], TngInputOtpPatternInput> = input<
+  public readonly pattern: InputSignalWithTransform<readonly RegExp[], unknown> = input<
     readonly RegExp[],
-    TngInputOtpPatternInput
+    unknown
   >([], {
     transform: normalizeOtpPatternInput,
   });
 
-  public readonly mask = input<boolean, boolean | string>(false, {
+  public readonly mask = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly disabledInput = input<boolean, boolean | string>(false, {
+  public readonly disabledInput = input<boolean, unknown>(false, {
     alias: 'disabled',
     transform: booleanAttribute,
   });
-  public readonly readonly = input<boolean, boolean | string>(false, {
+  public readonly readonly = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly required = input<boolean, boolean | string>(false, {
+  public readonly required = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly invalid = input<boolean, boolean | string>(false, {
+  public readonly invalid = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly autoFocus = input<boolean, boolean | string>(false, {
+  public readonly autoFocus = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly selectOnFocus = input<boolean, boolean | string>(true, {
+  public readonly selectOnFocus = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
 
   public readonly placeholderChar = input<string>('');
-  public readonly name = input<string | null>(null);
+  public readonly inputName = input<string | null>(null, { alias: 'name' });
   public readonly id = input<string | null>(null);
   public readonly form = input<string | null>(null);
   public readonly autocomplete = input<string>('one-time-code');
@@ -177,7 +171,7 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
   public readonly ariaLabelledby = input<string | null>(null);
   public readonly ariaDescribedby = input<string | null>(null);
 
-  public readonly valueChange = output<string>();
+  public readonly touchedChange = output<void>();
   public readonly complete = output<string>();
 
   /**
@@ -196,19 +190,14 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
     isRequired: () => this.required(),
   });
 
-  protected readonly disabled = computed(() => this.disabledInput() || this.formsDisabled());
+  protected readonly resolvedDisabled = computed(() => this.disabledInput() || this.formsDisabled());
   protected readonly focused = computed(() => this.focusedState());
   protected readonly focusVisible = computed(() => this.focusVisibleState());
   protected readonly activeIndex = computed(() => clampOtpIndex(this.activeIndexState(), this.length()));
   protected readonly rootId = computed(() => this.id() ?? this.generatedId);
 
   protected readonly currentValue = computed(() => {
-    const controlled = this.valueInput();
-    if (controlled !== undefined) {
-      return this.normalizeAndClamp(controlled ?? '');
-    }
-
-    return this.normalizeAndClamp(this.uncontrolledValue());
+    return this.normalizeAndClamp(this.value());
   });
 
   protected readonly slots = computed(() => toTngOtpSlots(this.length(), this.currentValue()));
@@ -229,47 +218,43 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
 
   private readonly syncUncontrolledState = effect(
     () => {
-      const controlled = this.valueInput();
+      const current = this.value();
       const length = this.length();
       this.type();
       this.pattern();
 
-      if (controlled !== undefined) {
-        if (!this.focusedState()) {
-          this.activeIndexState.set(
-            resolveTngOtpEntryIndex(this.normalizeAndClamp(controlled ?? ''), length),
-          );
-        }
-
-        return;
-      }
-
       const normalizedDefault = this.normalizeAndClamp(this.defaultValue());
       if (!this.hasInitializedUncontrolled) {
         this.hasInitializedUncontrolled = true;
-        this.uncontrolledValue.set(normalizedDefault);
-        this.activeIndexState.set(resolveTngOtpEntryIndex(normalizedDefault, length));
-        return;
+        if (current === '' && normalizedDefault !== '') {
+          this.value.set(normalizedDefault);
+          this.activeIndexState.set(resolveTngOtpEntryIndex(normalizedDefault, length));
+          return;
+        }
       }
 
-      const normalizedCurrent = this.normalizeAndClamp(this.uncontrolledValue());
-      if (normalizedCurrent !== this.uncontrolledValue()) {
-        this.uncontrolledValue.set(normalizedCurrent);
+      const normalizedCurrent = this.normalizeAndClamp(current);
+      if (normalizedCurrent !== current) {
+        this.value.set(normalizedCurrent);
       }
 
-      this.activeIndexState.update((index) => clampOtpIndex(index, length));
+      if (!this.focusedState()) {
+        this.activeIndexState.set(resolveTngOtpEntryIndex(normalizedCurrent, length));
+      } else {
+        this.activeIndexState.update((index) => clampOtpIndex(index, length));
+      }
     },
   );
 
   public ngAfterViewInit(): void {
     this.attachFormResetListener();
 
-    if (!this.autoFocus() || this.disabled()) {
+    if (!this.autoFocus() || this.resolvedDisabled()) {
       return;
     }
 
     queueMicrotask(() => {
-      if (this.disabled()) {
+      if (this.resolvedDisabled()) {
         return;
       }
 
@@ -282,25 +267,7 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
     this.resetUnlisten = null;
   }
 
-  public writeValue(value: string | null): void {
-    const normalized = this.normalizeAndClamp(value ?? '');
-    this.hasInitializedUncontrolled = true;
-    this.uncontrolledValue.set(normalized);
-
-    if (!this.focusedState()) {
-      this.activeIndexState.set(resolveTngOtpEntryIndex(normalized, this.length()));
-    }
-  }
-
-  public registerOnChange(fn: (value: string) => void): void {
-    this.onChangeCallback = fn;
-  }
-
-  public registerOnTouched(fn: () => void): void {
-    this.onTouchedCallback = fn;
-  }
-
-  public setDisabledState(isDisabled: boolean): void {
+  public setFormDisabledState(isDisabled: boolean): void {
     this.formsDisabled.set(isDisabled);
   }
 
@@ -339,7 +306,7 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
 
       this.focusedState.set(false);
       this.focusVisibleState.set(false);
-      this.onTouchedCallback();
+      this.touchedChange.emit();
     });
   }
 
@@ -385,7 +352,7 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
       return;
     }
 
-    if ((this.disabled() || this.readonly()) && event.key.length === 1) {
+    if ((this.resolvedDisabled() || this.readonly()) && event.key.length === 1) {
       event.preventDefault();
     }
   }
@@ -396,7 +363,7 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
       return;
     }
 
-    if (this.disabled() || this.readonly()) {
+    if (this.resolvedDisabled() || this.readonly()) {
       target.value = this.slotValue(this.resolveEditableIndex(index));
       return;
     }
@@ -425,7 +392,7 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
   }
 
   protected onSlotPaste(index: number, event: ClipboardEvent): void {
-    if (this.disabled() || this.readonly()) {
+    if (this.resolvedDisabled() || this.readonly()) {
       return;
     }
 
@@ -471,7 +438,7 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
   }
 
   private handleBackspace(index: number): void {
-    if (this.disabled() || this.readonly()) {
+    if (this.resolvedDisabled() || this.readonly()) {
       return;
     }
 
@@ -484,7 +451,7 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
   }
 
   private handleDelete(index: number): void {
-    if (this.disabled() || this.readonly()) {
+    if (this.resolvedDisabled() || this.readonly()) {
       return;
     }
 
@@ -501,16 +468,11 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
     const normalized = this.normalizeAndClamp(nextValue);
     const didChange = normalized !== previousValue;
 
-    if (this.valueInput() === undefined) {
-      this.uncontrolledValue.set(normalized);
-    }
+    this.value.set(normalized);
 
     this.activeIndexState.set(clampOtpIndex(nextFocusIndex, this.length()));
 
     if (didChange) {
-      this.valueChange.emit(normalized);
-      this.onChangeCallback(normalized);
-
       if (resolveTngOtpState(this.length(), normalized) === 'complete') {
         this.complete.emit(normalized);
       }
@@ -592,15 +554,9 @@ export class TngInputOtpComponent implements AfterViewInit, ControlValueAccessor
 
     this.resetUnlisten?.();
     this.resetUnlisten = this.renderer.listen(ownerForm, 'reset', () => {
-      if (this.valueInput() !== undefined) {
-        return;
-      }
-
       const resetValue = this.normalizeAndClamp(this.defaultValue());
-      this.uncontrolledValue.set(resetValue);
+      this.value.set(resetValue);
       this.activeIndexState.set(resolveTngOtpEntryIndex(resetValue, this.length()));
-      this.valueChange.emit(resetValue);
-      this.onChangeCallback(resetValue);
     });
   }
 }

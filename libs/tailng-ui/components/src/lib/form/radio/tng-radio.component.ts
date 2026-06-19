@@ -5,8 +5,9 @@ import {
   forwardRef,
   inject,
   input,
-  output,
+  model,
 } from '@angular/core';
+import type { FormCheckboxControl } from '@angular/forms/signals';
 import { TngRadio as TngRadioPrimitive } from '@tailng-ui/primitives';
 
 import {
@@ -45,32 +46,28 @@ export function shouldEmitTngRadioCheckedChange(disabled: boolean, readonly: boo
     },
   ],
 })
-export class TngRadioComponent {
+export class TngRadioComponent implements FormCheckboxControl {
   private readonly hostEl: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
 
   public readonly ariaDescribedBy = input<string | null>(null);
-  public readonly ariaInvalid = input<boolean, boolean | string>(false, {
+  public readonly ariaInvalid = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly checked = input<boolean, boolean | string>(false, {
+  public readonly checked = model<boolean>(false);
+  public readonly disabled = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly disabled = input<boolean, boolean | string>(false, {
+  public readonly invalid = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly invalid = input<boolean, boolean | string>(false, {
+  public readonly inputName = input<string | null>(null, { alias: 'name' });
+  public readonly readonly = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly name = input<string | null>(null);
-  public readonly readonly = input<boolean, boolean | string>(false, {
+  public readonly required = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly required = input<boolean, boolean | string>(false, {
-    transform: booleanAttribute,
-  });
-  public readonly value = input<string>('on');
-
-  public readonly checkedChange = output<boolean>();
+  public readonly inputValue = input<string>('on', { alias: 'value' });
 
   /**
    * Form-field integration. Standalone radios are focusable via the inner
@@ -98,6 +95,6 @@ export class TngRadioComponent {
       return;
     }
 
-    this.checkedChange.emit(checked);
+    this.checked.set(checked);
   }
 }

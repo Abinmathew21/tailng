@@ -3,12 +3,13 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
+import { TngCheckboxAngularFormsAdapter } from '../../angular-forms-adapters';
 import { TngCheckboxComponent, type TngCheckboxModelValue } from '../tng-checkbox.component';
 
 @Component({
-  imports: [ReactiveFormsModule, TngCheckboxComponent],
+  imports: [ReactiveFormsModule, TngCheckboxComponent, TngCheckboxAngularFormsAdapter],
   template: `
-    <tng-checkbox data-testid="reactive-control" [formControl]="control">
+    <tng-checkbox tngAngularForms data-testid="reactive-control" [formControl]="control">
       Reactive checkbox
     </tng-checkbox>
   `,
@@ -18,10 +19,10 @@ class ReactiveFormControlHostComponent {
 }
 
 @Component({
-  imports: [ReactiveFormsModule, TngCheckboxComponent],
+  imports: [ReactiveFormsModule, TngCheckboxComponent, TngCheckboxAngularFormsAdapter],
   template: `
     <form [formGroup]="form">
-      <tng-checkbox data-testid="reactive-name" formControlName="consent">
+      <tng-checkbox tngAngularForms data-testid="reactive-name" formControlName="consent">
         Reactive name checkbox
       </tng-checkbox>
     </form>
@@ -34,9 +35,9 @@ class ReactiveFormControlNameHostComponent {
 }
 
 @Component({
-  imports: [FormsModule, TngCheckboxComponent],
+  imports: [FormsModule, TngCheckboxComponent, TngCheckboxAngularFormsAdapter],
   template: `
-    <tng-checkbox data-testid="ng-model" name="consent" [(ngModel)]="value">
+    <tng-checkbox tngAngularForms data-testid="ng-model" name="consent" [(ngModel)]="value">
       NgModel checkbox
     </tng-checkbox>
   `,
@@ -84,12 +85,6 @@ describe('tng-checkbox component forms integration', () => {
     input.dispatchEvent(new Event('change', { bubbles: true }));
     fixture.detectChanges();
     expect(host.control.value).toBe(true);
-
-    input.checked = false;
-    input.indeterminate = true;
-    input.dispatchEvent(new Event('change', { bubbles: true }));
-    fixture.detectChanges();
-    expect(host.control.value).toBe('mixed');
 
     input.dispatchEvent(new FocusEvent('blur'));
     fixture.detectChanges();

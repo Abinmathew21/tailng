@@ -1,4 +1,5 @@
-import { booleanAttribute, Component, input, output } from '@angular/core';
+import { booleanAttribute, Component, input, model } from '@angular/core';
+import type { FormValueControl } from '@angular/forms/signals';
 import {
   coerceTngInputNullableBoolean,
   normalizeTngTextareaResize,
@@ -37,7 +38,7 @@ export function readTngTextareaEventValue(event: unknown): string | null {
   templateUrl: './tng-textarea.component.html',
   styleUrl: './tng-textarea.component.css',
 })
-export class TngTextareaComponent {
+export class TngTextareaComponent implements FormValueControl<string | null> {
   public readonly ariaDescribedBy = input<string | null>(null);
   public readonly ariaInvalid = input<boolean | null, NullableBooleanInput>(null, {
     transform: coerceTngInputNullableBoolean,
@@ -47,16 +48,16 @@ export class TngTextareaComponent {
   public readonly ariaRequired = input<boolean | null, NullableBooleanInput>(null, {
     transform: coerceTngInputNullableBoolean,
   });
-  public readonly disabled = input<boolean, boolean | string>(false, {
+  public readonly disabled = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
   public readonly id = input<string | null>(null);
-  public readonly name = input<string | null>(null);
+  public readonly inputName = input<string | null>(null, { alias: 'name' });
   public readonly placeholder = input<string | null>(null);
-  public readonly readonly = input<boolean, boolean | string>(false, {
+  public readonly readonly = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly required = input<boolean, boolean | string>(false, {
+  public readonly required = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
   public readonly rows = input<number, number | string>(3, {
@@ -66,9 +67,7 @@ export class TngTextareaComponent {
   public readonly resize = input<TngTextareaResize, string>('vertical', {
     transform: normalizeTngTextareaResize,
   });
-  public readonly value = input<string | null>(null);
-
-  public readonly valueChange = output<string>();
+  public readonly value = model<string | null>(null);
 
   public onInput(event: unknown): void {
     const value = readTngTextareaEventValue(event);
@@ -76,7 +75,7 @@ export class TngTextareaComponent {
       return;
     }
 
-    this.valueChange.emit(value);
+    this.value.set(value);
   }
 
   protected normalizeAttrValue(value: string | null | undefined): string | null {

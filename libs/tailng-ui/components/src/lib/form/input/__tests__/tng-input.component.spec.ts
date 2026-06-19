@@ -107,6 +107,40 @@ function dispatchKeyboardEvent(inputEl: HTMLInputElement, key: string): Keyboard
   return event;
 }
 
+function dispatchBeforeInputEvent(inputEl: HTMLInputElement, data: string): InputEvent {
+  const event = new InputEvent('beforeinput', {
+    bubbles: true,
+    cancelable: true,
+    data,
+    inputType: 'insertText',
+  });
+  inputEl.dispatchEvent(event);
+  return event;
+}
+
+function dispatchPasteEvent(inputEl: HTMLInputElement, text: string): Event {
+  const event = new Event('paste', { bubbles: true, cancelable: true });
+  Object.defineProperty(event, 'clipboardData', {
+    configurable: true,
+    value: {
+      getData: (type: string) => (type === 'text/plain' || type === 'text' ? text : ''),
+    },
+  });
+  inputEl.dispatchEvent(event);
+  return event;
+}
+
+function setSelectionRangeForTest(inputEl: HTMLInputElement, start: number, end = start): void {
+  Object.defineProperty(inputEl, 'selectionStart', {
+    configurable: true,
+    value: start,
+  });
+  Object.defineProperty(inputEl, 'selectionEnd', {
+    configurable: true,
+    value: end,
+  });
+}
+
 @Component({
   imports: [TngInputComponent],
   template: `
@@ -410,6 +444,153 @@ describe('<tng-input> component', () => {
     expect(buttons).toHaveLength(2);
     expect(buttons[0].nativeElement.getAttribute('aria-label')).toBe('Increment value');
     expect(buttons[1].nativeElement.getAttribute('aria-label')).toBe('Decrement value');
+  });
+
+  it('blocks invalid beforeinput text on number inputs', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+    const blockedCases: ReadonlyArray<{ current: string; data: string }> = [
+      { current: '1', data: 'e' },
+      { current: '1', data: 'E' },
+      { current: '1', data: '+' },
+      { current: '1', data: 'a' },
+      { current: '1.2', data: '.' },
+      { current: '12', data: '-' },
+    ];
+
+    for (const { current, data } of blockedCases) {
+      inputEl.value = current;
+      setSelectionRangeForTest(inputEl, current.length);
+
+      expect(dispatchBeforeInputEvent(inputEl, data).defaultPrevented).toBe(true);
+    }
+  });
+
+  it('allows valid beforeinput text on number inputs', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+    const allowedCases: ReadonlyArray<{ current: string; data: string }> = [
+      { current: '', data: '-' },
+      { current: '', data: '.' },
+      { current: '1', data: '.' },
+      { current: '1.2', data: '3' },
+    ];
+
+    for (const { current, data } of allowedCases) {
+      inputEl.value = current;
+      setSelectionRangeForTest(inputEl, current.length);
+
+      expect(dispatchBeforeInputEvent(inputEl, data).defaultPrevented).toBe(false);
+    }
+  });
+
+  it('sanitizes messy pasted content for number inputs and emits one input event', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.componentInstance.value = '';
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+    const pasteEvent = dispatchPasteEvent(inputEl, '$-1,234.50abc');
+    fixture.detectChanges();
+
+    expect(pasteEvent.defaultPrevented).toBe(true);
+    expect(inputEl.value).toBe('-1234.50');
+    expect(fixture.componentInstance.emittedValue).toBe('-1234.50');
+    expect(fixture.componentInstance.inputEventCount).toBe(1);
+    expect(fixture.componentInstance.inputEventValue).toBe('-1234.50');
+  });
+
+  it('normalizes pasted number edge cases into complete number strings', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+
+    const cases: ReadonlyArray<{
+      current?: string;
+      expected: string;
+      pasted: string;
+      selection?: readonly [number, number];
+    }> = [
+      { pasted: '.5', expected: '0.5' },
+      { pasted: '-.5', expected: '-0.5' },
+      { pasted: '12.', expected: '12' },
+      { pasted: '12.3.4x', expected: '12.34' },
+      { pasted: '1-2', expected: '12' },
+      { current: '1', pasted: 'abc', expected: '', selection: [0, 1] },
+    ];
+
+    for (const { current = '', pasted, expected, selection } of cases) {
+      const fixture = TestBed.createComponent(NumberInputHostComponent);
+      fixture.componentInstance.value = current;
+      fixture.detectChanges();
+
+      const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+      if (selection !== undefined) {
+        setSelectionRangeForTest(inputEl, selection[0], selection[1]);
+      }
+
+      dispatchPasteEvent(inputEl, pasted);
+      fixture.detectChanges();
+
+      expect(inputEl.value).toBe(expected);
+      expect(fixture.componentInstance.emittedValue).toBe(expected);
+
+      fixture.destroy();
+    }
+  });
+
+  it('replaces the selected number input range with sanitized pasted content', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.componentInstance.value = '12345';
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+    setSelectionRangeForTest(inputEl, 1, 4);
+
+    dispatchPasteEvent(inputEl, '9x.8');
+    fixture.detectChanges();
+
+    expect(inputEl.value).toBe('19.85');
+    expect(fixture.componentInstance.emittedValue).toBe('19.85');
+    expect(fixture.componentInstance.inputEventCount).toBe(1);
+  });
+
+  it('does not sanitize paste events for readonly or disabled number inputs', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+
+    fixture.componentInstance.readonly = true;
+    fixture.changeDetectorRef.detectChanges();
+
+    const readonlyPaste = dispatchPasteEvent(inputEl, '$99');
+    fixture.detectChanges();
+
+    expect(readonlyPaste.defaultPrevented).toBe(false);
+    expect(inputEl.value).toBe('1');
+    expect(fixture.componentInstance.emittedValue).toBeNull();
+    expect(fixture.componentInstance.inputEventCount).toBe(0);
+
+    fixture.componentInstance.readonly = false;
+    fixture.componentInstance.disabled = true;
+    fixture.changeDetectorRef.detectChanges();
+
+    const disabledPaste = dispatchPasteEvent(inputEl, '$99');
+    fixture.detectChanges();
+
+    expect(disabledPaste.defaultPrevented).toBe(false);
+    expect(inputEl.value).toBe('1');
+    expect(fixture.componentInstance.emittedValue).toBeNull();
+    expect(fixture.componentInstance.inputEventCount).toBe(0);
   });
 
   it('increments and decrements number values with the configured step', async () => {

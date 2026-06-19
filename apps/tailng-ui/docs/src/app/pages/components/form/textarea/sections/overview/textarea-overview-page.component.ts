@@ -98,8 +98,8 @@ export class TextareaOverviewPageComponent implements OnDestroy {
       'export class TextareaOverviewPlainCssComponent {',
       "  readonly value = signal('Add concise release highlights for the weekly digest.');",
       '',
-      '  onValueChange(value: string): void {',
-      '    this.value.set(value);',
+      '  onValueChange(value: string | null): void {',
+      "    this.value.set(value ?? '');",
       '  }',
       '}',
       '',
@@ -167,8 +167,8 @@ export class TextareaOverviewPageComponent implements OnDestroy {
       'export class TextareaOverviewTailwindComponent {',
       "  readonly value = signal('Ship notes in both plain language and changelog format.');",
       '',
-      '  onValueChange(value: string): void {',
-      '    this.value.set(value);',
+      '  onValueChange(value: string | null): void {',
+      "    this.value.set(value ?? '');",
       '  }',
       '}',
       '',
@@ -196,12 +196,12 @@ export class TextareaOverviewPageComponent implements OnDestroy {
       '/* tng-textarea needs no CSS; optional utilities stay on section/label wrappers only. */',
   });
 
-  protected onPlainValueChange(value: string): void {
-    this.plainValue.set(value);
+  protected onPlainValueChange(value: string | null): void {
+    this.plainValue.set(value ?? '');
   }
 
-  protected onTailwindValueChange(value: string): void {
-    this.tailwindValue.set(value);
+  protected onTailwindValueChange(value: string | null): void {
+    this.tailwindValue.set(value ?? '');
   }
 
   public ngOnDestroy(): void {

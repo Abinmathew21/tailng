@@ -6,15 +6,16 @@ import {
   forwardRef,
   inject,
   input,
+  model,
   output,
-  signal,
   viewChild,
 } from '@angular/core';
+import type { FormValueControl } from '@angular/forms/signals';
 import {
   defaultDatepickerDateAdapter,
   type TngCalendarView,
   type TngDateAdapter,
-  type TngDateValue,
+  type TngDateSelectionInput,
 } from '@tailng-ui/primitives';
 import { TngDatepickerComponent } from '../datepicker/tng-datepicker.component';
 
@@ -116,15 +117,12 @@ function createMonthDayAdapter(year: number): TngDateAdapter<Date> {
     },
   ],
 })
-export class TngMonthDaypickerComponent {
+export class TngMonthDaypickerComponent implements FormValueControl<TngMonthDayValue | undefined> {
   private readonly hostEl: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
   private readonly datepicker = viewChild<TngDatepickerComponent<Date>>('datepicker');
-  private readonly internalValue = signal<TngMonthDayValue | undefined>(undefined);
   private hasObservedInitialValue = false;
 
-  public readonly value = input<TngMonthDayValue | undefined, TngMonthDayValue | undefined>(undefined, {
-    transform: (value: TngMonthDayValue | undefined) => (value === undefined ? undefined : normalizeMonthDay(value)),
-  });
+  public readonly value = model<TngMonthDayValue | undefined>(undefined);
   public readonly defaultValue = input<TngMonthDayValue, TngMonthDayValue>({ day: 1, month: 1 }, {
     transform: normalizeMonthDay,
   });
@@ -138,14 +136,13 @@ export class TngMonthDaypickerComponent {
   public readonly placeholder = input<string>('MM-DD');
   public readonly readonly = input<boolean>(false);
   public readonly restoreFocus = input<boolean>(true);
-  public readonly invalid = input<boolean, boolean | string>(false, {
+  public readonly invalid = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly required = input<boolean, boolean | string>(false, {
+  public readonly required = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
 
-  public readonly valueChange = output<TngMonthDayValue>();
   public readonly openChange = output<boolean>();
 
   /**
@@ -163,13 +160,16 @@ export class TngMonthDaypickerComponent {
     isRequired: () => this.required(),
   });
 
-  protected readonly selectedValue = computed(() => this.value() ?? this.internalValue() ?? this.defaultValue());
+  protected readonly selectedValue = computed(() => {
+    const controlled = this.value();
+    return controlled === undefined ? this.defaultValue() : normalizeMonthDay(controlled);
+  });
   protected readonly selectedDate = computed(() => createDate(this.year(), this.selectedValue()));
   protected readonly minDate = computed(() => defaultDatepickerDateAdapter.createDate(this.year(), 0, 1));
   protected readonly maxDate = computed(() => defaultDatepickerDateAdapter.createDate(this.year(), 11, 31));
   protected readonly adapter = computed(() => createMonthDayAdapter(this.year()));
 
-  protected handleDateValueChange(value: TngDateValue<Date>): void {
+  protected handleDateValueChange(value: TngDateSelectionInput<Date> | undefined): void {
     if (!(value instanceof Date)) {
       return;
     }
@@ -183,8 +183,7 @@ export class TngMonthDaypickerComponent {
       }
     }
 
-    this.internalValue.set(nextValue);
-    this.valueChange.emit(nextValue);
+    this.value.set(nextValue);
   }
 
   protected handleViewChange(view: TngCalendarView): void {

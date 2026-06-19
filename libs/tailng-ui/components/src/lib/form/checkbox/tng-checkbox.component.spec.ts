@@ -32,7 +32,7 @@ describe('tng-checkbox component', () => {
     expect(readTngCheckboxChange(badEvent)).toBeNull();
   });
 
-  it('coerces model values for CVA writeValue', () => {
+  it('coerces model values for the legacy forms adapter', () => {
     expect(coerceTngCheckboxModelValue(true)).toEqual({
       checked: true,
       indeterminate: false,

@@ -34,12 +34,13 @@ export class InputOtpApiPageComponent implements OnDestroy {
 ></tng-input-otp>`;
 
   protected readonly formsCode = String.raw`import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { TngInputOtpAngularFormsAdapter, TngInputOtpComponent } from '@tailng-ui/components';
 
 readonly verificationForm = new FormGroup({
   otp: new FormControl('', { nonNullable: true }),
 });
 
-<tng-input-otp formControlName="otp"></tng-input-otp>`;
+<tng-input-otp tngAngularForms formControlName="otp"></tng-input-otp>`;
 
   protected readonly signalFormsCode = String.raw`import { Component, signal } from '@angular/core';
 import { FormField, form } from '@angular/forms/signals';

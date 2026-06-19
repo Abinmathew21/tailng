@@ -3,8 +3,8 @@
     tngSlider
     class="tng-slider-control"
     [disabled]="disabled()"
-    [max]="max()"
-    [min]="min()"
+    [max]="max() ?? 100"
+    [min]="min() ?? 0"
     [step]="step()"
     [value]="value()"
     (input)="onInput($event)"

@@ -71,7 +71,7 @@
               <td><code>disabled</code></td>
               <td><code>boolean | string</code></td>
               <td><code>false</code></td>
-              <td>Disables both inputs. Also set by CVA's <code>setDisabledState</code> when used in forms.</td>
+              <td>Disables both inputs. Legacy Angular forms can also set this through the explicit adapter.</td>
             </tr>
             <tr>
               <td><code>readonly</code></td>
@@ -183,8 +183,8 @@
       </div>
 
       <p>
-        For Angular forms, the component also implements <code>ControlValueAccessor</code> — use
-        <code>formControlName</code> or <code>[(ngModel)]</code> directly without extra adapters.
+        Angular Signal Forms bind the component directly through its value model. Legacy Angular
+        forms require the explicit <code>tngAngularForms</code> adapter marker.
       </p>
       <div class="number-range-api-table-wrap">
         <table class="number-range-api-table">
@@ -197,7 +197,7 @@
           <tbody>
             <tr>
               <td>Angular forms</td>
-              <td>Implements <code>ControlValueAccessor</code>. Works with template-driven (<code>ngModel</code>) and reactive forms (<code>formControlName</code>, <code>formControl</code>) without adapters.</td>
+              <td>Signal Forms use <code>[formField]</code>. Template-driven (<code>ngModel</code>) and reactive forms (<code>formControlName</code>, <code>formControl</code>) use <code>tngAngularForms</code>.</td>
             </tr>
             <tr>
               <td>Value type</td>
@@ -205,7 +205,7 @@
             </tr>
             <tr>
               <td>Disabled state</td>
-              <td>Controlled by <code>setDisabledState</code> when the bound form control is disabled.</td>
+              <td>Controlled by the component input or the optional legacy forms adapter.</td>
             </tr>
           </tbody>
         </table>
@@ -242,7 +242,7 @@
             <tr>
               <td><code>data-disabled</code></td>
               <td>Host element &amp; inner group</td>
-              <td>When <code>disabled</code> is true or the CVA form control is disabled.</td>
+              <td>When <code>disabled</code> is true or the legacy form control is disabled.</td>
             </tr>
             <tr>
               <td><code>data-readonly</code></td>

@@ -172,9 +172,9 @@
         [sanitizeHtml]="false"
       ></tng-code-block>
       <p class="switch-api-note">
-        <code>tng-switch</code> is not a <code>ControlValueAccessor</code>. Bind it with
-        <code>checked</code> and <code>checkedChange</code>, or drop to headless/ownable if you need
-        a different forms integration strategy.
+        <code>tng-switch</code> exposes the Signal Forms checkbox custom-control contract. Bind it
+        with <code>checked</code> / <code>checkedChange</code> or <code>[formField]</code> for
+        signal-backed forms.
       </p>
     </section>
   </div>

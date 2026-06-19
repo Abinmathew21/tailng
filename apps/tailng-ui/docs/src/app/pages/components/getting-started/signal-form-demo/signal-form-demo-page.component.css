@@ -17,7 +17,8 @@
 .demo-form,
 .demo-section,
 .demo-control,
-.demo-stack {
+.demo-stack,
+.demo-actions {
   display: grid;
   gap: 1rem;
 }
@@ -30,7 +31,8 @@
 }
 
 .demo-section h2,
-.demo-preview h2 {
+.demo-preview h2,
+.demo-submitted h2 {
   margin: 0;
   font-size: 1rem;
   font-weight: 650;
@@ -99,6 +101,11 @@
   font-size: 0.875rem;
 }
 
+.demo-actions {
+  justify-items: start;
+}
+
+.demo-submitted,
 .demo-preview {
   display: grid;
   gap: 0.75rem;
@@ -108,6 +115,11 @@
   background: color-mix(in srgb, var(--tng-color-surface, #020617) 92%, transparent);
 }
 
+.demo-submitted {
+  width: 100%;
+}
+
+.demo-submitted pre,
 .demo-preview pre {
   overflow: auto;
   max-height: 720px;

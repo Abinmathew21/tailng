@@ -4,15 +4,14 @@ import {
   Component,
   computed,
   ElementRef,
-  forwardRef,
   HostBinding,
   input,
-  OnInit,
+  model,
   output,
   signal,
   ViewChild,
 } from '@angular/core';
-import { type ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import type { FormValueControl } from '@angular/forms/signals';
 
 import {
   isRangeValid,
@@ -24,9 +23,6 @@ import {
   type TngNumberRangeSource,
   type TngNumberRangeValue,
 } from '@tailng-ui/primitives';
-
-const noOp = (): void => undefined;
-const noOpChange = (_v: TngNumberRangeValue): void => undefined;
 
 function normalizeNumberInput(
   value: number | string | null | undefined,
@@ -51,24 +47,19 @@ function normalizeStep(
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './tng-number-range.component.html',
   styleUrl: './tng-number-range.component.css',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TngNumberRangeComponent),
-      multi: true,
-    },
-  ],
 })
-export class TngNumberRangeComponent implements ControlValueAccessor, OnInit {
+export class TngNumberRangeComponent implements FormValueControl<TngNumberRangeValue | null> {
   // ── Controlled value ──────────────────────────────────────────────────────
-  public readonly value = input<TngNumberRangeValue | null>(null);
+  public readonly value = model<TngNumberRangeValue | null>(null);
   public readonly defaultValue = input<TngNumberRangeValue | null>(null);
 
   // ── Native number constraints ─────────────────────────────────────────────
-  public readonly min = input<number | null, number | string | null | undefined>(null, {
+  public readonly minValue = input<number | null, number | string | null | undefined>(null, {
+    alias: 'min',
     transform: normalizeNumberInput,
   });
-  public readonly max = input<number | null, number | string | null | undefined>(null, {
+  public readonly maxValue = input<number | null, number | string | null | undefined>(null, {
+    alias: 'max',
     transform: normalizeNumberInput,
   });
   public readonly step = input<number | string | null, number | string | null | undefined>(null, {
@@ -76,16 +67,16 @@ export class TngNumberRangeComponent implements ControlValueAccessor, OnInit {
   });
 
   // ── State ─────────────────────────────────────────────────────────────────
-  public readonly disabled = input<boolean, boolean | string>(false, {
+  public readonly disabled = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly readonly = input<boolean, boolean | string>(false, {
+  public readonly readonly = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly required = input<boolean, boolean | string>(false, {
+  public readonly required = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly invalid = input<boolean, boolean | string>(false, {
+  public readonly invalid = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
 
@@ -106,41 +97,28 @@ export class TngNumberRangeComponent implements ControlValueAccessor, OnInit {
   public readonly slot = input<Partial<Record<TngNumberRangeSlots, string>>>({});
 
   // ── Outputs ───────────────────────────────────────────────────────────────
-  public readonly valueChange = output<TngNumberRangeValue>();
+  public readonly touchedChange = output<void>();
   public readonly rangeChange = output<TngNumberRangeChangeEvent>();
 
   // ── Template refs ─────────────────────────────────────────────────────────
   @ViewChild('minInput') private readonly minInputRef?: ElementRef<HTMLInputElement>;
 
   // ── Internal state ────────────────────────────────────────────────────────
-  private readonly internalValue = signal<TngNumberRangeValue>(
-    normalizeRangeValue(null),
-  );
-  private readonly cvaModeEnabled = signal(false);
-  private readonly cvaDisabled = signal(false);
-
-  private onCvaChange: (value: TngNumberRangeValue) => void = noOpChange;
-  private onCvaTouched: () => void = noOp;
+  private readonly formDisabled = signal(false);
 
   // ── Derived values ────────────────────────────────────────────────────────
 
   /**
-   * The authoritative current value:
-   * - In CVA mode the internal signal owns the value (written by writeValue / handlers).
-   * - In controlled mode [value] drives the display; the internal signal tracks changes.
-   * - Uncontrolled: internal signal only.
+   * The authoritative current value. `value` remains nullable for public API
+   * compatibility; the rendered control always receives a normalized range.
    */
   protected readonly currentValue = computed<TngNumberRangeValue>(() => {
-    if (this.cvaModeEnabled()) {
-      return this.internalValue();
-    }
-
     const controlled = this.value();
     if (controlled !== null) {
       return normalizeRangeValue(controlled);
     }
 
-    return this.internalValue();
+    return normalizeRangeValue(this.defaultValue());
   });
 
   protected readonly minInputValue = computed(() =>
@@ -153,7 +131,7 @@ export class TngNumberRangeComponent implements ControlValueAccessor, OnInit {
 
   protected readonly isValid = computed<boolean>(() => {
     if (this.invalid()) return false;
-    return isRangeValid(this.currentValue(), this.min(), this.max());
+    return isRangeValid(this.currentValue(), this.minValue(), this.maxValue());
   });
 
   // ── HostBindings ──────────────────────────────────────────────────────────
@@ -179,7 +157,7 @@ export class TngNumberRangeComponent implements ControlValueAccessor, OnInit {
 
   // ── Computed disabled ─────────────────────────────────────────────────────
   protected get effectiveDisabled(): boolean {
-    return this.cvaDisabled() || this.disabled();
+    return this.formDisabled() || this.disabled();
   }
 
   // ── Event handlers ────────────────────────────────────────────────────────
@@ -213,36 +191,11 @@ export class TngNumberRangeComponent implements ControlValueAccessor, OnInit {
   }
 
   public onTouched(): void {
-    this.onCvaTouched();
+    this.touchedChange.emit();
   }
 
-  // ── Lifecycle ─────────────────────────────────────────────────────────────
-  public ngOnInit(): void {
-    const dv = this.defaultValue();
-    if (dv !== null) {
-      this.internalValue.set(normalizeRangeValue(dv));
-    }
-  }
-
-  // ── CVA ───────────────────────────────────────────────────────────────────
-  public writeValue(value: unknown): void {
-    this.cvaModeEnabled.set(true);
-    this.internalValue.set(normalizeRangeValue(value));
-  }
-
-  public registerOnChange(fn: (value: TngNumberRangeValue) => void): void {
-    this.cvaModeEnabled.set(true);
-    this.onCvaChange = fn;
-  }
-
-  public registerOnTouched(fn: () => void): void {
-    this.cvaModeEnabled.set(true);
-    this.onCvaTouched = fn;
-  }
-
-  public setDisabledState(isDisabled: boolean): void {
-    this.cvaModeEnabled.set(true);
-    this.cvaDisabled.set(isDisabled);
+  public setFormDisabledState(isDisabled: boolean): void {
+    this.formDisabled.set(isDisabled);
   }
 
   // ── Private helpers ───────────────────────────────────────────────────────
@@ -252,18 +205,11 @@ export class TngNumberRangeComponent implements ControlValueAccessor, OnInit {
   }
 
   private commitChange(next: TngNumberRangeValue, source: TngNumberRangeSource): void {
-    // Update internal state (uncontrolled + CVA mode)
-    this.internalValue.set(next);
+    this.value.set(next);
 
-    const valid = isRangeValid(next, this.min(), this.max()) && !this.invalid();
+    const valid = isRangeValid(next, this.minValue(), this.maxValue()) && !this.invalid();
 
     // Emit outputs
-    this.valueChange.emit(next);
     this.rangeChange.emit({ value: next, source, valid });
-
-    // CVA callback
-    if (this.cvaModeEnabled()) {
-      this.onCvaChange(next);
-    }
   }
 }

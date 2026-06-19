@@ -2,18 +2,20 @@ import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { TestBed } from '@angular/core/testing';
 import { describe, expect, it } from 'vitest';
 
+import { TngToggleAngularFormsAdapter } from '../../angular-forms-adapters';
 import { TngToggleComponent } from '../tng-toggle.component';
 
 @Component({
-  imports: [ReactiveFormsModule, TngToggleComponent],
+  imports: [ReactiveFormsModule, TngToggleComponent, TngToggleAngularFormsAdapter],
   template: `
-    <tng-toggle data-testid="reactive-control" [formControl]="control">
+    <tng-toggle tngAngularForms data-testid="reactive-control" [formControl]="control">
       Reactive toggle
     </tng-toggle>
   `,
@@ -23,10 +25,10 @@ class ReactiveFormControlHostComponent {
 }
 
 @Component({
-  imports: [ReactiveFormsModule, TngToggleComponent],
+  imports: [ReactiveFormsModule, TngToggleComponent, TngToggleAngularFormsAdapter],
   template: `
     <form [formGroup]="form">
-      <tng-toggle data-testid="reactive-name" formControlName="mode">
+      <tng-toggle tngAngularForms data-testid="reactive-name" formControlName="mode">
         Reactive named toggle
       </tng-toggle>
     </form>
@@ -39,9 +41,9 @@ class ReactiveFormControlNameHostComponent {
 }
 
 @Component({
-  imports: [ReactiveFormsModule, TngToggleComponent],
+  imports: [ReactiveFormsModule, TngToggleComponent, TngToggleAngularFormsAdapter],
   template: `
-    <tng-toggle data-testid="validated-control" [formControl]="control">
+    <tng-toggle tngAngularForms data-testid="validated-control" [formControl]="control">
       Validated toggle
     </tng-toggle>
   `,
@@ -51,6 +53,18 @@ class ReactiveValidationHostComponent {
     nonNullable: true,
     validators: [Validators.requiredTrue],
   });
+}
+
+@Component({
+  imports: [FormsModule, TngToggleComponent, TngToggleAngularFormsAdapter],
+  template: `
+    <tng-toggle tngAngularForms data-testid="ng-model" name="pin" [(ngModel)]="value">
+      NgModel toggle
+    </tng-toggle>
+  `,
+})
+class NgModelHostComponent {
+  public value = false;
 }
 
 function queryButtonByTestId(
@@ -114,7 +128,26 @@ describe('tng-toggle component forms integration', () => {
     expect(host.form.controls.mode.value).toBe(false);
   });
 
-  it.todo('works with ngModel');
+  it('works with ngModel', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [NgModelHostComponent],
+    }).createComponent(NgModelHostComponent);
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const host = fixture.componentInstance;
+    const button = queryButtonByTestId(fixture, 'ng-model');
+
+    expect(host.value).toBe(false);
+    click(button);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    expect(host.value).toBe(true);
+  });
 
   it('preserves dirty/pristine behavior correctly', () => {
     const fixture = TestBed.configureTestingModule({

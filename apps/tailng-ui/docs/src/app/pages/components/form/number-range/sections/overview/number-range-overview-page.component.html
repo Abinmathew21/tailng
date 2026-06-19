@@ -4,8 +4,8 @@
     <p class="number-range-overview-lead">
       <code>&lt;tng-number-range&gt;</code> renders a dual numeric input group — a min field, a
       configurable separator, and a max field — inside a single unified shell. It supports
-      controlled and uncontrolled value modes, Angular reactive and template-driven forms via
-      <code>ControlValueAccessor</code>, and automatic range validity checking.
+      controlled and default value modes, Signal Forms custom controls, optional legacy Angular
+      forms adapters, and automatic range validity checking.
     </p>
 
     <section id="what-you-get" class="docs-section-anchor number-range-overview-block">
@@ -14,7 +14,7 @@
         <li><strong>Single-shell range field:</strong> min and max inputs share one visual border, one focus ring, and one validity state.</li>
         <li><strong>Native number semantics:</strong> both inputs are <code>type="number"</code>, so browser autocomplete, keyboard stepping, and validation all work natively.</li>
         <li><strong>Built-in validity logic:</strong> the component computes invalid when <code>min &gt; max</code>, when either value exceeds configured bounds, or when the explicit <code>[invalid]</code> input is set.</li>
-        <li><strong>Forms-ready:</strong> implements <code>ControlValueAccessor</code>, so it drops directly into reactive and template-driven forms without any adapter.</li>
+        <li><strong>Forms-ready:</strong> implements the Signal Forms value-control contract. Reactive and template-driven forms opt in with <code>tngAngularForms</code>.</li>
         <li><strong>Slot customization:</strong> override CSS classes on any internal slot via the <code>[slot]</code> input.</li>
         <li><strong>Theme contract:</strong> all visual properties are driven by the <code>--tng-number-range-*</code> token surface — no internal DOM targeting needed.</li>
         <li><strong>State attributes:</strong> <code>data-disabled</code>, <code>data-readonly</code>, and <code>data-invalid</code> are reflected to the host and the inner group for container styling.</li>
@@ -223,16 +223,16 @@
     <section id="forms-integration" class="docs-section-anchor number-range-overview-block">
       <h3>Forms integration</h3>
       <p>
-        <code>&lt;tng-number-range&gt;</code> implements <code>ControlValueAccessor</code> and
-        works directly with Angular reactive forms and template-driven forms. The control value
+        <code>&lt;tng-number-range&gt;</code> binds directly to Angular Signal Forms through its
+        value model. Reactive forms and template-driven forms use the explicit legacy adapter. The control value
         type is <code>TngNumberRangeValue</code> — an object with <code>min</code> and
         <code>max</code> fields that are either a <code>number</code> or <code>null</code>.
       </p>
       <tng-code-block
-        [code]="cvaUsageCode"
+        [code]="legacyFormsUsageCode"
         adapter="shiki"
         language="ts"
-        title="Reactive forms usage"
+        title="Legacy reactive forms usage"
         [theme]="codeBlockTheme()"
         [sanitizeHtml]="false"
         [wrap]="true"

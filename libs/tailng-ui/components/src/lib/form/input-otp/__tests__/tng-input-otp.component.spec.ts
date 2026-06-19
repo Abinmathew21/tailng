@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { TestBed, type ComponentFixture } from '@angular/core/testing';
 import { afterEach, describe, expect, it } from 'vitest';
+import { TngInputOtpAngularFormsAdapter } from '../../angular-forms-adapters';
 import {
   applyTngOtpCharacters,
   removeTngOtpCharacter,
@@ -140,10 +141,10 @@ class ControlledOtpHostComponent {
 }
 
 @Component({
-  imports: [ReactiveFormsModule, TngInputOtpComponent],
+  imports: [ReactiveFormsModule, TngInputOtpComponent, TngInputOtpAngularFormsAdapter],
   template: `
     <form [formGroup]="form">
-      <tng-input-otp data-testid="otp" formControlName="otp" [length]="6"></tng-input-otp>
+      <tng-input-otp tngAngularForms data-testid="otp" formControlName="otp" [length]="6"></tng-input-otp>
     </form>
   `,
 })
@@ -154,8 +155,8 @@ class ReactiveFormsOtpHostComponent {
 }
 
 @Component({
-  imports: [FormsModule, TngInputOtpComponent],
-  template: `<tng-input-otp data-testid="otp" name="otp" [(ngModel)]="value"></tng-input-otp>`,
+  imports: [FormsModule, TngInputOtpComponent, TngInputOtpAngularFormsAdapter],
+  template: `<tng-input-otp tngAngularForms data-testid="otp" name="otp" [(ngModel)]="value"></tng-input-otp>`,
 })
 class NgModelOtpHostComponent {
   public value = '8';
@@ -405,7 +406,7 @@ describe('tng-input-otp component', () => {
     expect(document.activeElement).toBe(slots[1]);
   });
 
-  it('supports controlled value mode and does not mutate visual state until host syncs', () => {
+  it('updates the model-backed visual state and emits valueChange on user input', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [ControlledOtpHostComponent],
     }).createComponent(ControlledOtpHostComponent);
@@ -419,10 +420,6 @@ describe('tng-input-otp component', () => {
     fixture.detectChanges();
 
     expect(fixture.componentInstance.emitted).toEqual(['7']);
-    expect(querySlots(host)[0]!.value).toBe('');
-
-    fixture.componentInstance.value.set('7');
-    fixture.detectChanges();
     expect(querySlots(host)[0]!.value).toBe('7');
   });
 
@@ -557,7 +554,7 @@ describe('tng-input-otp component', () => {
     expect(queryHiddenInput(host).disabled).toBe(true);
   });
 
-  it('works with Reactive Forms ControlValueAccessor integration', () => {
+  it('works with the explicit Reactive Forms adapter', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [ReactiveFormsOtpHostComponent],
     }).createComponent(ReactiveFormsOtpHostComponent);

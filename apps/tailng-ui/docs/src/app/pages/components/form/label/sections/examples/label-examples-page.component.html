@@ -23,7 +23,7 @@
                   type="text"
                   [ariaRequired]="true"
                   [value]="formDemoProjectName()"
-                  (valueChange)="formDemoProjectName.set($event)"
+                  (valueChange)="formDemoProjectName.set($event ?? '')"
                   placeholder="Nova"
                 ></tng-input>
               </div>

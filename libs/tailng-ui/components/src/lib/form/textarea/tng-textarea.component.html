@@ -13,7 +13,7 @@
   [ariaInvalid]="ariaInvalid()"
   [ariaRequired]="ariaRequired()"
   [attr.id]="normalizeAttrValue(id())"
-  [attr.name]="normalizeAttrValue(name())"
+  [attr.name]="normalizeAttrValue(inputName())"
   [attr.placeholder]="normalizeAttrValue(placeholder())"
   [value]="value() ?? ''"
   (input)="onInput($event)"

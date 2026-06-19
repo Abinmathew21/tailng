@@ -4,6 +4,7 @@
 // The root barrel will re-export this file.
 
 export * from './autocomplete/tng-autocomplete.component';
+export * from './angular-forms-adapters';
 export * from './button-toggle/tng-button-toggle.component';
 export * from './button-toggle/tng-button-toggle-group.component';
 export * from './checkbox/tng-checkbox.component';

@@ -190,7 +190,7 @@ describe('tng-switch component behavior blocks A-K', () => {
       expect(nativeInput.checked).toBe(false);
     });
 
-    it('coerces checked="" to true via booleanAttribute', () => {
+    it('treats bare checked="" as false because checked is a typed model input', () => {
       const fixture = TestBed.configureTestingModule({
         imports: [CoercionSwitchHostComponent],
       }).createComponent(CoercionSwitchHostComponent);
@@ -201,8 +201,8 @@ describe('tng-switch component behavior blocks A-K', () => {
       const control = queryControl(switchHost);
       const nativeInput = queryNativeInput(switchHost);
 
-      expect(control.getAttribute('aria-checked')).toBe('true');
-      expect(nativeInput.checked).toBe(true);
+      expect(control.getAttribute('aria-checked')).toBe('false');
+      expect(nativeInput.checked).toBe(false);
     });
 
     it('defaults disabled to false when not provided', () => {

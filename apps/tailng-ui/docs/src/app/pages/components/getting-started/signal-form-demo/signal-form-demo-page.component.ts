@@ -12,6 +12,7 @@ import { FormField, form, pattern as patternValidator, required } from '@angular
 import { ActivatedRoute } from '@angular/router';
 import {
   TngAutocompleteComponent,
+  TngButtonComponent,
   TngButtonToggleComponent,
   TngButtonToggleGroupComponent,
   TngCardComponent,
@@ -75,6 +76,9 @@ type DemoClasses = Readonly<{
   choiceGroup: string;
   labelRow: string;
   summary: string;
+  actions: string;
+  submitted: string;
+  submittedPre: string;
   preview: string;
   previewPre: string;
 }>;
@@ -189,6 +193,9 @@ const plainCssDemoClasses: DemoClasses = {
   choiceGroup: 'demo-choice-group',
   labelRow: 'demo-label-row',
   summary: 'demo-summary',
+  actions: 'demo-actions',
+  submitted: 'demo-submitted',
+  submittedPre: '',
   preview: 'demo-preview',
   previewPre: '',
 };
@@ -209,6 +216,11 @@ const tailwindDemoClasses: DemoClasses = {
   labelRow: 'flex items-center justify-between gap-4 text-sm text-slate-500 dark:text-slate-400',
   summary:
     'block rounded-xl bg-sky-50 px-4 py-3 text-sm text-sky-800 dark:bg-sky-950/50 dark:text-sky-200',
+  actions: 'grid justify-items-start gap-3',
+  submitted:
+    'grid w-full gap-3 rounded-2xl border border-slate-200 bg-slate-950 p-4 text-slate-100 dark:border-slate-700',
+  submittedPre:
+    'm-0 max-h-[360px] w-full overflow-auto rounded-xl bg-slate-900 p-4 text-xs leading-relaxed text-slate-200',
   preview:
     'grid gap-3 rounded-2xl border border-slate-200 bg-slate-950 p-4 text-slate-100 dark:border-slate-700',
   previewPre:
@@ -224,6 +236,7 @@ const signalFormPlainCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze([
     code: String.raw`import { Component, computed, signal } from '@angular/core';
 import { FormField, form, pattern, required } from '@angular/forms/signals';
 import {
+  TngButtonComponent,
   TngCheckboxComponent,
   TngChipsComponent,
   TngInputComponent,
@@ -262,6 +275,7 @@ const apps = [
   standalone: true,
   imports: [
     FormField,
+    TngButtonComponent,
     TngCheckboxComponent,
     TngChipsComponent,
     TngInputComponent,
@@ -300,11 +314,17 @@ export class SignalFormPlainCssDemoComponent {
     return query === '' ? this.people : this.people.filter((person) => person.label.toLowerCase().includes(query));
   });
   protected readonly preview = computed(() => JSON.stringify(this.model(), null, 2));
+  protected readonly submittedJson = signal<string | null>(null);
 
   protected readonly getOptionLabel = (option: { label: string }) => option.label;
   protected readonly getOptionValue = (option: { value: string }) => option.value;
   protected readonly resolvePersonLabel = (value: string) =>
     this.people.find((person) => person.value === value)?.label ?? value;
+
+  protected submitRequest(event: Event): void {
+    event.preventDefault();
+    this.submittedJson.set(JSON.stringify(this.model(), null, 2));
+  }
 
   protected updateField<K extends keyof AccessRequest>(key: K, value: AccessRequest[K]): void {
     this.model.update((current) => ({ ...current, [key]: value }));
@@ -321,7 +341,7 @@ export class SignalFormPlainCssDemoComponent {
     language: 'html',
     title: 'signal-form-plain-css-demo.component.html',
     code: String.raw`<div class="signal-form-demo">
-  <form class="demo-form" aria-label="Workspace access request">
+  <form class="demo-form" aria-label="Workspace access request" (submit)="submitRequest($event)">
     <section class="demo-section">
       <h2>Requester verification</h2>
 
@@ -417,6 +437,17 @@ export class SignalFormPlainCssDemoComponent {
         />
       </div>
     </section>
+
+    <div class="demo-actions">
+      <tng-button type="submit">Submit request</tng-button>
+
+      @if (submittedJson(); as submitted) {
+        <section class="demo-submitted" aria-label="Submitted signal form values">
+          <h2>Submitted values</h2>
+          <pre>{{ submitted }}</pre>
+        </section>
+      }
+    </div>
   </form>
 
   <aside class="demo-preview" aria-label="Signal form model preview">
@@ -448,16 +479,22 @@ export class SignalFormPlainCssDemoComponent {
 
 .demo-form,
 .demo-section,
-.demo-control {
+.demo-control,
+.demo-actions {
   display: grid;
   gap: 1rem;
 }
 
 .demo-section,
-.demo-preview {
+.demo-preview,
+.demo-submitted {
   padding: 1rem;
   border: 1px solid var(--tng-color-border, rgba(148, 163, 184, 0.3));
   border-radius: 1rem;
+}
+
+.demo-actions {
+  justify-items: start;
 }
 
 .demo-grid {
@@ -482,7 +519,8 @@ export class SignalFormPlainCssDemoComponent {
   gap: 1rem;
 }
 
-.demo-preview pre {
+.demo-preview pre,
+.demo-submitted pre {
   overflow: auto;
   max-height: 520px;
   margin: 0;
@@ -510,7 +548,7 @@ const signalFormTailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze(
     language: 'html',
     title: 'signal-form-tailwind-demo.component.html',
     code: String.raw`<div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-start">
-  <form class="grid gap-4" aria-label="Workspace access request">
+  <form class="grid gap-4" aria-label="Workspace access request" (submit)="submitRequest($event)">
     <section class="grid gap-4 rounded-2xl border border-slate-200 bg-white/80 p-4 shadow-sm dark:border-slate-700 dark:bg-slate-950/40">
       <h2 class="text-base font-semibold text-slate-950 dark:text-slate-50">Requester verification</h2>
 
@@ -606,6 +644,20 @@ const signalFormTailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze(
         />
       </div>
     </section>
+
+    <div class="grid justify-items-start gap-3">
+      <tng-button type="submit">Submit request</tng-button>
+
+      @if (submittedJson(); as submitted) {
+        <section
+          class="grid w-full gap-3 rounded-2xl border border-slate-200 bg-slate-950 p-4 text-slate-100 dark:border-slate-700"
+          aria-label="Submitted signal form values"
+        >
+          <h2 class="text-base font-semibold">Submitted values</h2>
+          <pre class="m-0 max-h-[360px] w-full overflow-auto rounded-xl bg-slate-900 p-4 text-xs leading-relaxed text-slate-200">{{ submitted }}</pre>
+        </section>
+      }
+    </div>
   </form>
 
   <aside class="grid gap-3 rounded-2xl border border-slate-200 bg-slate-950 p-4 text-slate-100 dark:border-slate-700">
@@ -629,6 +681,7 @@ const signalFormTailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze(
     FormField,
     NgTemplateOutlet,
     TngAutocompleteComponent,
+    TngButtonComponent,
     TngButtonToggleComponent,
     TngButtonToggleGroupComponent,
     TngCardComponent,
@@ -752,12 +805,23 @@ export class SignalFormDemoPageComponent implements OnDestroy {
   protected readonly tailwindPreview = computed(() =>
     JSON.stringify(this.tailwindRequestModel(), null, 2),
   );
+  protected readonly submittedJson = signal<string | null>(null);
+  protected readonly tailwindSubmittedJson = signal<string | null>(null);
 
   protected updateField<K extends keyof WorkspaceAccessRequest>(
     key: K,
     value: WorkspaceAccessRequest[K],
   ): void {
     this.updateRequestField(this.requestModel, key, value);
+  }
+
+  protected submitRequest(
+    event: Event,
+    model: WritableSignal<WorkspaceAccessRequest>,
+    submittedJson: WritableSignal<string | null>,
+  ): void {
+    event.preventDefault();
+    submittedJson.set(JSON.stringify(model(), null, 2));
   }
 
   protected updateRequestField<K extends keyof WorkspaceAccessRequest>(
@@ -791,6 +855,15 @@ export class SignalFormDemoPageComponent implements OnDestroy {
     if (value === 'low' || value === 'medium' || value === 'high' || value === 'critical') {
       this.updateRequestField(model, 'priority', value);
     }
+  }
+
+  protected normalizeBudgetYear(value: number | string | undefined): number | undefined {
+    if (value === undefined) {
+      return undefined;
+    }
+
+    const numericValue = typeof value === 'number' ? value : Number(value);
+    return Number.isFinite(numericValue) ? numericValue : undefined;
   }
 
   protected updateAccessChannels(

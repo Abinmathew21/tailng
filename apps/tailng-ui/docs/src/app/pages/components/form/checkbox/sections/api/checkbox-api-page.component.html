@@ -66,7 +66,7 @@
       <h3><code>tng-checkbox</code> (styled component)</h3>
       <p>
         The component wraps the primitive in a ready-to-ship label layout, exposes Angular outputs,
-        and implements <code>ControlValueAccessor</code> for form bindings.
+        and implements Angular Signal Forms' checkbox custom-control contract.
       </p>
       <tng-code-block
         [code]="componentAttachmentCode"
@@ -164,7 +164,7 @@
             <tr>
               <td>Forms model</td>
               <td><code>boolean | 'mixed'</code></td>
-              <td>ControlValueAccessor lets tri-state flow through reactive or template-driven forms.</td>
+              <td>The optional legacy adapter maps tri-state values for reactive or template-driven forms.</td>
             </tr>
           </tbody>
         </table>
@@ -182,7 +182,7 @@
       ></tng-code-block>
       <p class="checkbox-api-note">
         Angular Signal Forms can bind the component directly with <code>[formField]</code>. The
-        tri-state value still flows as <code>boolean | 'mixed'</code>.
+        checked state flows as <code>boolean</code>; use <code>indeterminate</code> for mixed presentation.
       </p>
       <tng-code-block
         [code]="signalFormsCode"

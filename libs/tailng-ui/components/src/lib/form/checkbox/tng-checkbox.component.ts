@@ -2,13 +2,12 @@ import {
   booleanAttribute,
   Component,
   computed,
-  effect,
-  forwardRef,
   input,
+  model,
   output,
   signal,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
+import type { FormCheckboxControl } from '@angular/forms/signals';
 import { TngCheckbox as TngCheckboxPrimitive } from '@tailng-ui/primitives';
 
 export type TngCheckboxChange = Readonly<{
@@ -46,96 +45,49 @@ export function readTngCheckboxChange(event: unknown): TngCheckboxChange | null 
   };
 }
 
-const noControlChange = (_value: TngCheckboxModelValue): void => undefined;
-const noControlTouch = (): void => undefined;
-
 @Component({
   selector: 'tng-checkbox',
   imports: [TngCheckboxPrimitive],
   templateUrl: './tng-checkbox.component.html',
   styleUrl: './tng-checkbox.component.css',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TngCheckboxComponent),
-      multi: true,
-    },
-  ],
 })
-export class TngCheckboxComponent implements ControlValueAccessor {
+export class TngCheckboxComponent implements FormCheckboxControl {
   public readonly ariaDescribedBy = input<string | null>(null);
-  public readonly checked = input<boolean, boolean | string>(false, {
+  public readonly checked = model<boolean>(false);
+  public readonly disabled = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly disabled = input<boolean, boolean | string>(false, {
+  public readonly invalid = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly invalid = input<boolean, boolean | string>(false, {
+  public readonly indeterminate = model<boolean>(false);
+  public readonly inputName = input<string | null>(null, { alias: 'name' });
+  public readonly readonly = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly indeterminate = input<boolean, boolean | string>(false, {
+  public readonly required = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly name = input<string | null>(null);
-  public readonly readonly = input<boolean, boolean | string>(false, {
-    transform: booleanAttribute,
-  });
-  public readonly required = input<boolean, boolean | string>(false, {
-    transform: booleanAttribute,
-  });
-  public readonly value = input<string>('on');
+  public readonly inputValue = input<string>('on', { alias: 'value' });
 
-  public readonly checkedChange = output<boolean>();
-  public readonly indeterminateChange = output<boolean>();
+  public readonly touchedChange = output<void>();
 
-  private readonly internalChecked = signal(false);
-  private readonly internalIndeterminate = signal(false);
-  private readonly cvaModeEnabled = signal(false);
-  private readonly cvaDisabled = signal(false);
-
-  private onControlChange: (value: TngCheckboxModelValue) => void = noControlChange;
-  private onControlTouched: () => void = noControlTouch;
+  private readonly formDisabled = signal(false);
 
   protected readonly resolvedChecked = computed<boolean>(() => {
-    if (this.cvaModeEnabled()) {
-      return this.internalChecked();
-    }
-
     return this.checked();
   });
 
   protected readonly resolvedDisabled = computed<boolean>(() => {
-    if (this.cvaModeEnabled()) {
-      return this.cvaDisabled();
-    }
-
-    return this.disabled();
+    return this.formDisabled() || this.disabled();
   });
 
   protected readonly resolvedIndeterminate = computed<boolean>(() => {
-    if (this.cvaModeEnabled()) {
-      return this.internalIndeterminate();
-    }
-
     return this.indeterminate();
   });
 
-  public constructor() {
-    effect(
-      () => {
-        if (this.cvaModeEnabled()) {
-          return;
-        }
-
-        this.internalChecked.set(this.checked());
-        this.internalIndeterminate.set(this.indeterminate());
-      },
-      { allowSignalWrites: true },
-    );
-  }
-
   public onBlur(): void {
-    this.onControlTouched();
+    this.touchedChange.emit();
   }
 
   public onChange(event: unknown): void {
@@ -148,33 +100,12 @@ export class TngCheckboxComponent implements ControlValueAccessor {
       return;
     }
 
-    this.internalChecked.set(change.checked);
-    this.internalIndeterminate.set(change.indeterminate);
-
-    this.checkedChange.emit(change.checked);
-    this.indeterminateChange.emit(change.indeterminate);
-    this.onControlChange(change.indeterminate ? 'mixed' : change.checked);
+    const nextChecked = this.resolvedIndeterminate() ? true : change.checked;
+    this.checked.set(nextChecked);
+    this.indeterminate.set(false);
   }
 
-  public registerOnChange(fn: (value: TngCheckboxModelValue) => void): void {
-    this.cvaModeEnabled.set(true);
-    this.onControlChange = fn;
-  }
-
-  public registerOnTouched(fn: () => void): void {
-    this.cvaModeEnabled.set(true);
-    this.onControlTouched = fn;
-  }
-
-  public setDisabledState(isDisabled: boolean): void {
-    this.cvaModeEnabled.set(true);
-    this.cvaDisabled.set(isDisabled);
-  }
-
-  public writeValue(value: unknown): void {
-    this.cvaModeEnabled.set(true);
-    const normalized = coerceTngCheckboxModelValue(value);
-    this.internalChecked.set(normalized.checked);
-    this.internalIndeterminate.set(normalized.indeterminate);
+  public setFormDisabledState(isDisabled: boolean): void {
+    this.formDisabled.set(isDisabled);
   }
 }

@@ -5,8 +5,9 @@ import {
   forwardRef,
   inject,
   input,
-  output,
+  model,
 } from '@angular/core';
+import type { FormValueControl } from '@angular/forms/signals';
 import {
   normalizeTngSliderMax,
   normalizeTngSliderMin,
@@ -46,36 +47,31 @@ export function readTngSliderEventValue(event: unknown): number | null {
     },
   ],
 })
-export class TngSliderComponent {
+export class TngSliderComponent implements FormValueControl<number> {
   private readonly hostEl: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
 
-  public readonly disabled = input<boolean, boolean | string>(false, {
+  public readonly disabled = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly invalid = input<boolean, boolean | string>(false, {
+  public readonly invalid = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly required = input<boolean, boolean | string>(false, {
+  public readonly required = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly max = input<number, number | string>(100, {
-    transform: (value: number | string): number =>
+  public readonly max = input<number | undefined, unknown>(100, {
+    transform: (value: unknown): number =>
       normalizeTngSliderMax(typeof value === 'number' ? value : Number(value)),
   });
-  public readonly min = input<number, number | string>(0, {
-    transform: (value: number | string): number =>
+  public readonly min = input<number | undefined, unknown>(0, {
+    transform: (value: unknown): number =>
       normalizeTngSliderMin(typeof value === 'number' ? value : Number(value)),
   });
   public readonly step = input<number, number | string>(1, {
     transform: (value: number | string): number =>
       normalizeTngSliderStep(typeof value === 'number' ? value : Number(value)),
   });
-  public readonly value = input<number, number | string>(0, {
-    transform: (value: number | string): number =>
-      typeof value === 'number' ? value : Number(value),
-  });
-
-  public readonly valueChange = output<number>();
+  public readonly value = model<number>(0);
 
   /**
    * Form-field integration. The slider's focusable element is its inner
@@ -98,6 +94,6 @@ export class TngSliderComponent {
       return;
     }
 
-    this.valueChange.emit(nextValue);
+    this.value.set(nextValue);
   }
 }

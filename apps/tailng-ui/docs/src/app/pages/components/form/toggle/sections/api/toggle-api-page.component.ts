@@ -73,7 +73,7 @@ export class ToggleApiPageComponent implements OnDestroy {
   protected readonly reactiveFormsCode = [
     "readonly pinSidebarControl = new FormControl(false, { nonNullable: true });",
     '',
-    '<tng-toggle formControlName="pinSidebar">',
+    '<tng-toggle tngAngularForms formControlName="pinSidebar">',
     '  <span offIcon>P</span>',
     '  <span onIcon>P</span>',
     '</tng-toggle>',

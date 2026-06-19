@@ -28,7 +28,7 @@
                 placeholder="Workspace name"
                 ariaLabel="Workspace name"
                 [value]="formDemoValue()"
-                (valueChange)="formDemoValue.set($event)"
+                (valueChange)="formDemoValue.set($event ?? '')"
               ></tng-input>
             </div>
             <p docsFormDemoSummary>Current value: {{ formDemoValue() || '—' }}</p>
@@ -157,7 +157,7 @@
               [min]="0"
               [max]="100"
               [value]="taxGroupRate()"
-              (valueChange)="taxGroupRate.set($event)"
+              (valueChange)="taxGroupRate.set($event ?? '')"
               (click)="focusProjectedInput($event)"
             ></tng-input>
 
@@ -184,7 +184,7 @@
               [min]="0"
               [max]="100"
               [value]="taxGroupRate()"
-              (valueChange)="taxGroupRate.set($event)"
+              (valueChange)="taxGroupRate.set($event ?? '')"
               (click)="focusProjectedInput($event)"
             ></tng-input>
 

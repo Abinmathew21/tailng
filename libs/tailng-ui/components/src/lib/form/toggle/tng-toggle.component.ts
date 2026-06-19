@@ -1,27 +1,29 @@
+import type {
+  OnInit} from '@angular/core';
 import {
   booleanAttribute,
   Component,
   ElementRef,
-  OnInit,
   computed,
   forwardRef,
   inject,
   input,
+  model,
   output,
   signal,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR, type ControlValueAccessor } from '@angular/forms';
+import type { FormCheckboxControl } from '@angular/forms/signals';
 import {
   coerceTngToggleNullableBoolean,
   TngToggle as TngTogglePrimitive,
   TngToggleGroup as TngToggleGroupPrimitive,
 } from '@tailng-ui/primitives';
 
+import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 import {
   TNG_FORM_FIELD_CONTROL,
   type TngFormFieldControl,
 } from '../form-field/tng-form-field.control';
-import { createFormFieldAdapter } from '../form-field/tng-form-field-adapter';
 
 export function toggleTngToggleState(pressed: boolean): boolean {
   return !pressed;
@@ -46,9 +48,6 @@ function normalizeStringValue(value: string | null | undefined): string | null {
   return normalized.length > 0 ? normalized : null;
 }
 
-const noControlChange = (_value: boolean): void => undefined;
-const noControlTouch = (): void => undefined;
-
 function injectParentToggleGroup(): TngToggleGroupPrimitive | null {
   return inject(TngToggleGroupPrimitive, {
     optional: true,
@@ -69,55 +68,46 @@ function injectParentToggleGroup(): TngToggleGroupPrimitive | null {
   ],
   providers: [
     {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TngToggleComponent),
-      multi: true,
-    },
-    {
       provide: TNG_FORM_FIELD_CONTROL,
       useFactory: (cmp: TngToggleComponent) => cmp.formFieldControl,
       deps: [forwardRef(() => TngToggleComponent)],
     },
   ],
 })
-export class TngToggleComponent implements ControlValueAccessor, OnInit {
+export class TngToggleComponent implements FormCheckboxControl, OnInit {
   private readonly hostEl: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
   private readonly group = inject(TngToggleGroupPrimitive, {
     optional: true,
     skipSelf: true,
   });
-  private readonly internalPressed = signal(false);
-  private readonly cvaModeEnabled = signal(false);
-  private readonly cvaPressed = signal(false);
-  private readonly cvaDisabled = signal(false);
-
-  private onControlChange: (value: boolean) => void = noControlChange;
-  private onControlTouched: () => void = noControlTouch;
+  private readonly formDisabled = signal(false);
 
   public readonly ariaLabel = input<string | null>(null);
   public readonly ariaLabelledby = input<string | null>(null);
   public readonly ariaDescribedBy = input<string | null>(null);
-  public readonly value = input<string | null>(null);
+  public readonly toggleValue = input<string | null>(null, { alias: 'value' });
 
+  public readonly checked = model<boolean>(false);
   public readonly pressed = input<boolean | null, NullableBooleanInput>(null, {
     transform: coerceTngToggleNullableBoolean,
   });
-  public readonly defaultPressed = input<boolean, boolean | string>(false, {
+  public readonly defaultPressed = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly disabled = input<boolean, boolean | string>(false, {
+  public readonly disabled = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly invalid = input<boolean, boolean | string>(false, {
+  public readonly invalid = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly required = input<boolean, boolean | string>(false, {
+  public readonly required = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
   public readonly pressedLabel = input<string>('Enabled');
   public readonly unpressedLabel = input<string>('Disabled');
 
   public readonly pressedChange = output<boolean>();
+  public readonly touchedChange = output<void>();
 
   /**
    * Form-field integration. Toggle focuses on `<button tngToggle>`; label
@@ -137,11 +127,8 @@ export class TngToggleComponent implements ControlValueAccessor, OnInit {
 
   protected readonly resolvedDisabled = computed<boolean>(() => {
     const groupDisabled = this.group?.isGroupDisabled() === true && this.groupManagesState();
-    if (this.cvaModeEnabled()) {
-      return this.cvaDisabled() || groupDisabled;
-    }
 
-    return this.disabled() || groupDisabled;
+    return this.formDisabled() || this.disabled() || groupDisabled;
   });
 
   protected readonly resolvedPressed = computed<boolean>(() => {
@@ -150,28 +137,22 @@ export class TngToggleComponent implements ControlValueAccessor, OnInit {
       return this.group.isItemSelected(groupItemValue);
     }
 
-    if (this.cvaModeEnabled()) {
-      return this.cvaPressed();
-    }
-
     const controlledPressed = this.pressed();
     if (controlledPressed !== null) {
       return controlledPressed;
     }
 
-    return this.internalPressed();
+    return this.checked();
   });
 
-  public constructor() {
-    this.internalPressed.set(false);
-  }
-
   public ngOnInit(): void {
-    this.internalPressed.set(this.defaultPressed());
+    if (this.pressed() === null && !this.groupManagesState()) {
+      this.checked.set(this.defaultPressed());
+    }
   }
 
   public onBlur(): void {
-    this.onControlTouched();
+    this.touchedChange.emit();
   }
 
   public onPrimitivePressedChange(nextPressed: boolean): void {
@@ -179,11 +160,8 @@ export class TngToggleComponent implements ControlValueAccessor, OnInit {
       return;
     }
 
-    if (this.cvaModeEnabled()) {
-      this.cvaPressed.set(nextPressed);
-      this.onControlChange(nextPressed);
-    } else if (this.pressed() === null && !this.groupManagesState()) {
-      this.internalPressed.set(nextPressed);
+    if (this.pressed() === null && !this.groupManagesState()) {
+      this.checked.set(nextPressed);
     }
 
     this.pressedChange.emit(nextPressed);
@@ -207,28 +185,12 @@ export class TngToggleComponent implements ControlValueAccessor, OnInit {
     );
   }
 
-  public registerOnChange(fn: (value: boolean) => void): void {
-    this.cvaModeEnabled.set(true);
-    this.onControlChange = fn;
-  }
-
-  public registerOnTouched(fn: () => void): void {
-    this.cvaModeEnabled.set(true);
-    this.onControlTouched = fn;
-  }
-
-  public setDisabledState(isDisabled: boolean): void {
-    this.cvaModeEnabled.set(true);
-    this.cvaDisabled.set(isDisabled);
-  }
-
-  public writeValue(value: unknown): void {
-    this.cvaModeEnabled.set(true);
-    this.cvaPressed.set(value === true);
+  public setFormDisabledState(isDisabled: boolean): void {
+    this.formDisabled.set(isDisabled);
   }
 
   private groupItemValue(): string | null {
-    return normalizeStringValue(this.value());
+    return normalizeStringValue(this.toggleValue());
   }
 
   private groupManagesState(): boolean {

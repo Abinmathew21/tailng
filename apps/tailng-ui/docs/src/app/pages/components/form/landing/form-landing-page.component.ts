@@ -66,22 +66,22 @@ export class FormLandingPageComponent {
     {
       component: 'tng-input',
       status: 'Ready',
-      details: 'Works with Angular Signal Forms through ControlValueAccessor interop. Native input[tngInput] also stays signal-form friendly.',
+      details: 'Works with Angular Signal Forms through the FormValueControl model contract. Legacy Angular forms use the explicit tngAngularForms adapter.',
     },
     {
       component: 'tng-checkbox',
       status: 'Ready',
-      details: "Works through ControlValueAccessor interop, including the boolean | 'mixed' tri-state model.",
+      details: 'Works with Angular Signal Forms through the FormCheckboxControl checked model. The legacy adapter maps boolean and mixed values explicitly.',
     },
     {
       component: 'tng-toggle',
       status: 'Ready',
-      details: 'Works through ControlValueAccessor interop for standalone boolean fields.',
+      details: 'Works with Angular Signal Forms through checked. pressed/pressedChange remain compatibility aliases.',
     },
     {
       component: 'tng-input-otp',
       status: 'Ready',
-      details: 'Works through ControlValueAccessor interop for string fields.',
+      details: 'Works with Angular Signal Forms through the FormValueControl string model. Legacy Angular forms use the explicit tngAngularForms adapter.',
     },
     {
       component: 'tng-select',
@@ -105,23 +105,23 @@ export class FormLandingPageComponent {
     },
     {
       component: 'tng-textarea',
-      status: 'Not ready',
-      details: 'Currently exposes value/valueChange only. It does not implement ControlValueAccessor or a model-backed form control contract.',
+      status: 'Ready',
+      details: 'Works with Angular Signal Forms through the FormValueControl text model.',
     },
     {
       component: 'tng-radio',
-      status: 'Not ready',
-      details: 'Currently exposes checked/checkedChange only. It does not yet bridge a signal-form field value.',
+      status: 'Ready',
+      details: 'Works as a standalone checked signal-form control. Use radio groups for coordinated option values.',
     },
     {
       component: 'tng-switch',
-      status: 'Not ready',
-      details: 'Currently exposes checked/checkedChange and a hidden native input for submission, but no signal-form control contract.',
+      status: 'Ready',
+      details: 'Works with Angular Signal Forms through the FormCheckboxControl checked model while keeping hidden native input submission.',
     },
     {
       component: 'tng-datepicker',
-      status: 'Not ready',
-      details: 'Currently exposes controlled value/valueChange only. It is not yet wired as a signal-form field control.',
+      status: 'Ready',
+      details: 'Works with Angular Signal Forms through the FormValueControl date model and remains form-field aware.',
     },
     {
       component: 'tng-button-toggle-group',
@@ -135,13 +135,13 @@ export class FormLandingPageComponent {
     },
     {
       component: 'tng-month-daypicker',
-      status: 'Not ready',
-      details: 'Currently exposes controlled value/valueChange only. It is not yet wired as a signal-form field control.',
+      status: 'Ready',
+      details: 'Works with Angular Signal Forms through the FormValueControl month-day model.',
     },
     {
       component: 'tng-yearpicker',
-      status: 'Not ready',
-      details: 'Currently exposes controlled value/valueChange only. It is not yet wired as a signal-form field control.',
+      status: 'Ready',
+      details: 'Works with Angular Signal Forms through the FormValueControl year model.',
     },
     {
       component: 'tng-chips',
@@ -165,8 +165,8 @@ export class FormLandingPageComponent {
     },
     {
       component: 'tng-slider',
-      status: 'Not ready',
-      details: 'Currently exposes value/valueChange only. It does not yet implement ControlValueAccessor or a model-backed form control contract.',
+      status: 'Ready',
+      details: 'Works with Angular Signal Forms through the FormValueControl numeric model.',
     },
   ]);
 }

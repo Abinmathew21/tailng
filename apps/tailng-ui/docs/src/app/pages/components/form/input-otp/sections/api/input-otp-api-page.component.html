@@ -2,7 +2,7 @@
   <h2 class="input-otp-api-title">API reference</h2>
   <p class="input-otp-api-lead">
     <code>&lt;tng-input-otp&gt;</code> is the wrapper surface. It renders the segmented slots,
-    keeps the combined value in sync, and bridges forms through <code>ControlValueAccessor</code>.
+    keeps the combined value in sync, and exposes a Signal Forms custom-control model.
   </p>
 
   <section id="wrapper-api" class="input-otp-api-block">
@@ -108,8 +108,8 @@
   <section id="forms-integration" class="input-otp-api-block">
     <h3>Angular forms integration</h3>
     <p>
-      The wrapper implements <code>ControlValueAccessor</code> and works with
-      <code>formControl</code>, <code>formControlName</code>, and <code>ngModel</code>.
+      Angular Signal Forms can bind the wrapper directly with <code>[formField]</code>. Legacy
+      reactive and template-driven forms use the explicit <code>tngAngularForms</code> adapter.
     </p>
     <tng-code-block
       [code]="formsCode"
@@ -122,7 +122,7 @@
       [sanitizeHtml]="false"
     ></tng-code-block>
     <p>
-      Angular Signal Forms can also bind the wrapper directly with <code>[formField]</code> when
+      Bind the wrapper directly with <code>[formField]</code> when
       you want the OTP string to live inside a signal-backed form model.
     </p>
     <tng-code-block

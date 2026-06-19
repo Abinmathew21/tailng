@@ -3,7 +3,7 @@
     tngSwitch
     class="tng-switch-control"
     [ariaLabel]="ariaLabel()"
-    [checked]="checked()"
+    [checked]="resolvedChecked()"
     [disabled]="disabled()"
     [required]="required()"
     (click)="onToggle()"
@@ -11,7 +11,7 @@
   >
     <span class="tng-switch-track">
       <span class="tng-switch-thumb">
-        @if (checked()) {
+        @if (resolvedChecked()) {
           <span class="tng-switch-icon" aria-hidden="true">
             <ng-content select="[onIcon]"></ng-content>
           </span>
@@ -26,11 +26,11 @@
   <input
     class="tng-switch-native-input"
     type="checkbox"
-    [checked]="checked()"
+    [checked]="resolvedChecked()"
     [disabled]="disabled()"
     [required]="required()"
-    [attr.name]="name()"
-    [value]="value()"
+    [attr.name]="inputName()"
+    [value]="inputValue()"
     tabindex="-1"
     aria-hidden="true"
   />

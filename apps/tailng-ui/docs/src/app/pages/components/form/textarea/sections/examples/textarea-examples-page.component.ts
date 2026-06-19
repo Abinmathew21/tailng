@@ -95,8 +95,8 @@ export class TextareaExamplesPageComponent implements OnDestroy {
       "    'Block-level announcement draft for internal release channels.',",
       '  );',
       '',
-      '  onPostmortemSummaryChange(value: string): void {',
-      '    this.postmortemSummary.set(value);',
+      '  onPostmortemSummaryChange(value: string | null): void {',
+      "    this.postmortemSummary.set(value ?? '');",
       '  }',
       '}',
       '',
@@ -167,8 +167,8 @@ export class TextareaExamplesPageComponent implements OnDestroy {
       'export class TextareaExamplesTailwindComponent {',
       "  readonly customerUpdate = signal('Follow-up note with owner, ETA, and mitigation plan.');",
       '',
-      '  onCustomerUpdateChange(value: string): void {',
-      '    this.customerUpdate.set(value);',
+      '  onCustomerUpdateChange(value: string | null): void {',
+      "    this.customerUpdate.set(value ?? '');",
       '  }',
       '}',
       '',
@@ -197,12 +197,12 @@ export class TextareaExamplesPageComponent implements OnDestroy {
       '/* tng-textarea needs no CSS; optional utilities stay on section/label wrappers only. */',
   });
 
-  protected onPlainValueChange(value: string): void {
-    this.plainValue.set(value);
+  protected onPlainValueChange(value: string | null): void {
+    this.plainValue.set(value ?? '');
   }
 
-  protected onTailwindValueChange(value: string): void {
-    this.tailwindValue.set(value);
+  protected onTailwindValueChange(value: string | null): void {
+    this.tailwindValue.set(value ?? '');
   }
 
   public ngOnDestroy(): void {

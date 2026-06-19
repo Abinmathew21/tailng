@@ -1,12 +1,14 @@
 import {
   booleanAttribute,
   Component,
+  computed,
   ElementRef,
   forwardRef,
   inject,
   input,
-  output,
+  model,
 } from '@angular/core';
+import type { FormCheckboxControl } from '@angular/forms/signals';
 import { TngSwitch as TngSwitchPrimitive } from '@tailng-ui/primitives';
 
 import {
@@ -47,26 +49,24 @@ export function resolveTngSwitchArrowKey(key: string): boolean | null {
     },
   ],
 })
-export class TngSwitchComponent {
+export class TngSwitchComponent implements FormCheckboxControl {
   private readonly hostEl: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
 
   public readonly ariaLabel = input<string | null>(null);
-  public readonly checked = input<boolean, boolean | string>(false, {
+  public readonly checked = model<boolean>(false);
+  public readonly disabled = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly disabled = input<boolean, boolean | string>(false, {
+  public readonly invalid = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly invalid = input<boolean, boolean | string>(false, {
+  public readonly inputName = input<string | null>(null, { alias: 'name' });
+  public readonly required = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly name = input<string | null>(null);
-  public readonly required = input<boolean, boolean | string>(false, {
-    transform: booleanAttribute,
-  });
-  public readonly value = input<string>('on');
+  public readonly inputValue = input<string>('on', { alias: 'value' });
 
-  public readonly checkedChange = output<boolean>();
+  protected readonly resolvedChecked = computed(() => this.checked() === true);
 
   /**
    * Form-field integration. Exposed via `TNG_FORM_FIELD_CONTROL` so wrapping
@@ -89,12 +89,12 @@ export class TngSwitchComponent {
     }
 
     const nextValue = resolveTngSwitchArrowKey(event.key);
-    if (nextValue === null || nextValue === this.checked()) {
+    if (nextValue === null || nextValue === this.resolvedChecked()) {
       return;
     }
 
     event.preventDefault();
-    this.checkedChange.emit(nextValue);
+    this.checked.set(nextValue);
   }
 
   public onToggle(): void {
@@ -102,6 +102,6 @@ export class TngSwitchComponent {
       return;
     }
 
-    this.checkedChange.emit(toggleTngSwitchState(this.checked()));
+    this.checked.set(toggleTngSwitchState(this.resolvedChecked()));
   }
 }

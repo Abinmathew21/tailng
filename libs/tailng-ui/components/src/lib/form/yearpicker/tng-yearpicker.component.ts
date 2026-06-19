@@ -6,10 +6,11 @@ import {
   forwardRef,
   inject,
   input,
+  model,
   output,
-  signal,
   viewChild,
 } from '@angular/core';
+import type { FormValueControl } from '@angular/forms/signals';
 import {
   defaultDatepickerDateAdapter,
   type TngDateAdapter,
@@ -95,15 +96,12 @@ function createYearAdapter(month: number, day: number): TngDateAdapter<Date> {
     },
   ],
 })
-export class TngYearpickerComponent {
+export class TngYearpickerComponent implements FormValueControl<number | string | undefined> {
   private readonly hostEl: HTMLElement = inject(ElementRef<HTMLElement>).nativeElement;
   private readonly datepicker = viewChild<TngDatepickerComponent<Date>>('datepicker');
-  private readonly internalYear = signal<number | undefined>(undefined);
   private pendingYear: number | null = null;
 
-  public readonly value = input<number | undefined, number | string | undefined>(undefined, {
-    transform: (value) => (value === undefined ? undefined : normalizeYear(value)),
-  });
+  public readonly value = model<number | string | undefined>(undefined);
   public readonly defaultValue = input<number, number | string>(currentYear(), {
     transform: normalizeYear,
   });
@@ -129,10 +127,10 @@ export class TngYearpickerComponent {
   public readonly yearPageSize = input<number, number | string>(24, {
     transform: (value) => Math.max(4, Math.trunc(typeof value === 'number' ? value : Number(value))),
   });
-  public readonly invalid = input<boolean, boolean | string>(false, {
+  public readonly invalid = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly required = input<boolean, boolean | string>(false, {
+  public readonly required = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
 
@@ -151,10 +149,12 @@ export class TngYearpickerComponent {
     isRequired: () => this.required(),
   });
 
-  public readonly valueChange = output<number>();
   public readonly openChange = output<boolean>();
 
-  protected readonly selectedYear = computed(() => this.value() ?? this.internalYear() ?? this.defaultValue());
+  protected readonly selectedYear = computed(() => {
+    const controlled = this.value();
+    return controlled === undefined ? this.defaultValue() : normalizeYear(controlled);
+  });
   protected readonly selectedDate = computed(() =>
     createFixedYearDate(this.selectedYear(), this.fixedMonth(), this.fixedDay()),
   );
@@ -191,8 +191,7 @@ export class TngYearpickerComponent {
 
     const nextYear = this.pendingYear;
     this.pendingYear = null;
-    this.internalYear.set(nextYear);
-    this.valueChange.emit(nextYear);
+    this.value.set(nextYear);
     this.datepicker()?.close();
   }
 

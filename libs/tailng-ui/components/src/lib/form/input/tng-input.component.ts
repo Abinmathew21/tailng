@@ -1,15 +1,15 @@
 import {
   Component,
-  forwardRef,
   HostBinding,
   ViewChild,
   input,
+  model,
   output,
+  signal,
 } from '@angular/core';
 import { booleanAttribute } from '@angular/core';
 import type { ElementRef, InputSignalWithTransform } from '@angular/core';
-import type { ControlValueAccessor } from '@angular/forms';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import type { FormValueControl } from '@angular/forms/signals';
 
 import {
   coerceTngInputNullableBoolean,
@@ -26,7 +26,7 @@ import {
 } from '../input-field/tng-input-field.component';
 
 type NullableBooleanInput = boolean | null | string | undefined;
-type PatternInput = string | RegExp | readonly RegExp[] | null | undefined;
+type NumberTextMode = 'complete' | 'partial';
 
 function normalizeAttr(value: unknown): string | null {
   if (value === undefined || value === null) return null;
@@ -36,11 +36,14 @@ function normalizeAttr(value: unknown): string | null {
   return v.length > 0 ? v : null;
 }
 
-function readInputValue(event: unknown): string | null {
+function readInputElement(event: unknown): HTMLInputElement | null {
   if (!(event instanceof Event)) return null;
   const target = event.target;
-  if (!(target instanceof HTMLInputElement)) return null;
-  return target.value;
+  return target instanceof HTMLInputElement ? target : null;
+}
+
+function readInputValue(event: unknown): string | null {
+  return readInputElement(event)?.value ?? null;
 }
 
 function normalizeNumberAttr(value: number | string | null | undefined): string | null {
@@ -53,7 +56,7 @@ function normalizeOptionalNumberInput(value: number | string | null | undefined)
   return value ?? null;
 }
 
-function normalizePatternInput(value: PatternInput): readonly RegExp[] {
+function normalizePatternInput(value: unknown): readonly RegExp[] {
   if (value === undefined || value === null) return [];
 
   if (typeof value === 'string') {
@@ -63,7 +66,11 @@ function normalizePatternInput(value: PatternInput): readonly RegExp[] {
 
   if (value instanceof RegExp) return [value];
 
-  return value;
+  if (Array.isArray(value) && value.every((item) => item instanceof RegExp)) {
+    return value;
+  }
+
+  return [];
 }
 
 function formatPatternAttr(patterns: readonly RegExp[]): string | null {
@@ -85,14 +92,53 @@ function formatNumberValue(value: number): string {
   return Number.parseFloat(value.toPrecision(12)).toString();
 }
 
-function stringifyControlValue(value: unknown): string | null {
-  if (value === null || value === undefined) return null;
-  if (typeof value === 'string') return value;
-  if (typeof value === 'number' || typeof value === 'boolean' || typeof value === 'bigint') {
-    return String(value);
+function isDigit(value: string): boolean {
+  return value >= '0' && value <= '9';
+}
+
+function sanitizeNumberText(value: string, mode: NumberTextMode): string {
+  let sanitized = '';
+  let hasDecimal = false;
+  let hasDigit = false;
+  let hasMinus = false;
+
+  for (const char of value) {
+    if (isDigit(char)) {
+      sanitized += char;
+      hasDigit = true;
+      continue;
+    }
+
+    if (char === '-' && !hasMinus && sanitized.length === 0) {
+      sanitized += char;
+      hasMinus = true;
+      continue;
+    }
+
+    if (char === '.' && !hasDecimal) {
+      sanitized += char;
+      hasDecimal = true;
+    }
   }
 
-  return null;
+  if (mode === 'partial') return sanitized;
+  if (!hasDigit) return '';
+
+  if (sanitized.startsWith('-.')) {
+    sanitized = `-0.${sanitized.slice(2)}`;
+  } else if (sanitized.startsWith('.')) {
+    sanitized = `0${sanitized}`;
+  }
+
+  if (sanitized.endsWith('.')) {
+    sanitized = sanitized.slice(0, -1);
+  }
+
+  return sanitized === '-' ? '' : sanitized;
+}
+
+function isValidPartialNumberText(value: string): boolean {
+  return sanitizeNumberText(value, 'partial') === value;
 }
 
 function createInputEvent(inputElement: HTMLInputElement): Event {
@@ -104,26 +150,80 @@ function createInputEvent(inputElement: HTMLInputElement): Event {
   return event;
 }
 
+function readBeforeInputText(event: Event): string | null {
+  const data = (event as Event & { data?: unknown }).data;
+  return typeof data === 'string' ? data : null;
+}
+
+function readClipboardText(event: Event): string | null {
+  const clipboardData = (event as Event & { clipboardData?: unknown }).clipboardData;
+  if (
+    clipboardData === null ||
+    typeof clipboardData !== 'object' ||
+    !('getData' in clipboardData) ||
+    typeof clipboardData.getData !== 'function'
+  ) {
+    return null;
+  }
+
+  const textPlain = clipboardData.getData('text/plain');
+  return textPlain.length > 0 ? textPlain : clipboardData.getData('text');
+}
+
+function clampSelectionIndex(value: number, max: number): number {
+  return Math.min(Math.max(value, 0), max);
+}
+
+function readSelectionRange(inputElement: HTMLInputElement): { end: number; start: number } {
+  const fallback = inputElement.value.length;
+
+  try {
+    const start = inputElement.selectionStart;
+    const end = inputElement.selectionEnd;
+    if (typeof start === 'number' && typeof end === 'number') {
+      return {
+        start: clampSelectionIndex(start, fallback),
+        end: clampSelectionIndex(end, fallback),
+      };
+    }
+  } catch {
+    // Native number inputs do not expose text selection APIs in every browser.
+  }
+
+  return { start: fallback, end: fallback };
+}
+
+function replaceNumberTextRange(
+  currentValue: string,
+  insertion: string,
+  range: { end: number; start: number },
+): string {
+  const start = Math.min(range.start, range.end);
+  const end = Math.max(range.start, range.end);
+  return `${currentValue.slice(0, start)}${insertion}${currentValue.slice(end)}`;
+}
+
+function restoreCaret(inputElement: HTMLInputElement, index: number): void {
+  try {
+    inputElement.setSelectionRange(index, index);
+  } catch {
+    // Native number inputs may reject setSelectionRange.
+  }
+}
+
 @Component({
   selector: 'tng-input',
   standalone: true,
   imports: [TngInputFieldComponent, TngInput, TngInputFieldSuffix],
   templateUrl: './tng-input.component.html',
   styleUrl: './tng-input.component.css',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TngInputComponent),
-      multi: true,
-    },
-  ],
 })
-export class TngInputComponent implements ControlValueAccessor {
+export class TngInputComponent implements FormValueControl<string | null> {
   // ---- Wrapper (input-field) appearance knobs ----
   public readonly appearance = input<TngInputFieldAppearance>('outline');
   public readonly size = input<TngInputFieldSize>('md');
   public readonly tone = input<TngInputFieldTone>('neutral');
-  public readonly fullWidth = input<boolean, boolean | string>(true, {
+  public readonly fullWidth = input<boolean, unknown>(true, {
     transform: booleanAttribute,
   });
 
@@ -141,7 +241,7 @@ export class TngInputComponent implements ControlValueAccessor {
 
   public readonly autocapitalize = input<string | null>(null);
   public readonly autocomplete = input<string | null>(null);
-  public readonly disabled = input<boolean, boolean | string>(false, {
+  public readonly disabled = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
   public readonly enterkeyhint = input<string | null>(null);
@@ -149,27 +249,29 @@ export class TngInputComponent implements ControlValueAccessor {
   public readonly id = input<string | null>(null);
   public readonly inputmode = input<string | null>(null);
   public readonly list = input<string | null>(null);
-  public readonly name = input<string | null>(null);
-  public readonly pattern: InputSignalWithTransform<readonly RegExp[], PatternInput> = input<
+  public readonly inputName = input<string | null>(null, { alias: 'name' });
+  public readonly pattern: InputSignalWithTransform<readonly RegExp[], unknown> = input<
     readonly RegExp[],
-    PatternInput
+    unknown
   >([], {
     transform: normalizePatternInput,
   });
   public readonly placeholder = input<string | null>(null);
-  public readonly readonly = input<boolean, boolean | string>(false, {
+  public readonly readonly = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly required = input<boolean, boolean | string>(false, {
+  public readonly required = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
-  public readonly max = input<number | string | null, number | string | null | undefined>(null, {
+  public readonly maxValue = input<number | string | null, number | string | null | undefined>(null, {
+    alias: 'max',
     transform: normalizeOptionalNumberInput,
   });
   public readonly maxlength = input<number | string | null, number | string | null | undefined>(null, {
     transform: normalizeOptionalNumberInput,
   });
-  public readonly min = input<number | string | null, number | string | null | undefined>(null, {
+  public readonly minValue = input<number | string | null, number | string | null | undefined>(null, {
+    alias: 'min',
     transform: normalizeOptionalNumberInput,
   });
   public readonly minlength = input<number | string | null, number | string | null | undefined>(null, {
@@ -183,14 +285,10 @@ export class TngInputComponent implements ControlValueAccessor {
   });
   public readonly type = input<TngInputType>('text');
 
-  /**
-   * Controlled value input (only used when NOT using CVA).
-   * If you bind [value], you should also listen to (valueChange) (or use signals).
-   */
-  public readonly value = input<string | null>(null);
+  public readonly value = model<string | null>(null);
 
   // ---- Outputs ----
-  public readonly valueChange = output<string>();
+  public readonly touchedChange = output<void>();
   public readonly inputEvent = output<Event>({ alias: 'input' });
   public readonly changeEvent = output<Event>({ alias: 'change' });
   public readonly focusEvent = output<FocusEvent>({ alias: 'focus' });
@@ -198,16 +296,11 @@ export class TngInputComponent implements ControlValueAccessor {
   public readonly keydownEvent = output<KeyboardEvent>({ alias: 'keydown' });
   public readonly keyupEvent = output<KeyboardEvent>({ alias: 'keyup' });
 
-  // ---- CVA state ----
+  // ---- Signal forms adapter state ----
   @ViewChild('inputControl')
   private readonly inputControl: ElementRef<HTMLInputElement> | undefined;
 
-  private usingCva = false;
-  private cvaValue: string | null = null;
-  private cvaDisabled = false;
-
-  private onCvaChange: (value: string) => void = () => undefined;
-  private onTouched: () => void = () => undefined;
+  private readonly formDisabled = signal(false);
 
   // ---- Host attrs (optional, useful for styling/debug) ----
   @HostBinding('attr.data-slot')
@@ -240,34 +333,23 @@ export class TngInputComponent implements ControlValueAccessor {
 
   // ---- Derived values for template ----
   protected get effectiveValue(): string {
-    const v = this.usingCva ? this.cvaValue : this.value();
-    return v ?? '';
+    return this.value() ?? '';
   }
 
   protected get effectiveDisabled(): boolean {
-    return this.cvaDisabled || this.disabled();
+    return this.formDisabled() || this.disabled();
   }
 
   protected get isNumberInput(): boolean {
     return this.type() === 'number';
   }
 
-  // ---- CVA ----
-  public writeValue(value: unknown): void {
-    this.usingCva = true;
-    this.cvaValue = stringifyControlValue(value);
+  private get isEditableNumberInput(): boolean {
+    return this.isNumberInput && !this.effectiveDisabled && !this.readonly();
   }
 
-  public registerOnChange(fn: (value: string) => void): void {
-    this.onCvaChange = fn;
-  }
-
-  public registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  public setDisabledState(isDisabled: boolean): void {
-    this.cvaDisabled = isDisabled;
+  public setFormDisabledState(isDisabled: boolean): void {
+    this.formDisabled.set(isDisabled);
   }
 
   // ---- DOM handlers ----
@@ -276,13 +358,57 @@ export class TngInputComponent implements ControlValueAccessor {
       event.stopPropagation();
     }
 
-    const next = readInputValue(event);
+    let next = readInputValue(event);
     if (next === null) return;
 
     // If disabled, ignore (optional safety)
     if (this.effectiveDisabled) return;
 
+    if (this.isNumberInput) {
+      const sanitized = sanitizeNumberText(next, 'partial');
+      if (sanitized !== next) {
+        next = sanitized;
+        const inputElement = readInputElement(event);
+        if (inputElement !== null) {
+          inputElement.value = sanitized;
+        }
+      }
+    }
+
     this.commitValue(next, event);
+  }
+
+  public onBeforeInput(event: unknown): void {
+    if (!(event instanceof Event) || !this.isEditableNumberInput) return;
+
+    const inputElement = readInputElement(event);
+    const text = readBeforeInputText(event);
+    if (inputElement === null || text === null || text.length === 0) return;
+
+    const next = replaceNumberTextRange(inputElement.value, text, readSelectionRange(inputElement));
+    if (!isValidPartialNumberText(next)) {
+      event.preventDefault();
+    }
+  }
+
+  public onPaste(event: unknown): void {
+    if (!(event instanceof Event) || !this.isEditableNumberInput) return;
+
+    const inputElement = readInputElement(event);
+    const clipboardText = readClipboardText(event);
+    if (inputElement === null || clipboardText === null) return;
+
+    event.preventDefault();
+
+    const insertion = sanitizeNumberText(clipboardText, 'partial');
+    const next = sanitizeNumberText(
+      replaceNumberTextRange(inputElement.value, insertion, readSelectionRange(inputElement)),
+      'complete',
+    );
+
+    inputElement.value = next;
+    restoreCaret(inputElement, next.length);
+    this.commitValue(next, createInputEvent(inputElement));
   }
 
   public onKeydown(event: unknown): void {
@@ -349,7 +475,7 @@ export class TngInputComponent implements ControlValueAccessor {
   }
 
   private setNumberBoundaryFromKey(event: KeyboardEvent, boundary: 'max' | 'min'): void {
-    const boundaryValue = readFiniteNumber(boundary === 'min' ? this.min() : this.max());
+    const boundaryValue = readFiniteNumber(boundary === 'min' ? this.minValue() : this.maxValue());
     if (boundaryValue === null) return;
 
     event.preventDefault();
@@ -363,19 +489,7 @@ export class TngInputComponent implements ControlValueAccessor {
   }
 
   private commitValue(next: string, event: unknown): void {
-    // Keep CVA in sync when used
-    if (this.usingCva) {
-      if (this.cvaValue === next) {
-        // Still forward the raw event output if you want:
-        if (event instanceof Event) this.inputEvent.emit(event);
-        return;
-      }
-      this.cvaValue = next;
-      this.onCvaChange(next);
-    }
-
-    // For controlled-input usage, emit valueChange always
-    this.valueChange.emit(next);
+    this.value.set(next);
 
     if (event instanceof Event) {
       this.inputEvent.emit(event);
@@ -383,8 +497,8 @@ export class TngInputComponent implements ControlValueAccessor {
   }
 
   private nextSteppedValue(currentValue: string, delta: -1 | 1, stepCount: number): string {
-    const min = readFiniteNumber(this.min());
-    const max = readFiniteNumber(this.max());
+    const min = readFiniteNumber(this.minValue());
+    const max = readFiniteNumber(this.maxValue());
     const step = readFiniteNumber(this.step()) ?? 1;
     const current = readFiniteNumber(currentValue) ?? min ?? 0;
     const nextStep = step > 0 ? step : 1;
@@ -401,7 +515,7 @@ export class TngInputComponent implements ControlValueAccessor {
       event.stopPropagation();
     }
 
-    this.onTouched();
+    this.touchedChange.emit();
     if (event instanceof FocusEvent) {
       this.blurEvent.emit(event);
     }

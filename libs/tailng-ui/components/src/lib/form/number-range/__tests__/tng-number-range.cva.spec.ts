@@ -5,14 +5,15 @@ import { describe, expect, it } from 'vitest';
 
 import type { TngNumberRangeValue } from '@tailng-ui/primitives';
 
+import { TngNumberRangeAngularFormsAdapter } from '../../angular-forms-adapters';
 import { TngNumberRangeComponent } from '../tng-number-range.component';
 
 // ── Hosts ────────────────────────────────────────────────────────────────────
 
 @Component({
-  imports: [ReactiveFormsModule, TngNumberRangeComponent],
+  imports: [ReactiveFormsModule, TngNumberRangeComponent, TngNumberRangeAngularFormsAdapter],
   template: `
-    <tng-number-range [formControl]="control" />
+    <tng-number-range tngAngularForms [formControl]="control" />
   `,
 })
 class ReactiveFormControlHostComponent {
@@ -20,10 +21,10 @@ class ReactiveFormControlHostComponent {
 }
 
 @Component({
-  imports: [ReactiveFormsModule, TngNumberRangeComponent],
+  imports: [ReactiveFormsModule, TngNumberRangeComponent, TngNumberRangeAngularFormsAdapter],
   template: `
     <form [formGroup]="form">
-      <tng-number-range formControlName="range" />
+      <tng-number-range tngAngularForms formControlName="range" />
     </form>
   `,
 })
@@ -34,9 +35,9 @@ class ReactiveFormGroupHostComponent {
 }
 
 @Component({
-  imports: [FormsModule, TngNumberRangeComponent],
+  imports: [FormsModule, TngNumberRangeComponent, TngNumberRangeAngularFormsAdapter],
   template: `
-    <tng-number-range [(ngModel)]="value" name="priceRange" />
+    <tng-number-range tngAngularForms [(ngModel)]="value" name="priceRange" />
   `,
 })
 class NgModelHostComponent {
@@ -72,29 +73,19 @@ function dispatchBlur(input: HTMLInputElement): void {
 
 // ── Tests ────────────────────────────────────────────────────────────────────
 
-describe('tng-number-range: ControlValueAccessor', () => {
-  it('should implement writeValue', () => {
+describe('tng-number-range: legacy Angular forms adapter', () => {
+  it('keeps ControlValueAccessor methods out of the component class', () => {
     const fixture = setup(ReactiveFormControlHostComponent);
-    const component = fixture.debugElement.children[0].componentInstance as TngNumberRangeComponent;
-    expect(typeof component.writeValue).toBe('function');
-  });
-
-  it('should implement registerOnChange', () => {
-    const fixture = setup(ReactiveFormControlHostComponent);
-    const component = fixture.debugElement.children[0].componentInstance as TngNumberRangeComponent;
-    expect(typeof component.registerOnChange).toBe('function');
-  });
-
-  it('should implement registerOnTouched', () => {
-    const fixture = setup(ReactiveFormControlHostComponent);
-    const component = fixture.debugElement.children[0].componentInstance as TngNumberRangeComponent;
-    expect(typeof component.registerOnTouched).toBe('function');
-  });
-
-  it('should implement setDisabledState', () => {
-    const fixture = setup(ReactiveFormControlHostComponent);
-    const component = fixture.debugElement.children[0].componentInstance as TngNumberRangeComponent;
-    expect(typeof component.setDisabledState).toBe('function');
+    const component = fixture.debugElement.children[0].componentInstance as TngNumberRangeComponent & {
+      registerOnChange?: unknown;
+      registerOnTouched?: unknown;
+      setDisabledState?: unknown;
+      writeValue?: unknown;
+    };
+    expect(component.writeValue).toBeUndefined();
+    expect(component.registerOnChange).toBeUndefined();
+    expect(component.registerOnTouched).toBeUndefined();
+    expect(component.setDisabledState).toBeUndefined();
   });
 
   it('should write min and max values from form control', () => {

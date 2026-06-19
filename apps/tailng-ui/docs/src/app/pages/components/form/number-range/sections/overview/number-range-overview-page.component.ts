@@ -117,18 +117,19 @@ export class NumberRangeOverviewPageComponent implements OnDestroy {
     '',
   ].join('\n');
 
-  protected readonly cvaUsageCode = [
+  protected readonly legacyFormsUsageCode = [
     "import { Component } from '@angular/core';",
     "import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';",
-    "import { TngNumberRangeComponent } from '@tailng-ui/components';",
+    "import { TngNumberRangeAngularFormsAdapter, TngNumberRangeComponent } from '@tailng-ui/components';",
     '',
     '@Component({',
     "  selector: 'app-range-form',",
     '  standalone: true,',
-    '  imports: [ReactiveFormsModule, TngNumberRangeComponent],',
+    '  imports: [ReactiveFormsModule, TngNumberRangeComponent, TngNumberRangeAngularFormsAdapter],',
     '  template: `',
     '    <form [formGroup]="form">',
     '      <tng-number-range',
+    '        tngAngularForms',
     '        formControlName="priceRange"',
     '        [min]="0"',
     '        [max]="1000"',
