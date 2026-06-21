@@ -101,8 +101,12 @@ class NumberInputHostComponent {
   }
 }
 
-function dispatchKeyboardEvent(inputEl: HTMLInputElement, key: string): KeyboardEvent {
-  const event = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key });
+function dispatchKeyboardEvent(
+  inputEl: HTMLInputElement,
+  key: string,
+  init: KeyboardEventInit = {},
+): KeyboardEvent {
+  const event = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key, ...init });
   inputEl.dispatchEvent(event);
   return event;
 }
@@ -138,6 +142,27 @@ function setSelectionRangeForTest(inputEl: HTMLInputElement, start: number, end 
   Object.defineProperty(inputEl, 'selectionEnd', {
     configurable: true,
     value: end,
+  });
+}
+
+function makeSelectionApiUnavailableForTest(inputEl: HTMLInputElement): void {
+  Object.defineProperty(inputEl, 'selectionStart', {
+    configurable: true,
+    get: () => {
+      throw new Error('selectionStart is unavailable for number input');
+    },
+  });
+  Object.defineProperty(inputEl, 'selectionEnd', {
+    configurable: true,
+    get: () => {
+      throw new Error('selectionEnd is unavailable for number input');
+    },
+  });
+  Object.defineProperty(inputEl, 'setSelectionRange', {
+    configurable: true,
+    value: () => {
+      throw new Error('setSelectionRange is unavailable for number input');
+    },
   });
 }
 
@@ -560,6 +585,104 @@ describe('<tng-input> component', () => {
     expect(inputEl.value).toBe('19.85');
     expect(fixture.componentInstance.emittedValue).toBe('19.85');
     expect(fixture.componentInstance.inputEventCount).toBe(1);
+  });
+
+  it('replaces a selected default number value with pasted numbers across scenarios', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+
+    const cases: ReadonlyArray<{ current: string; expected: string; pasted: string }> = [
+      { current: '42', pasted: '100', expected: '100' },
+      { current: '12.5', pasted: '-98.75', expected: '-98.75' },
+      { current: '-10', pasted: '.25', expected: '0.25' },
+      { current: '5', pasted: '$1,234.50abc', expected: '1234.50' },
+      { current: '99.9', pasted: '12.3.4x', expected: '12.34' },
+    ];
+
+    for (const { current, pasted, expected } of cases) {
+      const fixture = TestBed.createComponent(NumberInputHostComponent);
+      fixture.componentInstance.value = current;
+      fixture.detectChanges();
+
+      const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+      expect(inputEl.value).toBe(current);
+
+      setSelectionRangeForTest(inputEl, 0, inputEl.value.length);
+      const pasteEvent = dispatchPasteEvent(inputEl, pasted);
+      fixture.detectChanges();
+
+      expect(pasteEvent.defaultPrevented).toBe(true);
+      expect(inputEl.value).toBe(expected);
+      expect(fixture.componentInstance.emittedValue).toBe(expected);
+      expect(fixture.componentInstance.inputEventCount).toBe(1);
+      expect(fixture.componentInstance.inputEventValue).toBe(expected);
+
+      fixture.destroy();
+    }
+  });
+
+  it('replaces Ctrl+A selected number values when native number selection APIs are unavailable', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+
+    const cases: ReadonlyArray<{
+      current: string;
+      emittedValue: string | null;
+      expected: string;
+      pasted: string;
+      shortcut: KeyboardEventInit;
+    }> = [
+      { current: '34', pasted: '34', expected: '34', emittedValue: null, shortcut: { ctrlKey: true } },
+      { current: '34', pasted: '56', expected: '56', emittedValue: '56', shortcut: { ctrlKey: true } },
+      {
+        current: '-12.5',
+        pasted: '$98.00x',
+        expected: '98.00',
+        emittedValue: '98.00',
+        shortcut: { metaKey: true },
+      },
+    ];
+
+    for (const { current, pasted, expected, emittedValue, shortcut } of cases) {
+      const fixture = TestBed.createComponent(NumberInputHostComponent);
+      fixture.componentInstance.value = current;
+      fixture.detectChanges();
+
+      const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+      makeSelectionApiUnavailableForTest(inputEl);
+
+      dispatchKeyboardEvent(inputEl, 'a', shortcut);
+      const pasteEvent = dispatchPasteEvent(inputEl, pasted);
+      fixture.detectChanges();
+
+      expect(pasteEvent.defaultPrevented).toBe(true);
+      expect(inputEl.value).toBe(expected);
+      expect(fixture.componentInstance.emittedValue).toBe(emittedValue);
+      expect(fixture.componentInstance.inputEventCount).toBe(1);
+      expect(fixture.componentInstance.inputEventValue).toBe(expected);
+
+      fixture.destroy();
+    }
+  });
+
+  it('preserves Ctrl+A selection through copy before replacing the number on paste', async () => {
+    await TestBed.configureTestingModule({ imports: [NumberInputHostComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(NumberInputHostComponent);
+    fixture.componentInstance.value = '34';
+    fixture.detectChanges();
+
+    const inputEl = fixture.debugElement.query(By.css('input')).nativeElement as HTMLInputElement;
+    makeSelectionApiUnavailableForTest(inputEl);
+
+    dispatchKeyboardEvent(inputEl, 'a', { ctrlKey: true });
+    dispatchKeyboardEvent(inputEl, 'c', { ctrlKey: true });
+    dispatchKeyboardEvent(inputEl, 'v', { ctrlKey: true });
+    const pasteEvent = dispatchPasteEvent(inputEl, '34');
+    fixture.detectChanges();
+
+    expect(pasteEvent.defaultPrevented).toBe(true);
+    expect(inputEl.value).toBe('34');
+    expect(fixture.componentInstance.emittedValue).toBeNull();
+    expect(fixture.componentInstance.inputEventCount).toBe(1);
+    expect(fixture.componentInstance.inputEventValue).toBe('34');
   });
 
   it('does not sanitize paste events for readonly or disabled number inputs', async () => {

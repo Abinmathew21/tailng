@@ -174,7 +174,10 @@ function clampSelectionIndex(value: number, max: number): number {
   return Math.min(Math.max(value, 0), max);
 }
 
-function readSelectionRange(inputElement: HTMLInputElement): { end: number; start: number } {
+function readSelectionRange(
+  inputElement: HTMLInputElement,
+  fallbackRange: { end: number; start: number } | null = null,
+): { end: number; start: number } {
   const fallback = inputElement.value.length;
 
   try {
@@ -188,6 +191,13 @@ function readSelectionRange(inputElement: HTMLInputElement): { end: number; star
     }
   } catch {
     // Native number inputs do not expose text selection APIs in every browser.
+  }
+
+  if (fallbackRange !== null) {
+    return {
+      start: clampSelectionIndex(fallbackRange.start, fallback),
+      end: clampSelectionIndex(fallbackRange.end, fallback),
+    };
   }
 
   return { start: fallback, end: fallback };
@@ -209,6 +219,10 @@ function restoreCaret(inputElement: HTMLInputElement, index: number): void {
   } catch {
     // Native number inputs may reject setSelectionRange.
   }
+}
+
+function isSelectAllShortcut(event: KeyboardEvent): boolean {
+  return event.key.toLowerCase() === 'a' && (event.ctrlKey || event.metaKey) && !event.altKey;
 }
 
 @Component({
@@ -301,6 +315,7 @@ export class TngInputComponent implements FormValueControl<string | null> {
   private readonly inputControl: ElementRef<HTMLInputElement> | undefined;
 
   private readonly formDisabled = signal(false);
+  private numberSelectionRange: { end: number; start: number } | null = null;
 
   // ---- Host attrs (optional, useful for styling/debug) ----
   @HostBinding('attr.data-slot')
@@ -365,6 +380,7 @@ export class TngInputComponent implements FormValueControl<string | null> {
     if (this.effectiveDisabled) return;
 
     if (this.isNumberInput) {
+      this.numberSelectionRange = null;
       const sanitized = sanitizeNumberText(next, 'partial');
       if (sanitized !== next) {
         next = sanitized;
@@ -402,10 +418,15 @@ export class TngInputComponent implements FormValueControl<string | null> {
 
     const insertion = sanitizeNumberText(clipboardText, 'partial');
     const next = sanitizeNumberText(
-      replaceNumberTextRange(inputElement.value, insertion, readSelectionRange(inputElement)),
+      replaceNumberTextRange(
+        inputElement.value,
+        insertion,
+        readSelectionRange(inputElement, this.numberSelectionRange),
+      ),
       'complete',
     );
 
+    this.numberSelectionRange = null;
     inputElement.value = next;
     restoreCaret(inputElement, next.length);
     this.commitValue(next, createInputEvent(inputElement));
@@ -418,6 +439,11 @@ export class TngInputComponent implements FormValueControl<string | null> {
     this.keydownEvent.emit(event);
 
     if (!this.isNumberInput || this.effectiveDisabled) return;
+
+    const inputElement = readInputElement(event);
+    if (inputElement !== null && this.isEditableNumberInput && isSelectAllShortcut(event)) {
+      this.numberSelectionRange = { start: 0, end: inputElement.value.length };
+    }
 
     switch (event.key) {
       case 'ArrowUp':
