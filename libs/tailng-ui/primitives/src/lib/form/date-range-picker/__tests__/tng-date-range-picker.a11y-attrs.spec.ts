@@ -123,4 +123,16 @@ describe('tng-date-range-picker accessibility attributes', () => {
     expect(outputs.getTriggerAttributes()['aria-controls']).toBe('stable-range-overlay');
     expect(new Set(ids).size).toBe(ids.length);
   });
+
+  it('removes the trigger from tab order while the overlay is open', () => {
+    const controller = createController();
+
+    expect(controller.getOutputs().getTriggerAttributes().tabindex).toBeUndefined();
+
+    controller.open();
+    expect(controller.getOutputs().getTriggerAttributes().tabindex).toBe('-1');
+
+    controller.close();
+    expect(controller.getOutputs().getTriggerAttributes().tabindex).toBeUndefined();
+  });
 });

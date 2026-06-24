@@ -304,10 +304,12 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
   private cachedMonthVersion = -1;
   private cachedYearVersion = -1;
   private triggerElement: HTMLElement | null = null;
+  private anchorElement: HTMLElement | null = null;
   private overlayElement: HTMLElement | null = null;
   private restoreFocusTargetId: string | null = null;
   private focusLayerRegistered = false;
   private overlayLayerRegistered = false;
+  private skipNextFocusRestore = false;
 
   public constructor(config: Readonly<TngDateRangePickerConfig<TDate>>) {
     this.instanceId = config.id?.trim() || createDateRangePickerId();
@@ -746,6 +748,14 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
 
   public registerTrigger(element: HTMLElement | null): void {
     this.triggerElement = element;
+  }
+
+  public registerAnchor(element: HTMLElement | null): void {
+    this.anchorElement = element;
+  }
+
+  public suppressFocusRestoreOnClose(): void {
+    this.skipNextFocusRestore = true;
   }
 
   public selectDate(
@@ -2010,7 +2020,8 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     this.config.overlayRuntime.registerLayer({
       containsTarget: (target) =>
         (target instanceof Node && this.overlayElement?.contains(target) === true) ||
-        (target instanceof Node && this.triggerElement?.contains(target) === true),
+        (target instanceof Node && this.triggerElement?.contains(target) === true) ||
+        (target instanceof Node && this.anchorElement?.contains(target) === true),
       dismissOnEscape: this.config.closeOnEscape,
       dismissOnOutsidePointer: this.config.closeOnOutsideClick,
       id: `${this.instanceId}-layer`,
@@ -2035,7 +2046,9 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     }
 
     const restoreFocusTargetId = dateRangePickerFocusHandoff.deactivateLayer(this.instanceId);
-    if (!this.config.restoreFocus || restoreFocusTargetId === null) {
+    const skipRestore = this.skipNextFocusRestore;
+    this.skipNextFocusRestore = false;
+    if (!this.config.restoreFocus || restoreFocusTargetId === null || skipRestore) {
       return;
     }
 
@@ -2356,6 +2369,7 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
       'data-open': this.state.open ? 'true' : 'false',
       'data-slot': 'date-range-picker-trigger',
       disabled: this.state.disabled ? 'true' : null,
+      tabindex: this.state.open ? '-1' : undefined,
     });
   }
 

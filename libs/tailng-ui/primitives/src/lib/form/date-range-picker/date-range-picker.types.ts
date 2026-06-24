@@ -317,7 +317,9 @@ export type TngDateRangePickerController<TDate> = Readonly<{
   prevMonth: () => void;
   prevYear: () => void;
   registerOverlay: (element: HTMLElement | null) => void;
+  registerAnchor: (element: HTMLElement | null) => void;
   registerTrigger: (element: HTMLElement | null) => void;
+  suppressFocusRestoreOnClose: () => void;
   selectDate: (
     date: TngDateInputValue<TDate>,
     options?: Readonly<{ shiftKey?: boolean; trigger?: TngDateRangePickerTrigger }>,

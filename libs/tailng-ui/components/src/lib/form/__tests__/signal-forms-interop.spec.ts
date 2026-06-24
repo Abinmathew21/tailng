@@ -867,6 +867,8 @@ describe('tailng-ui signal forms interop', () => {
     input.dispatchEvent(new Event('input', { bubbles: true }));
     await settle(fixture);
 
+    await openDateRangePicker(fixture);
+    input.focus();
     keydown(input, 'Enter');
     await settle(fixture);
 

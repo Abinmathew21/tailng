@@ -106,8 +106,10 @@ export class TngDateRangePickerComponent<TDate = Date>
   private readonly fallbackInputId = createDateRangePickerInputId();
   private readonly ownerDocument = this.hostElement.nativeElement.ownerDocument ?? null;
   private readonly renderVersion = signal(0);
+  private readonly anchorRef = viewChild<ElementRef<HTMLElement>>('anchorShell');
   private readonly triggerRef = viewChild<ElementRef<HTMLElement>>('triggerButton');
   private appliedInitialState = false;
+  private suppressNextOverlayFocusSync = false;
   protected readonly controller = createDateRangePickerController<TDate>({
     allowManualInput: true,
     autoCommitView: false,
@@ -262,6 +264,11 @@ export class TngDateRangePickerComponent<TDate = Date>
 
   public constructor() {
     effect(() => {
+      const anchor = this.anchorRef()?.nativeElement ?? null;
+      this.controller.registerAnchor(anchor);
+    });
+
+    effect(() => {
       this.syncTrigger();
     });
 
@@ -290,7 +297,10 @@ export class TngDateRangePickerComponent<TDate = Date>
         break;
       case 'opened':
         this.openChange.emit(true);
-        this.queueOverlayFocusSync();
+        if (!this.suppressNextOverlayFocusSync) {
+          this.queueOverlayFocusSync();
+        }
+        this.suppressNextOverlayFocusSync = false;
         break;
       case 'previewChange':
         this.previewEndDateChange.emit(event.previewEndDate);
@@ -483,9 +493,41 @@ export class TngDateRangePickerComponent<TDate = Date>
   }
 
   protected onInputKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Tab' && this.outputs().open) {
+      this.controller.suppressFocusRestoreOnClose();
+      this.controller.close('programmatic');
+      return;
+    }
+
     if (event.key === 'Enter' && this.allowManualInput()) {
       event.preventDefault();
+      if (!this.outputs().open) {
+        this.suppressNextOverlayFocusSync = true;
+        this.controller.open();
+        const target = event.target;
+        if (target instanceof HTMLInputElement) {
+          target.focus();
+        }
+        this.renderVersion.update((value) => value + 1);
+        return;
+      }
+
       this.controller.commitInputText();
+      this.renderVersion.update((value) => value + 1);
+      return;
+    }
+
+    if (
+      this.outputs().open &&
+      this.isDayView() &&
+      (event.key === 'ArrowLeft' ||
+        event.key === 'ArrowRight' ||
+        event.key === 'ArrowUp' ||
+        event.key === 'ArrowDown')
+    ) {
+      event.preventDefault();
+      this.controller.handleGridKeyDown(event);
+      this.queueOverlayFocusSync();
       this.renderVersion.update((value) => value + 1);
       return;
     }

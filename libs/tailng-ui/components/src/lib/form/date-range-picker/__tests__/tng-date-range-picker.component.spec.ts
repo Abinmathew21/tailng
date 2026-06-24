@@ -14,6 +14,42 @@ function keydown(target: EventTarget, key: string): KeyboardEvent {
   return event;
 }
 
+function focus(el: HTMLElement): void {
+  el.dispatchEvent(new FocusEvent('focus', { bubbles: false, cancelable: false }));
+  el.focus();
+}
+
+function dispatchTabAndSimulateBrowserFocus(
+  source: HTMLElement,
+  target: HTMLElement,
+  shiftKey = false,
+): KeyboardEvent {
+  const event = new KeyboardEvent('keydown', {
+    key: 'Tab',
+    shiftKey,
+    bubbles: true,
+    cancelable: true,
+  });
+
+  source.dispatchEvent(event);
+  source.dispatchEvent(
+    new FocusEvent('focusout', {
+      bubbles: true,
+      relatedTarget: target,
+    }),
+  );
+
+  target.focus();
+  target.dispatchEvent(
+    new FocusEvent('focusin', {
+      bubbles: true,
+      relatedTarget: source,
+    }),
+  );
+
+  return event;
+}
+
 async function settle(fixture: {
   detectChanges(): void;
   whenStable(): Promise<unknown>;
@@ -88,6 +124,15 @@ async function openOverlayByKeyboard(fixture: FixtureLike): Promise<void> {
   const trigger = getRequired<HTMLButtonElement>(fixture, '[data-slot="date-range-picker-trigger"]');
   trigger.focus();
   keydown(trigger, 'Enter');
+  await settle(fixture);
+  await waitForAnimationFrame();
+  await settle(fixture);
+}
+
+async function openOverlayByInputEnter(fixture: FixtureLike): Promise<void> {
+  const input = getRequired<HTMLInputElement>(fixture, '[data-slot="date-range-picker-input"]');
+  focus(input);
+  keydown(input, 'Enter');
   await settle(fixture);
   await waitForAnimationFrame();
   await settle(fixture);
@@ -255,6 +300,11 @@ async function expectInputCommitReopensSelectedRange(
 
   keydown(input, 'Enter');
   await settle(fixture);
+  await waitForAnimationFrame();
+  await settle(fixture);
+
+  keydown(input, 'Enter');
+  await settle(fixture);
   expect(input.value).toBe(nextInputValue);
 
   await openOverlay(fixture);
@@ -273,6 +323,21 @@ async function expectInputCommitReopensSelectedRange(
       'true',
     );
   }
+}
+
+@Component({
+  imports: [TngDateRangePickerComponent],
+  template: `
+    <button type="button" data-testid="before-button">Before</button>
+    <tng-date-range-picker
+      [defaultValue]="{ start: '2024-04-22', end: '2024-04-24' }"
+      (openChange)="openChanges.push($event)"
+    />
+    <button type="button" data-testid="after-button">After</button>
+  `,
+})
+class DateRangePickerTabFocusHostComponent {
+  public readonly openChanges: boolean[] = [];
 }
 
 @Component({
@@ -491,6 +556,8 @@ describe('tng-date-range-picker component behavior', () => {
     input.dispatchEvent(new Event('input', { bubbles: true }));
     await settle(fixture);
 
+    await openOverlay(fixture);
+    input.focus();
     keydown(input, 'Enter');
     await settle(fixture);
 
@@ -575,6 +642,8 @@ describe('tng-date-range-picker component behavior', () => {
     input.dispatchEvent(new Event('input', { bubbles: true }));
     await settle(fixture);
 
+    await openOverlay(fixture);
+    input.focus();
     keydown(input, 'Enter');
     await settle(fixture);
 
@@ -781,5 +850,100 @@ describe('tng-date-range-picker component behavior', () => {
     ).toBe('04-01-2024 – 04-30-2024');
     expect(getDayButton(document.body, '1').getAttribute('data-range-start')).toBe('true');
     expect(getDayButton(document.body, '30').getAttribute('data-range-end')).toBe('true');
+  });
+
+  it('opens the overlay from the input with Enter and lets Tab move focus to the next focusable element', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DateRangePickerTabFocusHostComponent],
+    }).createComponent(DateRangePickerTabFocusHostComponent);
+
+    await settle(fixture);
+
+    const input = getRequired<HTMLInputElement>(fixture, '[data-slot="date-range-picker-input"]');
+    const trigger = getRequired<HTMLButtonElement>(fixture, '[data-slot="date-range-picker-trigger"]');
+    const afterButton = getRequired<HTMLButtonElement>(fixture, '[data-testid="after-button"]');
+
+    focus(input);
+    keydown(input, 'Enter');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expect(fixture.componentInstance.openChanges).toEqual([true]);
+    expect(
+      getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="date-range-picker-overlay"]').getAttribute(
+        'hidden',
+      ),
+    ).toBeNull();
+    expect(document.activeElement).toBe(input);
+    expect(trigger.getAttribute('tabindex')).toBe('-1');
+
+    const tabEvent = dispatchTabAndSimulateBrowserFocus(input, afterButton);
+    await settle(fixture);
+
+    expect(tabEvent.defaultPrevented).toBe(false);
+    expect(document.activeElement).toBe(afterButton);
+    expect(document.activeElement).not.toBe(trigger);
+  });
+
+  it('opens from the input with Enter, navigates the day grid with arrow keys, and selects a range with Enter', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+    fixture.componentInstance.defaultValue.set(undefined);
+    fixture.componentInstance.closeOnSelect.set(false);
+    fixture.componentInstance.today.set('2024-04-18');
+
+    await settle(fixture);
+
+    const input = getRequired<HTMLInputElement>(fixture, '[data-slot="date-range-picker-input"]');
+
+    await openOverlayByInputEnter(fixture);
+
+    expect(getActiveDayCell().textContent?.trim()).toBe('18');
+
+    keydown(input, 'ArrowRight');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+    keydown(input, 'ArrowRight');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expect(getActiveDayCell().textContent?.trim()).toBe('20');
+    expect(document.activeElement).toBe(getActiveDayCell());
+
+    keydown(document.activeElement as HTMLElement, 'Enter');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    keydown(input, 'ArrowRight');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+    keydown(input, 'ArrowRight');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+    keydown(input, 'ArrowRight');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+    keydown(input, 'ArrowRight');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expect(getActiveDayCell().textContent?.trim()).toBe('24');
+
+    keydown(document.activeElement as HTMLElement, 'Enter');
+    await settle(fixture);
+
+    expectRangeValue(fixture.componentInstance.valueChanges.at(-1), '2024-04-20', '2024-04-24');
+    expect(input.value).toBe('04-20-2024 – 04-24-2024');
+    expect(getDayButton(document.body, '20').getAttribute('data-range-start')).toBe('true');
+    expect(getDayButton(document.body, '24').getAttribute('data-range-end')).toBe('true');
   });
 });

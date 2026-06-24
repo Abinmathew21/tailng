@@ -375,6 +375,12 @@ export class TngDateRangePickerTrigger extends TngDateRangePickerControllerPart 
     return this.controller().getOutputs().getTriggerAttributes()['data-open'] ?? null;
   }
 
+  @HostBinding('attr.tabindex')
+  protected get tabindex(): string | null {
+    this.renderVersion();
+    return this.controller().getOutputs().getTriggerAttributes()['tabindex'] ?? null;
+  }
+
   @HostListener('click')
   protected onClick(): void {
     const wasOpen = this.controller().getOutputs().open;
