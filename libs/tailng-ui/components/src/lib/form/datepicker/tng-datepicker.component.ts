@@ -471,6 +471,21 @@ export class TngDatepickerComponent<TDate = Date>
       return;
     }
 
+    if (
+      this.outputs().open &&
+      this.isDayView() &&
+      (event.key === 'ArrowLeft' ||
+        event.key === 'ArrowRight' ||
+        event.key === 'ArrowUp' ||
+        event.key === 'ArrowDown')
+    ) {
+      event.preventDefault();
+      this.controller.handleGridKeyDown(event);
+      this.queueOverlayFocusSync();
+      this.renderVersion.update((value) => value + 1);
+      return;
+    }
+
     if (event.key === 'ArrowDown' && !this.outputs().open) {
       event.preventDefault();
       this.controller.open();

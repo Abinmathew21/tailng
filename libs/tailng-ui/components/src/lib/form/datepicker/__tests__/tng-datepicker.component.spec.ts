@@ -162,6 +162,13 @@ function getSelectedDayCell(): HTMLButtonElement {
   return getRequiredFromRoot<HTMLButtonElement>(document.body, '[data-slot="datepicker-cell"][data-selected="true"]');
 }
 
+function getActiveDayCell(): HTMLButtonElement {
+  return getRequiredFromRoot<HTMLButtonElement>(
+    document.body,
+    '[data-slot="datepicker-cell"][data-active="true"]',
+  );
+}
+
 function getPickerButton(slot: 'datepicker-month' | 'datepicker-year', label: string): HTMLButtonElement {
   const button = Array.from(document.body.querySelectorAll(`[data-slot="${slot}"]`)).find(
     (element) => (element as HTMLElement).textContent?.trim() === label,
@@ -880,5 +887,48 @@ describe('tng-datepicker component behavior', () => {
     expect(tabEvent.defaultPrevented).toBe(false);
     expect(document.activeElement).toBe(afterButton);
     expect(document.activeElement).not.toBe(trigger);
+  });
+
+  it('opens from the input with Enter, navigates the day grid with arrow keys, and selects a date with Enter', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDatepickerHostComponent],
+    }).createComponent(UncontrolledDatepickerHostComponent);
+
+    await settle(fixture);
+
+    const input = getRequired<HTMLInputElement>(fixture, '[data-slot="datepicker-input"]');
+    expect(input.value).toBe('04-22-2024');
+
+    focus(input);
+    keydown(input, 'Enter');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expect(fixture.componentInstance.openChanges).toEqual([true]);
+    expect(getActiveDayCell().textContent?.trim()).toBe('22');
+
+    keydown(input, 'ArrowRight');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+    keydown(input, 'ArrowRight');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expect(getActiveDayCell().textContent?.trim()).toBe('24');
+    expect(document.activeElement).toBe(getActiveDayCell());
+
+    keydown(document.activeElement as HTMLElement, 'Enter');
+    await settle(fixture);
+
+    const lastValue = fixture.componentInstance.valueChanges.at(-1);
+    expect(lastValue).toBeInstanceOf(Date);
+    expect((lastValue as Date).getFullYear()).toBe(2024);
+    expect((lastValue as Date).getMonth()).toBe(3);
+    expect((lastValue as Date).getDate()).toBe(24);
+    expect(input.value).toBe('04-24-2024');
+    expect(getSelectedDayCell().textContent?.trim()).toBe('24');
   });
 });
