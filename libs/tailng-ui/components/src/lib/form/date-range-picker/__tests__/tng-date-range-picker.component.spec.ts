@@ -84,6 +84,125 @@ async function openOverlay(fixture: FixtureLike): Promise<void> {
   await settle(fixture);
 }
 
+async function openOverlayByKeyboard(fixture: FixtureLike): Promise<void> {
+  const trigger = getRequired<HTMLButtonElement>(fixture, '[data-slot="date-range-picker-trigger"]');
+  trigger.focus();
+  keydown(trigger, 'Enter');
+  await settle(fixture);
+  await waitForAnimationFrame();
+  await settle(fixture);
+}
+
+function getPickerButton(
+  slot: 'date-range-picker-month' | 'date-range-picker-year',
+  label: string,
+): HTMLButtonElement {
+  const button = Array.from(document.body.querySelectorAll(`[data-slot="${slot}"]`)).find(
+    (element) => (element as HTMLElement).textContent?.trim() === label,
+  ) as HTMLButtonElement | undefined;
+
+  if (button === undefined) {
+    throw new Error(`Expected ${slot} button ${label} to exist.`);
+  }
+
+  return button;
+}
+
+function getActivePickerButton(
+  slot: 'date-range-picker-month' | 'date-range-picker-year',
+): HTMLButtonElement {
+  return getRequiredFromRoot<HTMLButtonElement>(
+    document.body,
+    `[data-slot="${slot}"][data-active="true"]`,
+  );
+}
+
+function getActiveDayCell(): HTMLButtonElement {
+  return getRequiredFromRoot<HTMLButtonElement>(
+    document.body,
+    '[data-slot="date-range-picker-cell"][data-active="true"]',
+  );
+}
+
+async function navigatePickerGridToYear(
+  fixture: FixtureLike,
+  targetYear: string,
+): Promise<void> {
+  const grid = getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="date-range-picker-grid"]');
+
+  for (let attempt = 0; attempt < 50; attempt += 1) {
+    if (getActivePickerButton('date-range-picker-year').textContent?.trim() === targetYear) {
+      return;
+    }
+
+    const activeYear = Number(getActivePickerButton('date-range-picker-year').textContent?.trim());
+    const target = Number(targetYear);
+    keydown(grid, target < activeYear ? 'ArrowUp' : 'ArrowDown');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+  }
+
+  throw new Error(`Could not navigate the year grid to ${targetYear}.`);
+}
+
+async function navigatePickerGridToMonth(
+  fixture: FixtureLike,
+  targetLabel: string,
+): Promise<void> {
+  const grid = getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="date-range-picker-grid"]');
+  const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    if (getActivePickerButton('date-range-picker-month').textContent?.trim() === targetLabel) {
+      return;
+    }
+
+    const activeLabel = getActivePickerButton('date-range-picker-month').textContent?.trim() ?? '';
+    const activeIndex = monthOrder.indexOf(activeLabel);
+    const targetIndex = monthOrder.indexOf(targetLabel);
+    if (activeIndex === -1 || targetIndex === -1) {
+      throw new Error(`Unknown month label while navigating: ${activeLabel} -> ${targetLabel}`);
+    }
+
+    keydown(grid, targetIndex < activeIndex ? 'ArrowLeft' : 'ArrowRight');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+  }
+
+  throw new Error(`Could not navigate the month grid to ${targetLabel}.`);
+}
+
+async function navigateDayGridTo(fixture: FixtureLike, dayLabel: string): Promise<void> {
+  const grid = getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="date-range-picker-grid"]');
+
+  for (let attempt = 0; attempt < 80; attempt += 1) {
+    if (getActiveDayCell().textContent?.trim() === dayLabel) {
+      return;
+    }
+
+    const activeDay = Number(getActiveDayCell().textContent?.trim());
+    const targetDay = Number(dayLabel);
+    if (Number.isNaN(activeDay) || Number.isNaN(targetDay)) {
+      throw new Error(`Could not parse day labels while navigating: ${activeDay} -> ${targetDay}`);
+    }
+
+    keydown(grid, targetDay < activeDay ? 'ArrowLeft' : 'ArrowRight');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+  }
+
+  throw new Error(`Could not navigate the day grid to ${dayLabel}.`);
+}
+
+function activateFocusedButton(button: HTMLButtonElement): void {
+  button.focus();
+  keydown(button, 'Enter');
+  button.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+}
+
 function getDayButton(root: ParentNode, dayLabel: string): HTMLButtonElement {
   const target = Array.from(root.querySelectorAll('[data-slot="date-range-picker-cell"]')).find(
     (element) =>
@@ -340,6 +459,109 @@ describe('tng-date-range-picker component behavior', () => {
     expect(runtime?.getLayerIds()).toEqual([]);
   });
 
+  it('commits a full manual range on blur and emits valueChange', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+
+    await settle(fixture);
+
+    const input = getRequired<HTMLInputElement>(fixture, '[data-slot="date-range-picker-input"]');
+    input.value = '05-01-2024 – 05-08-2024';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle(fixture);
+
+    input.dispatchEvent(new FocusEvent('blur'));
+    await settle(fixture);
+
+    expectRangeValue(fixture.componentInstance.valueChanges.at(-1), '2024-05-01', '2024-05-08');
+    expect(input.value).toBe('05-01-2024 – 05-08-2024');
+  });
+
+  it('commits a full manual range on Enter and emits valueChange', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+    fixture.componentInstance.defaultValue.set(undefined);
+
+    await settle(fixture);
+
+    const input = getRequired<HTMLInputElement>(fixture, '[data-slot="date-range-picker-input"]');
+    input.value = '05-10-2024 – 05-17-2024';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle(fixture);
+
+    keydown(input, 'Enter');
+    await settle(fixture);
+
+    expectRangeValue(fixture.componentInstance.valueChanges.at(-1), '2024-05-10', '2024-05-17');
+  });
+
+  it('commits valid single-date manual input on blur and emits valueChange', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+    fixture.componentInstance.defaultValue.set(undefined);
+
+    await settle(fixture);
+
+    const input = getRequired<HTMLInputElement>(fixture, '[data-slot="date-range-picker-input"]');
+    input.value = '05-10-2024';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle(fixture);
+
+    input.dispatchEvent(new FocusEvent('blur'));
+    await settle(fixture);
+
+    expectRangeValue(fixture.componentInstance.valueChanges.at(-1), '2024-05-10', null);
+    expect(input.value).toBe('05-10-2024');
+  });
+
+  it('keeps the committed value and marks the input invalid when invalid full range blurs', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+
+    await settle(fixture);
+
+    const initialChangeCount = fixture.componentInstance.valueChanges.length;
+    const input = getRequired<HTMLInputElement>(fixture, '[data-slot="date-range-picker-input"]');
+    input.value = 'not-a-date – also-bad';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle(fixture);
+
+    input.dispatchEvent(new FocusEvent('blur'));
+    await settle(fixture);
+
+    expect(fixture.componentInstance.valueChanges.length).toBe(initialChangeCount);
+    expect(
+      getRequired<HTMLElement>(fixture, '[data-slot="date-range-picker-input-shell"]').getAttribute(
+        'data-invalid',
+      ),
+    ).toBe('true');
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+  });
+
+  it('normalizes reversed range order on keyboard commit', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+    fixture.componentInstance.defaultValue.set(undefined);
+
+    await settle(fixture);
+
+    const input = getRequired<HTMLInputElement>(fixture, '[data-slot="date-range-picker-input"]');
+    input.value = '05-17-2024 – 05-10-2024';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle(fixture);
+
+    input.dispatchEvent(new FocusEvent('blur'));
+    await settle(fixture);
+
+    expectRangeValue(fixture.componentInstance.valueChanges.at(-1), '2024-05-10', '2024-05-17');
+    expect(input.value).toBe('05-10-2024 – 05-17-2024');
+  });
+
   it('commits manual input with Enter as a partial range start and emits valueChange', async () => {
     const fixture = TestBed.configureTestingModule({
       imports: [UncontrolledDateRangePickerHostComponent],
@@ -495,5 +717,69 @@ describe('tng-date-range-picker component behavior', () => {
       configurable: true,
       value: originalInnerHeight,
     });
+  });
+
+  it('selects an earlier enabled range by keyboard when today is beyond maxDate', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [UncontrolledDateRangePickerHostComponent],
+    }).createComponent(UncontrolledDateRangePickerHostComponent);
+    fixture.componentInstance.defaultValue.set(undefined);
+    fixture.componentInstance.minDate.set('2024-04-01');
+    fixture.componentInstance.maxDate.set('2025-03-31');
+    fixture.componentInstance.today.set('2026-06-24');
+    fixture.componentInstance.closeOnSelect.set(false);
+
+    await settle(fixture);
+    await openOverlayByKeyboard(fixture);
+
+    const periodButton = getRequiredFromRoot<HTMLButtonElement>(
+      document.body,
+      '[data-slot="date-range-picker-period-button"]',
+    );
+    expect(periodButton.textContent?.includes('March 2025')).toBe(true);
+    expect(getActiveDayCell().textContent?.trim()).toBe('31');
+
+    activateFocusedButton(periodButton);
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    const yearGrid = getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="date-range-picker-grid"]');
+    expect(getActivePickerButton('date-range-picker-year').textContent?.trim()).toBe('2025');
+
+    await navigatePickerGridToYear(fixture, '2024');
+    keydown(yearGrid, 'Enter');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    const monthGrid = getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="date-range-picker-grid"]');
+    await navigatePickerGridToMonth(fixture, 'Apr');
+    keydown(monthGrid, 'Enter');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expect(periodButton.textContent?.includes('April 2024')).toBe(true);
+
+    const dayGrid = getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="date-range-picker-grid"]');
+    await navigateDayGridTo(fixture, '1');
+    keydown(dayGrid, 'Enter');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    await navigateDayGridTo(fixture, '30');
+    keydown(dayGrid, 'Enter');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expectRangeValue(fixture.componentInstance.valueChanges.at(-1), '2024-04-01', '2024-04-30');
+    expect(
+      getRequired<HTMLInputElement>(fixture, '[data-slot="date-range-picker-input"]').value,
+    ).toBe('04-01-2024 – 04-30-2024');
+    expect(getDayButton(document.body, '1').getAttribute('data-range-start')).toBe('true');
+    expect(getDayButton(document.body, '30').getAttribute('data-range-end')).toBe('true');
   });
 });

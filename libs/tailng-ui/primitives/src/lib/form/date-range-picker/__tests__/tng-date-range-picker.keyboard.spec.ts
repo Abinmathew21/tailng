@@ -1,15 +1,116 @@
 import { afterEach, describe, expect, it } from 'vitest';
+import type { TngDateRangePickerController } from '../date-range-picker.types';
 import type { TngDateRangeValue } from '../tng-date-range-picker';
 import {
   cleanupDom,
   collectEvents,
   createController,
+  d,
   dateKey,
   keyboardEvent,
 } from './tng-date-range-picker.test-helpers';
 
 function asRange(value: unknown): TngDateRangeValue<Date> {
   return value as TngDateRangeValue<Date>;
+}
+
+const constrainedBeyondMaxConfig = {
+  max: '2025-03-31',
+  min: '2024-04-01',
+  today: d('2026-06-24'),
+  value: null,
+  yearPageSize: 24,
+} as const;
+
+function getActiveYear(controller: TngDateRangePickerController<Date>): number | undefined {
+  return controller.getOutputs().yearOptions.find((option) => option.active)?.year;
+}
+
+function getActiveMonthLabel(
+  controller: TngDateRangePickerController<Date>,
+): string | undefined {
+  return controller.getOutputs().monthOptions.find((option) => option.active)?.label;
+}
+
+function navigateYearGridTo(
+  controller: TngDateRangePickerController<Date>,
+  targetYear: number,
+): void {
+  for (let attempt = 0; attempt < 50; attempt += 1) {
+    if (getActiveYear(controller) === targetYear) {
+      return;
+    }
+
+    const activeYear = getActiveYear(controller);
+    if (activeYear === undefined) {
+      throw new Error('Expected an active year option while navigating the year grid.');
+    }
+
+    controller.handleYearGridKeyDown(
+      keyboardEvent(targetYear < activeYear ? 'ArrowUp' : 'ArrowDown'),
+    );
+  }
+
+  throw new Error(`Could not navigate the year grid to ${targetYear}.`);
+}
+
+function navigateMonthGridTo(
+  controller: TngDateRangePickerController<Date>,
+  targetLabel: string,
+): void {
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    if (getActiveMonthLabel(controller) === targetLabel) {
+      return;
+    }
+
+    const activeLabel = getActiveMonthLabel(controller);
+    if (activeLabel === undefined) {
+      throw new Error('Expected an active month option while navigating the month grid.');
+    }
+
+    const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const activeIndex = monthOrder.indexOf(activeLabel);
+    const targetIndex = monthOrder.indexOf(targetLabel);
+    if (activeIndex === -1 || targetIndex === -1) {
+      throw new Error(`Unknown month label while navigating: ${activeLabel} -> ${targetLabel}`);
+    }
+
+    controller.handleMonthGridKeyDown(
+      keyboardEvent(targetIndex < activeIndex ? 'ArrowLeft' : 'ArrowRight'),
+    );
+  }
+
+  throw new Error(`Could not navigate the month grid to ${targetLabel}.`);
+}
+
+function navigateDayGridTo(
+  controller: TngDateRangePickerController<Date>,
+  targetDate: string,
+): void {
+  for (let attempt = 0; attempt < 80; attempt += 1) {
+    if (dateKey(controller.getOutputs().activeDate) === targetDate) {
+      return;
+    }
+
+    const activeDate = controller.getOutputs().activeDate;
+    const activeKey = dateKey(activeDate);
+    const activeTime = activeDate.getTime();
+    const targetTime = d(targetDate).getTime();
+
+    if (targetTime < activeTime) {
+      controller.handleGridKeyDown(keyboardEvent('ArrowLeft'));
+      continue;
+    }
+
+    if (targetTime > activeTime) {
+      controller.handleGridKeyDown(keyboardEvent('ArrowRight'));
+      continue;
+    }
+
+    throw new Error(`Could not navigate the day grid from ${activeKey} to ${targetDate}.`);
+  }
+
+  throw new Error(`Could not navigate the day grid to ${targetDate}.`);
 }
 
 afterEach(() => {
@@ -191,5 +292,59 @@ describe('tng-date-range-picker keyboard support', () => {
     controller.setActiveDate('2024-04-24');
     controller.handleGridKeyDown(keyboardEvent('ArrowRight'));
     expect(dateKey(controller.getOutputs().activeDate)).toBe('2024-04-24');
+  });
+
+  it('anchors to maxDate when today is beyond maxDate', () => {
+    const controller = createController(constrainedBeyondMaxConfig);
+
+    controller.open();
+
+    expect(dateKey(controller.getOutputs().activeDate)).toBe('2025-03-31');
+    expect(dateKey(controller.getOutputs().visibleMonth)).toBe('2025-03-01');
+
+    controller.showYearsPanel();
+    controller.setFocusedSection('year');
+
+    expect(getActiveYear(controller)).toBe(2025);
+
+    navigateYearGridTo(controller, 2024);
+    controller.handleYearGridKeyDown(keyboardEvent('Enter'));
+    controller.setFocusedSection('month');
+
+    const monthOptions = controller.getOutputs().monthOptions;
+    expect(monthOptions.find((option) => option.label === 'Mar')?.disabled).toBe(true);
+    expect(monthOptions.find((option) => option.label === 'Apr')?.disabled).toBe(false);
+  });
+
+  it('selects an earlier in-range month range by keyboard when today exceeds maxDate', () => {
+    const controller = createController({
+      ...constrainedBeyondMaxConfig,
+      closeOnSelect: false,
+    });
+
+    controller.handleTriggerKeyDown(keyboardEvent('Enter'));
+    expect(controller.getOutputs().open).toBe(true);
+
+    controller.showYearsPanel();
+    controller.setFocusedSection('year');
+
+    navigateYearGridTo(controller, 2024);
+    controller.handleYearGridKeyDown(keyboardEvent('Enter'));
+    controller.setFocusedSection('month');
+
+    navigateMonthGridTo(controller, 'Apr');
+    controller.handleMonthGridKeyDown(keyboardEvent('Enter'));
+
+    expect(dateKey(controller.getOutputs().visibleMonth)).toBe('2024-04-01');
+
+    navigateDayGridTo(controller, '2024-04-01');
+    controller.handleGridKeyDown(keyboardEvent('Enter'));
+
+    navigateDayGridTo(controller, '2024-04-30');
+    controller.handleGridKeyDown(keyboardEvent('Enter'));
+
+    const range = asRange(controller.getOutputs().value);
+    expect(dateKey(range.start as Date)).toBe('2024-04-01');
+    expect(dateKey(range.end as Date)).toBe('2024-04-30');
   });
 });

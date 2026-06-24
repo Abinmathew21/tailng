@@ -38,6 +38,79 @@ describe('tng-date-range-picker input value', () => {
     expect(range.end).toBeNull();
   });
 
+  it('commits a complete range from canonical en-dash input', () => {
+    const controller = createController();
+
+    controller.setInputText('05-10-2024 – 05-17-2024');
+    expect(controller.commitInputText()).toBe(true);
+
+    const range = asRange(controller.getOutputs().value);
+    expect(dateKey(range.start as Date)).toBe('2024-05-10');
+    expect(dateKey(range.end as Date)).toBe('2024-05-17');
+    expect(controller.getOutputs().validationError).toBeNull();
+    expect(controller.getOutputs().inputText).toBe('05-10-2024 – 05-17-2024');
+  });
+
+  it('normalizes reversed range order from input', () => {
+    const controller = createController();
+
+    controller.setInputText('05-17-2024 – 05-10-2024');
+    expect(controller.commitInputText()).toBe(true);
+
+    const range = asRange(controller.getOutputs().value);
+    expect(dateKey(range.start as Date)).toBe('2024-05-10');
+    expect(dateKey(range.end as Date)).toBe('2024-05-17');
+    expect(controller.getOutputs().inputText).toBe('05-10-2024 – 05-17-2024');
+  });
+
+  it('rejects a range with one invalid side', () => {
+    const controller = createController({
+      value: {
+        end: '2024-04-24',
+        start: '2024-04-20',
+      },
+    });
+
+    controller.setInputText('05-10-2024 – not-a-date');
+    expect(controller.commitInputText()).toBe(false);
+
+    const range = asRange(controller.getOutputs().value);
+    expect(dateKey(range.start as Date)).toBe('2024-04-20');
+    expect(dateKey(range.end as Date)).toBe('2024-04-24');
+    expect(controller.getOutputs().validationError).toBe('invalid-input');
+  });
+
+  it('rejects malformed range text without a separator', () => {
+    const controller = createController({
+      value: {
+        end: null,
+        start: '2024-04-20',
+      },
+    });
+
+    controller.setInputText('05-10-202405-17-2024');
+    expect(controller.commitInputText()).toBe(false);
+
+    const range = asRange(controller.getOutputs().value);
+    expect(dateKey(range.start as Date)).toBe('2024-04-20');
+    expect(range.end).toBeNull();
+    expect(controller.getOutputs().validationError).toBe('invalid-input');
+  });
+
+  it('uses adapter formatting for slash-separated full range', () => {
+    const controller = createController({
+      adapter: createSlashInputAdapter(),
+    });
+
+    controller.setInputText('2024/05/10 – 2024/05/17');
+    expect(controller.commitInputText()).toBe(true);
+
+    const range = asRange(controller.getOutputs().value);
+    expect(dateKey(range.start as Date)).toBe('2024-05-10');
+    expect(dateKey(range.end as Date)).toBe('2024-05-17');
+    expect(controller.getOutputs().inputText).toBe('2024/05/10 – 2024/05/17');
+  });
+
   it('rejects invalid manual input without changing the range', () => {
     const controller = createController({
       value: {

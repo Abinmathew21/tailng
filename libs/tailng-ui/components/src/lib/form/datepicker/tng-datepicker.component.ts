@@ -98,6 +98,7 @@ export class TngDatepickerComponent<TDate = Date>
   private readonly renderVersion = signal(0);
   private readonly triggerRef = viewChild<ElementRef<HTMLElement>>('triggerButton');
   private appliedInitialState = false;
+  private suppressNextOverlayFocusSync = false;
   protected readonly controller = createDatepickerController<TDate>({
     allowManualInput: true,
     autoCommitView: false,
@@ -127,7 +128,10 @@ export class TngDatepickerComponent<TDate = Date>
         break;
       case 'opened':
         this.openChange.emit(true);
-        this.queueOverlayFocusSync();
+        if (!this.suppressNextOverlayFocusSync) {
+          this.queueOverlayFocusSync();
+        }
+        this.suppressNextOverlayFocusSync = false;
         break;
       case 'valueChange':
         this.value.set(event.value);
@@ -437,8 +441,25 @@ export class TngDatepickerComponent<TDate = Date>
   }
 
   protected onInputKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Tab' && this.outputs().open) {
+      this.controller.suppressFocusRestoreOnClose();
+      this.controller.close('programmatic');
+      return;
+    }
+
     if (event.key === 'Enter' && this.allowManualInput()) {
       event.preventDefault();
+      if (!this.outputs().open) {
+        this.suppressNextOverlayFocusSync = true;
+        this.controller.open();
+        const target = event.target;
+        if (target instanceof HTMLInputElement) {
+          target.focus();
+        }
+        this.renderVersion.update((value) => value + 1);
+        return;
+      }
+
       this.controller.commitInputText();
       this.renderVersion.update((value) => value + 1);
       return;

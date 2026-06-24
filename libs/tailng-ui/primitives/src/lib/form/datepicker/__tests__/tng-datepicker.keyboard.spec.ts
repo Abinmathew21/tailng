@@ -456,4 +456,14 @@ describe('tng-datepicker keyboard and focus blocks G/H/I', () => {
     controller.handleGridKeyDown(keyboardEvent('ArrowLeft'));
     expect(dateKey(controller.getOutputs().activeDate)).toBe('2024-05-30');
   });
+
+  it('opens from the trigger with Enter', () => {
+    const controller = createController();
+
+    const openEvent = keyboardEvent('Enter');
+    controller.handleTriggerKeyDown(openEvent);
+
+    expect(openEvent.preventDefault).toHaveBeenCalled();
+    expect(controller.getOutputs().open).toBe(true);
+  });
 });

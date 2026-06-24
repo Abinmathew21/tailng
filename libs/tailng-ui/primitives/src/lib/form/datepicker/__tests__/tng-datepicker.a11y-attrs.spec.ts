@@ -78,4 +78,16 @@ describe('tng-datepicker accessibility block K', () => {
       'data-in-range': 'true',
     });
   });
+
+  it('removes the trigger from tab order while the overlay is open', () => {
+    const controller = createController();
+
+    expect(controller.getOutputs().getTriggerAttributes().tabindex).toBeUndefined();
+
+    controller.open();
+    expect(controller.getOutputs().getTriggerAttributes().tabindex).toBe('-1');
+
+    controller.close();
+    expect(controller.getOutputs().getTriggerAttributes().tabindex).toBeUndefined();
+  });
 });

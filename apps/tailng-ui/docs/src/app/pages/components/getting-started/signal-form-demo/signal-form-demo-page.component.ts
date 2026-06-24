@@ -23,6 +23,7 @@ import {
   TngCheckboxComponent,
   TngChipsComponent,
   TngDatepickerComponent,
+  TngDateRangePickerComponent,
   TngInputFieldComponent,
   TngInputComponent,
   TngInputOtpComponent,
@@ -56,6 +57,7 @@ import {
 type AccessType = 'temporary' | 'permanent';
 type Environment = 'development' | 'staging' | 'production';
 type Priority = 'low' | 'medium' | 'high' | 'critical';
+type AccessPeriod = Readonly<{ start: Date | null; end: Date | null }>;
 
 type DemoOption = Readonly<{
   value: string;
@@ -86,6 +88,7 @@ type DemoClasses = Readonly<{
 type WorkspaceAccessRequest = Readonly<{
   requestTitle: string;
   requesterEmail: string;
+  dateOfBirth: Date | null;
   verificationCode: string;
   department: string | null;
   managerId: string | null;
@@ -95,8 +98,7 @@ type WorkspaceAccessRequest = Readonly<{
   accessType: AccessType;
   environment: Environment;
   priority: Priority;
-  startDate: Date | null;
-  endDate: Date | null;
+  accessPeriod: AccessPeriod;
   renewalMonthDay: { month: number; day: number } | undefined;
   budgetYear: number | undefined;
   riskTolerance: number;
@@ -156,7 +158,8 @@ const channelOptions: readonly DemoOption[] = [
 
 const initialRequest: WorkspaceAccessRequest = {
   requestTitle: 'Production observability access',
-  requesterEmail: 'prince@example.com',
+  requesterEmail: 'demo@tailng.com',
+  dateOfBirth: new Date(1990, 2, 15),
   verificationCode: '123456',
   department: 'engineering',
   managerId: 'maya',
@@ -166,8 +169,10 @@ const initialRequest: WorkspaceAccessRequest = {
   accessType: 'temporary',
   environment: 'production',
   priority: 'high',
-  startDate: new Date(2026, 4, 12),
-  endDate: new Date(2026, 4, 26),
+  accessPeriod: {
+    start: new Date(2024, 3, 22),
+    end: new Date(2024, 3, 24),
+  },
   renewalMonthDay: { month: 5, day: 8 },
   budgetYear: 2026,
   riskTolerance: 65,
@@ -291,7 +296,7 @@ const apps = [
 export class SignalFormPlainCssDemoComponent {
   protected readonly model = signal<AccessRequest>({
     title: 'Production observability access',
-    email: 'prince@example.com',
+    email: 'demo@tailng.com',
     reviewers: ['maya', 'sofia'],
     apps: ['github', 'datadog'],
     risk: 65,
@@ -692,6 +697,7 @@ const signalFormTailwindCodeTabs: readonly DocsExampleCodeTab[] = Object.freeze(
     TngCheckboxComponent,
     TngChipsComponent,
     TngDatepickerComponent,
+    TngDateRangePickerComponent,
     TngInputFieldComponent,
     TngInputComponent,
     TngInputOtpComponent,
@@ -877,14 +883,6 @@ export class SignalFormDemoPageComponent implements OnDestroy {
         value.filter((item): item is string => typeof item === 'string'),
       );
     }
-  }
-
-  protected updateDateField(
-    model: WritableSignal<WorkspaceAccessRequest>,
-    key: 'endDate' | 'startDate',
-    value: Date | readonly Date[] | null,
-  ): void {
-    this.updateRequestField(model, key, value instanceof Date ? value : null);
   }
 
   protected updateTags(

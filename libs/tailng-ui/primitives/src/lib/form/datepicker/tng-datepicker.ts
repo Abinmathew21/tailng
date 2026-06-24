@@ -274,6 +274,7 @@ class DatepickerController<TDate> implements TngDatepickerController<TDate> {
   private restoreFocusTargetId: string | null = null;
   private focusLayerRegistered = false;
   private overlayLayerRegistered = false;
+  private skipNextFocusRestore = false;
 
   public constructor(config: Readonly<TngDatepickerConfig<TDate>>) {
     this.instanceId = config.id?.trim() || createDatepickerId();
@@ -663,6 +664,10 @@ class DatepickerController<TDate> implements TngDatepickerController<TDate> {
 
   public registerTrigger(element: HTMLElement | null): void {
     this.triggerElement = element;
+  }
+
+  public suppressFocusRestoreOnClose(): void {
+    this.skipNextFocusRestore = true;
   }
 
   public selectDate(
@@ -1749,7 +1754,8 @@ class DatepickerController<TDate> implements TngDatepickerController<TDate> {
     this.config.overlayRuntime.registerLayer({
       containsTarget: (target) =>
         (target instanceof Node && this.overlayElement?.contains(target) === true) ||
-        (target instanceof Node && this.triggerElement?.contains(target) === true),
+        (target instanceof Node && this.triggerElement?.contains(target) === true) ||
+        (target instanceof Node && this.triggerElement?.parentElement?.contains(target) === true),
       dismissOnEscape: this.config.closeOnEscape,
       dismissOnOutsidePointer: this.config.closeOnOutsideClick,
       id: `${this.instanceId}-layer`,
@@ -1774,7 +1780,9 @@ class DatepickerController<TDate> implements TngDatepickerController<TDate> {
     }
 
     const restoreFocusTargetId = datepickerFocusHandoff.deactivateLayer(this.instanceId);
-    if (!this.config.restoreFocus || restoreFocusTargetId === null) {
+    const skipRestore = this.skipNextFocusRestore;
+    this.skipNextFocusRestore = false;
+    if (!this.config.restoreFocus || restoreFocusTargetId === null || skipRestore) {
       return;
     }
 
@@ -2143,6 +2151,7 @@ class DatepickerController<TDate> implements TngDatepickerController<TDate> {
       'aria-haspopup': 'dialog',
       'data-open': this.state.open ? 'true' : 'false',
       'data-slot': 'datepicker-trigger',
+      tabindex: this.state.open ? '-1' : undefined,
     });
   }
 

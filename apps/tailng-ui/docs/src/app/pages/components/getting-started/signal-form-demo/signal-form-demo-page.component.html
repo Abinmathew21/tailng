@@ -64,6 +64,15 @@
               </div>
 
               <div [class]="classes.control">
+                <tng-label>Date of birth</tng-label>
+                <tng-datepicker
+                  inputAriaLabel="Date of birth"
+                  placeholder="MM-DD-YYYY"
+                  [formField]="formGroup.dateOfBirth"
+                />
+              </div>
+
+              <div [class]="classes.control">
                 <tng-label required>Verification code</tng-label>
                 <tng-input-otp
                   ariaLabel="Verification code"
@@ -222,22 +231,15 @@
 
             <div [class]="classes.gridFour">
               <div [class]="classes.control">
-                <tng-label>Start date</tng-label>
-                <tng-datepicker
-                  inputAriaLabel="Start date"
-                  placeholder="MM-DD-YYYY"
-                  [value]="model().startDate"
-                  (valueChange)="updateDateField(model, 'startDate', $event)"
-                />
-              </div>
-
-              <div [class]="classes.control">
-                <tng-label>End date</tng-label>
-                <tng-datepicker
-                  inputAriaLabel="End date"
-                  placeholder="MM-DD-YYYY"
-                  [value]="model().endDate"
-                  (valueChange)="updateDateField(model, 'endDate', $event)"
+                <tng-label>Access period</tng-label>
+                <tng-date-range-picker
+                  inputAriaLabel="Access period"
+                  placeholder="MM-DD-YYYY - MM-DD-YYYY"
+                  [fullWidth]="false"
+                  [minDate]="'2024-04-01'"
+                  [maxDate]="'2025-03-31'"
+                  [today]="'2024-04-18'"
+                  [formField]="formGroup.accessPeriod"
                 />
               </div>
 

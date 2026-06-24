@@ -243,6 +243,24 @@ function hasCompleteRange<TDate>(value: TngDateValue<TDate>): boolean {
   return getRangeStartDate(value) !== null && getRangeEndDate(value) !== null;
 }
 
+const RANGE_INPUT_SEPARATOR = ' – ';
+
+function splitRangeInputText(
+  text: string,
+): Readonly<{ endText: string; startText: string }> | null {
+  const trimmed = text.trim();
+  if (!trimmed.includes(RANGE_INPUT_SEPARATOR)) {
+    return null;
+  }
+
+  const parts = trimmed.split(RANGE_INPUT_SEPARATOR);
+  if (parts.length !== 2 || parts[0] === '' || parts[1] === '') {
+    return null;
+  }
+
+  return { endText: parts[1], startText: parts[0] };
+}
+
 function hasPartialRange<TDate>(value: TngDateValue<TDate>): boolean {
   return getRangeStartDate(value) !== null && getRangeEndDate(value) === null;
 }
@@ -386,7 +404,12 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     }
 
     const inputText = this.state.inputText.trim();
-    const parsed = this.parseInputText(inputText);
+    const rangeParts = splitRangeInputText(inputText);
+    if (rangeParts !== null) {
+      return this.commitRangeInputText(rangeParts);
+    }
+
+    const parsed = this.config.adapter.parse(inputText, this.config.locale);
     if (parsed === null || !this.isStrictInputCommitValue(inputText, parsed)) {
       this.state.validationError = 'invalid-input';
       this.bumpVersion();
@@ -1415,6 +1438,108 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
     return inputText === canonicalInputText;
   }
 
+  private isStrictRangePartCommitValue(partText: string, date: TDate): boolean {
+    const canonicalInputText = this.config.adapter
+      .format(date, 'input', this.config.locale)
+      .trim();
+    return partText.trim() === canonicalInputText;
+  }
+
+  private isStrictRangeInputCommitValue(
+    parts: Readonly<{ endText: string; startText: string }>,
+    start: TDate,
+    end: TDate,
+  ): boolean {
+    const first = parts.startText.trim();
+    const second = parts.endText.trim();
+
+    if (
+      this.isStrictRangePartCommitValue(first, start) &&
+      this.isStrictRangePartCommitValue(second, end)
+    ) {
+      return true;
+    }
+
+    return (
+      this.isStrictRangePartCommitValue(first, end) &&
+      this.isStrictRangePartCommitValue(second, start)
+    );
+  }
+
+  private commitRangeInputText(
+    parts: Readonly<{ endText: string; startText: string }>,
+  ): boolean {
+    const startParsed = this.config.adapter.parse(parts.startText.trim(), this.config.locale);
+    const endParsed = this.config.adapter.parse(parts.endText.trim(), this.config.locale);
+
+    if (startParsed === null || endParsed === null) {
+      this.state.validationError = 'invalid-input';
+      this.bumpVersion();
+      return false;
+    }
+
+    if (!this.isStrictRangeInputCommitValue(parts, startParsed, endParsed)) {
+      this.state.validationError = 'invalid-input';
+      this.bumpVersion();
+      return false;
+    }
+
+    return this.commitFullRangeFromInput(startParsed, endParsed);
+  }
+
+  private commitFullRangeFromInput(start: TDate, end: TDate): boolean {
+    const normalizedRange = normalizeRangeOrder(this.config.adapter, { end, start });
+
+    if (
+      normalizedRange.start === null ||
+      normalizedRange.end === null ||
+      this.isDateDisabled(normalizedRange.start) ||
+      this.isDateDisabled(normalizedRange.end)
+    ) {
+      this.state.validationError = 'out-of-range';
+      this.bumpVersion();
+      return false;
+    }
+
+    const nextValue = Object.freeze({
+      end: normalizedRange.end,
+      start: normalizedRange.start,
+    }) as TngDateRange<TDate>;
+
+    const previousValue = this.state.value;
+    if (
+      selectionValuesEqual(
+        this.config.adapter,
+        this.config.selectionMode,
+        previousValue,
+        nextValue,
+      )
+    ) {
+      this.state.validationError = null;
+      return true;
+    }
+
+    this.state.validationError = null;
+    this.state.value = nextValue;
+    this.state.inputText = this.formatValueForInput(nextValue);
+    this.rangeAnchorDate = normalizedRange.end;
+    this.hoverDate = null;
+    this.applyActiveDate(normalizedRange.end, 'text-input', true);
+    this.bumpVersion();
+    this.emit({
+      previousValue,
+      trigger: 'text-input',
+      type: 'valueChange',
+      value: nextValue,
+    });
+
+    if (this.config.closeOnSelect && this.state.open && hasCompleteRange(nextValue)) {
+      this.close('select');
+    }
+
+    return true;
+  }
+
   private getCells(): readonly TngDateCell<TDate>[] {
     if (this.cachedGridVersion === this.version) {
       return this.cachedCells;
@@ -2095,6 +2220,22 @@ class DateRangePickerController<TDate> implements TngDateRangePickerController<T
 
     if (!this.isDateDisabled(fallback)) {
       return fallback;
+    }
+
+    if (
+      this.config.max !== null &&
+      this.config.adapter.compare(fallback, this.config.max) > 0 &&
+      !this.isDateDisabled(this.config.max)
+    ) {
+      return this.config.max;
+    }
+
+    if (
+      this.config.min !== null &&
+      this.config.adapter.compare(fallback, this.config.min) < 0 &&
+      !this.isDateDisabled(this.config.min)
+    ) {
+      return this.config.min;
     }
 
     const firstEnabled = findFirstEnabledDateInMonth(

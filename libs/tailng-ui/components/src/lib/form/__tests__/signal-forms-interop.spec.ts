@@ -186,6 +186,23 @@ class DateRangePickerSignalFormsHostComponent {
 }
 
 @Component({
+  imports: [FormField, TngDateRangePickerComponent],
+  template: `<tng-date-range-picker
+    data-testid="date-range"
+    [formField]="bookingForm.range"
+    [closeOnSelect]="false"
+    [today]="today"
+  />`,
+})
+class DateRangePickerEmptySignalFormsHostComponent {
+  readonly today = '2024-04-18';
+  readonly bookingModel = signal({
+    range: { start: null as Date | null, end: null as Date | null },
+  });
+  readonly bookingForm = form(this.bookingModel);
+}
+
+@Component({
   imports: [FormField, TngMonthDaypickerComponent],
   template: `<tng-month-daypicker data-testid="month-day" [formField]="reminderForm.date"></tng-month-daypicker>`,
 })
@@ -359,6 +376,76 @@ function expectDateParts(
   expect(value?.getFullYear()).toBe(year);
   expect(value?.getMonth()).toBe(monthIndex);
   expect(value?.getDate()).toBe(day);
+}
+
+function expectRangeDateParts(
+  range: { start: Date | null; end: Date | null },
+  startYear: number,
+  startMonthIndex: number,
+  startDay: number,
+  endYear: number,
+  endMonthIndex: number,
+  endDay: number,
+): void {
+  expectDateParts(range.start, startYear, startMonthIndex, startDay);
+  expectDateParts(range.end, endYear, endMonthIndex, endDay);
+}
+
+function expectPartialRangeStart(
+  range: { start: Date | null; end: Date | null },
+  year: number,
+  monthIndex: number,
+  day: number,
+): void {
+  expectDateParts(range.start, year, monthIndex, day);
+  expect(range.end).toBeNull();
+}
+
+function keydown(target: EventTarget, key: string): void {
+  target.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key }));
+}
+
+async function openDateRangePicker(
+  fixture: ReturnType<typeof TestBed.createComponent>,
+): Promise<void> {
+  queryRequiredElement(
+    fixture,
+    '[data-testid="date-range"] [data-slot="date-range-picker-trigger"]',
+    HTMLButtonElement,
+  ).click();
+  await settle(fixture);
+  await waitForAnimationFrame();
+  await settle(fixture);
+}
+
+async function selectDateRangePickerDays(
+  fixture: ReturnType<typeof TestBed.createComponent>,
+  startLabel: string,
+  endLabel: string,
+): Promise<void> {
+  await openDateRangePicker(fixture);
+
+  const clickDay = (dayLabel: string): void => {
+    const target = Array.from(
+      document.body.querySelectorAll('[data-slot="date-range-picker-cell"]'),
+    ).find(
+      (element) =>
+        element instanceof HTMLButtonElement &&
+        !element.disabled &&
+        element.textContent?.trim() === dayLabel,
+    );
+
+    if (!(target instanceof HTMLButtonElement)) {
+      throw new Error(`Expected date-range-picker day ${dayLabel} to exist.`);
+    }
+
+    target.click();
+  };
+
+  clickDay(startLabel);
+  await settle(fixture);
+  clickDay(endLabel);
+  await settle(fixture);
 }
 
 describe('tailng-ui signal forms interop', () => {
@@ -736,6 +823,121 @@ describe('tailng-ui signal forms interop', () => {
     await settle(fixture);
 
     expect(input.value).toBe('05-01-2024 – 05-08-2024');
+  });
+
+  it('updates the signal form model when tng-date-range-picker commits a full typed range on blur', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DateRangePickerSignalFormsHostComponent],
+    }).createComponent(DateRangePickerSignalFormsHostComponent);
+
+    await settle(fixture);
+
+    const host = fixture.componentInstance;
+    const input = queryRequiredElement(
+      fixture,
+      '[data-testid="date-range"] input[data-slot="date-range-picker-input"]',
+      HTMLInputElement,
+    );
+
+    input.value = '05-01-2024 – 05-08-2024';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle(fixture);
+
+    input.dispatchEvent(new FocusEvent('blur'));
+    await settle(fixture);
+
+    expectRangeDateParts(host.bookingModel().range, 2024, 4, 1, 2024, 4, 8);
+  });
+
+  it('updates the signal form model when tng-date-range-picker commits a full typed range on Enter', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DateRangePickerSignalFormsHostComponent],
+    }).createComponent(DateRangePickerSignalFormsHostComponent);
+
+    await settle(fixture);
+
+    const host = fixture.componentInstance;
+    const input = queryRequiredElement(
+      fixture,
+      '[data-testid="date-range"] input[data-slot="date-range-picker-input"]',
+      HTMLInputElement,
+    );
+
+    input.value = '05-10-2024 – 05-17-2024';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle(fixture);
+
+    keydown(input, 'Enter');
+    await settle(fixture);
+
+    expectRangeDateParts(host.bookingModel().range, 2024, 4, 10, 2024, 4, 17);
+  });
+
+  it('updates the signal form model when tng-date-range-picker commits a single typed date on blur', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DateRangePickerEmptySignalFormsHostComponent],
+    }).createComponent(DateRangePickerEmptySignalFormsHostComponent);
+
+    await settle(fixture);
+
+    const host = fixture.componentInstance;
+    const input = queryRequiredElement(
+      fixture,
+      '[data-testid="date-range"] input[data-slot="date-range-picker-input"]',
+      HTMLInputElement,
+    );
+
+    input.value = '05-10-2024';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle(fixture);
+
+    input.dispatchEvent(new FocusEvent('blur'));
+    await settle(fixture);
+
+    expectPartialRangeStart(host.bookingModel().range, 2024, 4, 10);
+  });
+
+  it('updates the signal form model when tng-date-range-picker selects a calendar range', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DateRangePickerEmptySignalFormsHostComponent],
+    }).createComponent(DateRangePickerEmptySignalFormsHostComponent);
+
+    await settle(fixture);
+
+    const host = fixture.componentInstance;
+    await selectDateRangePickerDays(fixture, '20', '24');
+
+    expectRangeDateParts(host.bookingModel().range, 2024, 3, 20, 2024, 3, 24);
+  });
+
+  it('does not update the signal form model when invalid range text blurs', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DateRangePickerSignalFormsHostComponent],
+    }).createComponent(DateRangePickerSignalFormsHostComponent);
+
+    await settle(fixture);
+
+    const host = fixture.componentInstance;
+    const input = queryRequiredElement(
+      fixture,
+      '[data-testid="date-range"] input[data-slot="date-range-picker-input"]',
+      HTMLInputElement,
+    );
+
+    input.value = 'not-a-date';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle(fixture);
+
+    input.dispatchEvent(new FocusEvent('blur'));
+    await settle(fixture);
+
+    expectRangeDateParts(host.bookingModel().range, 2024, 3, 22, 2024, 3, 24);
+    expect(
+      fixture.nativeElement
+        .querySelector('[data-slot="date-range-picker-input-shell"]')
+        ?.getAttribute('data-invalid'),
+    ).toBe('true');
+    expect(input.getAttribute('aria-invalid')).toBe('true');
   });
 
   it('reflects signal form model values into tng-month-daypicker', async () => {

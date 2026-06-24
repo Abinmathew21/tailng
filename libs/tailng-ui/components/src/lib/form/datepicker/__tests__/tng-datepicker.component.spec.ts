@@ -11,6 +11,42 @@ function keydown(target: EventTarget, key: string): KeyboardEvent {
   return event;
 }
 
+function focus(el: HTMLElement): void {
+  el.dispatchEvent(new FocusEvent('focus', { bubbles: false, cancelable: false }));
+  el.focus();
+}
+
+function dispatchTabAndSimulateBrowserFocus(
+  source: HTMLElement,
+  target: HTMLElement,
+  shiftKey = false,
+): KeyboardEvent {
+  const event = new KeyboardEvent('keydown', {
+    key: 'Tab',
+    shiftKey,
+    bubbles: true,
+    cancelable: true,
+  });
+
+  source.dispatchEvent(event);
+  source.dispatchEvent(
+    new FocusEvent('focusout', {
+      bubbles: true,
+      relatedTarget: target,
+    }),
+  );
+
+  target.focus();
+  target.dispatchEvent(
+    new FocusEvent('focusin', {
+      bubbles: true,
+      relatedTarget: source,
+    }),
+  );
+
+  return event;
+}
+
 async function settle(fixture: { detectChanges(): void; whenStable(): Promise<unknown> }): Promise<void> {
   fixture.detectChanges();
   await fixture.whenStable();
@@ -161,6 +197,11 @@ async function expectInputCommitReopensSelectedDate(
 
   keydown(input, 'Enter');
   await settle(fixture);
+  await waitForAnimationFrame();
+  await settle(fixture);
+
+  keydown(input, 'Enter');
+  await settle(fixture);
   expect(input.value).toBe(nextInputValue);
 
   await openOverlay(fixture);
@@ -257,6 +298,18 @@ class CustomRuntimeDatepickerHostComponent {
   public readonly overlayRuntime = signal<TngOverlayRuntime | null>(
     createOverlayRuntime({ documentRef: document }),
   );
+}
+
+@Component({
+  imports: [TngDatepickerComponent],
+  template: `
+    <button type="button" data-testid="before-button">Before</button>
+    <tng-datepicker [defaultValue]="'2024-04-22'" (openChange)="openChanges.push($event)" />
+    <button type="button" data-testid="after-button">After</button>
+  `,
+})
+class DatepickerTabFocusHostComponent {
+  public readonly openChanges: boolean[] = [];
 }
 
 describe('tng-datepicker component behavior', () => {
@@ -371,6 +424,8 @@ describe('tng-datepicker component behavior', () => {
     input.dispatchEvent(new Event('input', { bubbles: true }));
     await settle(fixture);
 
+    await openOverlay(fixture);
+    input.focus();
     keydown(input, 'Enter');
     await settle(fixture);
 
@@ -524,6 +579,8 @@ describe('tng-datepicker component behavior', () => {
     input.dispatchEvent(new Event('input', { bubbles: true }));
     await settle(fixture);
 
+    await openOverlay(fixture);
+    input.focus();
     keydown(input, 'Enter');
     await settle(fixture);
 
@@ -793,5 +850,35 @@ describe('tng-datepicker component behavior', () => {
     expect(document.body.style.overflow).toBe('');
 
     Object.defineProperty(window, 'innerHeight', { configurable: true, value: originalInnerHeight });
+  });
+
+  it('opens the overlay from the input with Enter and lets Tab move focus to the next focusable element', async () => {
+    const fixture = TestBed.configureTestingModule({
+      imports: [DatepickerTabFocusHostComponent],
+    }).createComponent(DatepickerTabFocusHostComponent);
+
+    await settle(fixture);
+
+    const input = getRequired<HTMLInputElement>(fixture, '[data-slot="datepicker-input"]');
+    const trigger = getRequired<HTMLButtonElement>(fixture, '[data-slot="datepicker-trigger"]');
+    const afterButton = getRequired<HTMLButtonElement>(fixture, '[data-testid="after-button"]');
+
+    focus(input);
+    keydown(input, 'Enter');
+    await settle(fixture);
+    await waitForAnimationFrame();
+    await settle(fixture);
+
+    expect(fixture.componentInstance.openChanges).toEqual([true]);
+    expect(getRequiredFromRoot<HTMLElement>(document.body, '[data-slot="datepicker-overlay"]').getAttribute('hidden')).toBeNull();
+    expect(document.activeElement).toBe(input);
+    expect(trigger.getAttribute('tabindex')).toBe('-1');
+
+    const tabEvent = dispatchTabAndSimulateBrowserFocus(input, afterButton);
+    await settle(fixture);
+
+    expect(tabEvent.defaultPrevented).toBe(false);
+    expect(document.activeElement).toBe(afterButton);
+    expect(document.activeElement).not.toBe(trigger);
   });
 });
