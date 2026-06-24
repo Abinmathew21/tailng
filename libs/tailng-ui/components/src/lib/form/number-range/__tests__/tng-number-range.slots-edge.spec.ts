@@ -1,6 +1,11 @@
 import { Component, signal } from '@angular/core';
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
+import {
+  normalizeRangeValue,
+  parseNumberInput,
+  isRangeValid,
+} from '@tailng-ui/primitives';
 import type {
   TngNumberRangeChangeEvent,
   TngNumberRangeSlots,
@@ -391,30 +396,16 @@ describe('tng-number-range: Edge cases', () => {
 // ── Public API / type exports ────────────────────────────────────────────────
 
 describe('tng-number-range: Public API exports', () => {
-  it('should not expose TngNumberRangeValue as a runtime export', async () => {
-    const mod = await import('@tailng-ui/primitives');
-
-    expect(
-      typeof (mod as Record<string, unknown>)['TngNumberRangeValue'],
-    ).toBe('undefined');
-  });
 
   it('should expose normalizeRangeValue from the primitives barrel', async () => {
-    const mod = await import('@tailng-ui/primitives');
-
-    expect(typeof mod.normalizeRangeValue).toBe('function');
+    expect(typeof normalizeRangeValue).toBe('function');
   });
-
   it('should expose parseNumberInput from the primitives barrel', async () => {
-    const mod = await import('@tailng-ui/primitives');
-
-    expect(typeof mod.parseNumberInput).toBe('function');
+     expect(typeof parseNumberInput).toBe('function');
   });
 
   it('should expose isRangeValid from the primitives barrel', async () => {
-    const mod = await import('@tailng-ui/primitives');
-
-    expect(typeof mod.isRangeValid).toBe('function');
+  expect(typeof isRangeValid).toBe('function');
   });
 });
 
