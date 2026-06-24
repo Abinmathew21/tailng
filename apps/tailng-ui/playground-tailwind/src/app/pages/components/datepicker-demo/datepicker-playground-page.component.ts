@@ -73,6 +73,54 @@ const wrapperFormatAdapter: TngDateAdapter<Date> = Object.freeze({
   },
 });
 
+const OVERLAY_FOCUS_SYNC_KEYS: ReadonlySet<string> = new Set([
+  'ArrowUp',
+  'ArrowDown',
+  'ArrowLeft',
+  'ArrowRight',
+  'Home',
+  'End',
+  'PageUp',
+  'PageDown',
+  'Enter',
+  ' ',
+  'Escape',
+]);
+
+function resolveDayViewFocusTargetId(outputs: TngDatepickerOutputs<Date>): string | null {
+  const gridAttributes = outputs.getGridAttributes();
+  if (gridAttributes['aria-activedescendant'] !== undefined) {
+    return gridAttributes.id ?? null;
+  }
+
+  return outputs.cells.find((cell) => cell.active)?.id ?? null;
+}
+
+function resolveMonthViewFocusTargetId(outputs: TngDatepickerOutputs<Date>): string | null {
+  return outputs.monthOptions.find((option) => option.active)?.id ?? null;
+}
+
+function resolveYearViewFocusTargetId(outputs: TngDatepickerOutputs<Date>): string | null {
+  return outputs.yearOptions.find((option) => option.active)?.id ?? null;
+}
+
+function resolveCurrentFocusTargetId(outputs: TngDatepickerOutputs<Date>): string | null {
+  switch (outputs.view) {
+    case 'day':
+      return resolveDayViewFocusTargetId(outputs);
+    case 'month':
+      return resolveMonthViewFocusTargetId(outputs);
+    case 'year':
+      return resolveYearViewFocusTargetId(outputs);
+    default:
+      return null;
+  }
+}
+
+function shouldSyncOverlayFocusAfterPickerKey(key: string): boolean {
+  return OVERLAY_FOCUS_SYNC_KEYS.has(key);
+}
+
 @Component({
   selector: 'app-datepicker-playground-page',
   imports: [TngDatepickerComponent, TngDatepickerOverlay, TngIcon],
@@ -322,14 +370,14 @@ export class DatepickerPlaygroundPageComponent implements OnDestroy {
 
   protected onGridKeydown(event: KeyboardEvent): void {
     this.controller.handleGridKeyDown(event);
-    if (this.shouldSyncOverlayFocusAfterPickerKey(event.key)) {
+    if (shouldSyncOverlayFocusAfterPickerKey(event.key)) {
       this.queueOverlayFocusSync();
     }
   }
 
   protected onMonthKeydown(event: KeyboardEvent): void {
     this.controller.handleMonthGridKeyDown(event);
-    if (this.shouldSyncOverlayFocusAfterPickerKey(event.key)) {
+    if (shouldSyncOverlayFocusAfterPickerKey(event.key)) {
       this.queueOverlayFocusSync();
     }
   }
@@ -340,7 +388,7 @@ export class DatepickerPlaygroundPageComponent implements OnDestroy {
 
   protected onYearKeydown(event: KeyboardEvent): void {
     this.controller.handleYearGridKeyDown(event);
-    if (this.shouldSyncOverlayFocusAfterPickerKey(event.key)) {
+    if (shouldSyncOverlayFocusAfterPickerKey(event.key)) {
       this.queueOverlayFocusSync();
     }
   }
@@ -567,14 +615,14 @@ export class DatepickerPlaygroundPageComponent implements OnDestroy {
 
   protected onMaterialGridKeydown(event: KeyboardEvent): void {
     this.materialController.handleGridKeyDown(event);
-    if (this.shouldSyncOverlayFocusAfterPickerKey(event.key)) {
+    if (shouldSyncOverlayFocusAfterPickerKey(event.key)) {
       this.queueOverlayFocusSync(this.materialOutputs);
     }
   }
 
   protected onBoundedGridKeydown(event: KeyboardEvent): void {
     this.boundedController.handleGridKeyDown(event);
-    if (this.shouldSyncOverlayFocusAfterPickerKey(event.key)) {
+    if (shouldSyncOverlayFocusAfterPickerKey(event.key)) {
       this.queueOverlayFocusSync(this.boundedOutputs);
     }
   }
@@ -584,14 +632,14 @@ export class DatepickerPlaygroundPageComponent implements OnDestroy {
     if (this.isPickerActivationKey(event.key)) {
       this.materialController.showDaysPanel();
     }
-    if (this.shouldSyncOverlayFocusAfterPickerKey(event.key)) {
+    if (shouldSyncOverlayFocusAfterPickerKey(event.key)) {
       this.queueOverlayFocusSync(this.materialOutputs);
     }
   }
 
   protected onBoundedMonthKeydown(event: KeyboardEvent): void {
     this.boundedController.handleMonthGridKeyDown(event);
-    if (this.shouldSyncOverlayFocusAfterPickerKey(event.key)) {
+    if (shouldSyncOverlayFocusAfterPickerKey(event.key)) {
       this.queueOverlayFocusSync(this.boundedOutputs);
     }
   }
@@ -660,14 +708,14 @@ export class DatepickerPlaygroundPageComponent implements OnDestroy {
     if (this.isPickerActivationKey(event.key)) {
       this.materialController.showMonthsPanel();
     }
-    if (this.shouldSyncOverlayFocusAfterPickerKey(event.key)) {
+    if (shouldSyncOverlayFocusAfterPickerKey(event.key)) {
       this.queueOverlayFocusSync(this.materialOutputs);
     }
   }
 
   protected onBoundedYearKeydown(event: KeyboardEvent): void {
     this.boundedController.handleYearGridKeyDown(event);
-    if (this.shouldSyncOverlayFocusAfterPickerKey(event.key)) {
+    if (shouldSyncOverlayFocusAfterPickerKey(event.key)) {
       this.queueOverlayFocusSync(this.boundedOutputs);
     }
   }
@@ -737,7 +785,7 @@ export class DatepickerPlaygroundPageComponent implements OnDestroy {
           return;
         }
 
-        const targetId = this.resolveCurrentFocusTargetId(outputs);
+        const targetId = resolveCurrentFocusTargetId(outputs);
         if (targetId === null) {
           return;
         }
@@ -761,43 +809,6 @@ export class DatepickerPlaygroundPageComponent implements OnDestroy {
         focusActiveTarget();
       }, 0);
     });
-  }
-
-  private resolveCurrentFocusTargetId(outputs: TngDatepickerOutputs<Date>): string | null {
-    if (outputs.view === 'day') {
-      const gridAttributes = outputs.getGridAttributes();
-      if (gridAttributes['aria-activedescendant'] !== undefined) {
-        return gridAttributes.id ?? null;
-      }
-
-      return outputs.cells.find((cell) => cell.active)?.id ?? null;
-    }
-
-    if (outputs.view === 'month') {
-      return outputs.monthOptions.find((option) => option.active)?.id ?? null;
-    }
-
-    if (outputs.view === 'year') {
-      return outputs.yearOptions.find((option) => option.active)?.id ?? null;
-    }
-
-    return null;
-  }
-
-  private shouldSyncOverlayFocusAfterPickerKey(key: string): boolean {
-    return (
-      key === 'ArrowUp' ||
-      key === 'ArrowDown' ||
-      key === 'ArrowLeft' ||
-      key === 'ArrowRight' ||
-      key === 'Home' ||
-      key === 'End' ||
-      key === 'PageUp' ||
-      key === 'PageDown' ||
-      key === 'Enter' ||
-      key === ' ' ||
-      key === 'Escape'
-    );
   }
 
   private isPickerActivationKey(key: string): boolean {
