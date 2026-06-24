@@ -96,6 +96,7 @@ export class TngDatepickerComponent<TDate = Date>
   private readonly fallbackInputId = createDatepickerInputId();
   private readonly ownerDocument = this.hostElement.nativeElement.ownerDocument ?? null;
   private readonly renderVersion = signal(0);
+  private readonly anchorRef = viewChild<ElementRef<HTMLElement>>('anchorShell');
   private readonly triggerRef = viewChild<ElementRef<HTMLElement>>('triggerButton');
   private appliedInitialState = false;
   private suppressNextOverlayFocusSync = false;
@@ -276,6 +277,11 @@ export class TngDatepickerComponent<TDate = Date>
   }
 
   public constructor() {
+    effect(() => {
+      const anchor = this.anchorRef()?.nativeElement ?? null;
+      this.controller.registerAnchor(anchor);
+    });
+
     effect(() => {
       const trigger = this.triggerRef()?.nativeElement ?? null;
       this.controller.registerTrigger(trigger);

@@ -270,6 +270,7 @@ class DatepickerController<TDate> implements TngDatepickerController<TDate> {
   private cachedMonthVersion = -1;
   private cachedYearVersion = -1;
   private triggerElement: HTMLElement | null = null;
+  private anchorElement: HTMLElement | null = null;
   private overlayElement: HTMLElement | null = null;
   private restoreFocusTargetId: string | null = null;
   private focusLayerRegistered = false;
@@ -664,6 +665,10 @@ class DatepickerController<TDate> implements TngDatepickerController<TDate> {
 
   public registerTrigger(element: HTMLElement | null): void {
     this.triggerElement = element;
+  }
+
+  public registerAnchor(element: HTMLElement | null): void {
+    this.anchorElement = element;
   }
 
   public suppressFocusRestoreOnClose(): void {
@@ -1755,7 +1760,7 @@ class DatepickerController<TDate> implements TngDatepickerController<TDate> {
       containsTarget: (target) =>
         (target instanceof Node && this.overlayElement?.contains(target) === true) ||
         (target instanceof Node && this.triggerElement?.contains(target) === true) ||
-        (target instanceof Node && this.triggerElement?.parentElement?.contains(target) === true),
+        (target instanceof Node && this.anchorElement?.contains(target) === true),
       dismissOnEscape: this.config.closeOnEscape,
       dismissOnOutsidePointer: this.config.closeOnOutsideClick,
       id: `${this.instanceId}-layer`,

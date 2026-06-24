@@ -68,6 +68,11 @@ describe('tng-month-daypicker component', () => {
     const input = getRequired<HTMLInputElement>(fixture.nativeElement, '[data-slot="datepicker-input"]');
     input.value = '09-14';
     input.dispatchEvent(new Event('input', { bubbles: true }));
+    await settle(fixture);
+
+    getRequired<HTMLButtonElement>(fixture.nativeElement, '[data-slot="datepicker-trigger"]').click();
+    await settle(fixture);
+    input.focus();
     keydown(input, 'Enter');
     await settle(fixture);
 

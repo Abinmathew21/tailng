@@ -306,6 +306,7 @@ export type TngDatepickerController<TDate> = Readonly<{
   parseInputText: (text: string) => TDate | null;
   prevMonth: () => void;
   prevYear: () => void;
+  registerAnchor: (element: HTMLElement | null) => void;
   registerOverlay: (element: HTMLElement | null) => void;
   registerTrigger: (element: HTMLElement | null) => void;
   suppressFocusRestoreOnClose: () => void;
